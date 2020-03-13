@@ -140,9 +140,6 @@ function createPalette() {
       const newL = l - lightnessScale[i];
       const paletteHex = HSLToHex(newH, newS, newL);
 
-      if (i === 0) {
-        console.log(newH, newS, newL);
-      }
       palette[paletteI] = newL > 100 ? `Too light!` : paletteHex;
 
       colorSwatches[i].style.backgroundColor = paletteHex;
