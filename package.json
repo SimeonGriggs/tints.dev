@@ -1,0 +1,19 @@
+{
+  "name": "tailwindcss-parcel-starter",
+  "version": "1.0.0",
+  "description": "A simple tailwind starter project with parcel",
+  "scripts": {
+    "dev": "npx parcel src/index.html",
+    "prod": "npx parcel build src/index.html"
+  },
+  "repository": "https://github.com/SantiMA10/tailwindcss-parcel-starter.git",
+  "author": "Santi <santiagomartinagra@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^9.7.4",
+    "parcel-bundler": "^1.12.4",
+    "postcss": "^7.0.27",
+    "tailwindcss": "^1.2.0",
+    "typescript": "^3.8.3"
+  }
+}

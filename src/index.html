@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Tailwind Palette Generator</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link href="./assets/css/app.css" rel="stylesheet" />
+  </head>
+  <body>
+    <section class="max-w-4xl mx-auto">
+      <header
+        class="p-2 py-4 sm:p-4 sm:py-8 text-center text-center-lg text-gray-900"
+      >
+        <h1 class="text-gray-700 text-4xl font-bold">
+          Tailwind Palette Generator
+        </h1>
+        <i>With HSL Tweakifier</i>
+      </header>
+      <form
+        class="p-2 py-4 sm:p-4 grid grid-flow-col gap-2 sm:gap-4 grid-cols-5 bg-gray-200 rounded-lg"
+      >
+        <label style="grid-column: 1 / span 2;">
+          <span class="text-xs text-gray-600 font-bold uppercase">
+            Colour
+          </span>
+          <input
+            data-color-controller
+            data-color-input
+            class="w-full transition transition-colors duration-150 border border-gray-300 focus:border-teal-500 rounded p-3"
+            type="text"
+            value="#ace975"
+          />
+        </label>
+        <label>
+          <span class="text-xs text-gray-600 font-bold uppercase">
+            Hue
+          </span>
+          <input
+            data-color-controller
+            data-color-hue
+            class="w-full transition transition-colors duration-150 border border-gray-300 focus:border-teal-500 rounded p-3"
+            type="number"
+            value="15"
+          />
+        </label>
+        <label>
+          <span class="text-xs text-gray-600 font-bold uppercase">
+            Saturation
+          </span>
+          <input
+            data-color-controller
+            data-color-saturation
+            class="w-full transition transition-colors duration-150 border border-gray-300 focus:border-teal-500 rounded p-3"
+            type="number"
+            value="20"
+          />
+        </label>
+        <label>
+          <span class="text-xs text-gray-600 font-bold uppercase">
+            Lightness
+          </span>
+          <input
+            data-color-controller
+            data-color-lightness
+            class="w-full transition transition-colors duration-150 border border-gray-300 focus:border-teal-500 rounded p-3"
+            type="number"
+            value="30"
+          />
+        </label>
+      </form>
+      <div class="p-2 sm:p-4 sm:py-8 grid grid-flow-col gap-2 sm:gap-4">
+        <div
+          data-color-swatch
+          data-color-1
+          class="shadow-inner rounded bg-gray-100 flex-1 h-12"
+        ></div>
+        <div
+          data-color-swatch
+          data-color-2
+          class="shadow-inner rounded bg-gray-200 flex-1 h-12"
+        ></div>
+        <div
+          data-color-swatch
+          data-color-3
+          class="shadow-inner rounded bg-gray-300 flex-1 h-12"
+        ></div>
+        <div
+          data-color-swatch
+          data-color-4
+          class="shadow-inner rounded bg-gray-400 flex-1 h-12"
+        ></div>
+        <div
+          data-color-swatch
+          data-color-5
+          class="shadow-inner rounded bg-gray-500 flex-1 h-12"
+        ></div>
+        <div
+          data-color-swatch
+          data-color-6
+          class="shadow-inner rounded bg-gray-600 flex-1 h-12"
+        ></div>
+        <div
+          data-color-swatch
+          data-color-7
+          class="shadow-inner rounded bg-gray-700 flex-1 h-12"
+        ></div>
+        <div
+          data-color-swatch
+          data-color-8
+          class="shadow-inner rounded bg-gray-800 flex-1 h-12"
+        ></div>
+        <div
+          data-color-swatch
+          data-color-9
+          class="shadow-inner rounded bg-gray-900 flex-1 h-12"
+        ></div>
+      </div>
+      <section class="px-3 py-6 bg-gray-200 rounded-lg">
+        <pre data-output></pre>
+      </section>
+    </section>
+  </body>
+  <script src="./assets/js/app.js"></script>
+</html>

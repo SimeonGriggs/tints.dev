@@ -1,0 +1,6 @@
+[build]
+  # Publish directory
+  publish = "dist"
+
+  # Default build command.
+  command = "yarn prod"
