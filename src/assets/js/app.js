@@ -97,7 +97,7 @@ function isHex(value) {
 }
 
 function createScale(tweakValue) {
-  const tweak = parseInt(tweakValue) || 20;
+  const tweak = parseInt(tweakValue) || 0;
 
   return {
     0: -Math.round(tweak * 10) / 10,
@@ -112,11 +112,36 @@ function createScale(tweakValue) {
   };
 }
 
+function createLightnessValues(min, max, lightness) {
+  const maxLightness = parseInt(max) || 100;
+  const maxStep = (maxLightness - lightness) / 4;
+
+  const minLightness = parseInt(min) || 0;
+  const minStep = (lightness - minLightness) / 4;
+
+  return {
+    0: Math.round(lightness + maxStep * 4), // Should equal tweakMin, close to 100, lightest colour
+    1: Math.round(lightness + maxStep * 3),
+    2: Math.round(lightness + maxStep * 2),
+    3: Math.round(lightness + maxStep * 1),
+    4: Math.round(lightness), // Lightness of original colour
+    5: Math.round(minLightness + minStep * 3),
+    6: Math.round(minLightness + minStep * 2),
+    7: Math.round(minLightness + minStep),
+    8: Math.round(minLightness), // Should equal tweakMax, close to 0, darkest colour
+  };
+}
+
 function createPalette() {
   const colorInput = document.querySelector('[data-color-input]');
   const colorHue = document.querySelector('[data-color-hue]');
   const colorSaturation = document.querySelector('[data-color-saturation]');
-  const colorLightness = document.querySelector('[data-color-lightness]');
+  const colorLightnessMin = document.querySelector(
+    '[data-color-lightness-min]'
+  );
+  const colorLightnessMax = document.querySelector(
+    '[data-color-lightness-max]'
+  );
   const colorSwatches = document.querySelectorAll('[data-color-swatch]');
 
   const { value } = colorInput;
@@ -125,25 +150,35 @@ function createPalette() {
   if (value && value.length === 7 && isHex(value)) {
     // Create the HSL value
     const valueHsl = hexToHSL(value);
+    const { h, s, l } = valueHsl;
 
     const hueScale = createScale(colorHue.value);
     const saturationScale = createScale(colorSaturation.value);
-    const lightnessScale = createScale(colorLightness.value);
+    const lightnessScale = createLightnessValues(
+      colorLightnessMin.value,
+      colorLightnessMax.value,
+      l
+    );
 
-    const { h, s, l } = valueHsl;
     const palette = {};
 
     for (let i = 0; i < colorSwatches.length; i++) {
-      const paletteI = (i + 1) * 100;
       const newH = h + hueScale[i];
       const newS = s + saturationScale[i];
-      const newL = l - lightnessScale[i];
-      const paletteHex = HSLToHex(newH, newS, newL);
+      const newL = lightnessScale[i];
 
-      palette[paletteI] = newL > 100 ? `Too light!` : paletteHex;
+      const paletteHex = HSLToHex(newH, newS, newL);
+      const paletteI = (i + 1) * 100;
+
+      palette[paletteI] = paletteHex;
 
       colorSwatches[i].style.backgroundColor = paletteHex;
     }
+
+    const outputWrap = document.querySelector('[data-output-wrap]');
+    outputWrap.style.backgroundColor = palette[100];
+    outputWrap.style.borderColor = palette[200];
+    outputWrap.style.color = palette[800];
 
     const output = document.querySelector('[data-output]');
     output.innerHTML = `awesomeColor: ${JSON.stringify(palette, null, '  ')}`;

@@ -9,12 +9,10 @@
     />
     <link href="./assets/css/app.css" rel="stylesheet" />
   </head>
-  <body>
+  <body class="px-2 sm:px-4">
     <section class="max-w-4xl mx-auto">
-      <header
-        class="p-2 py-4 sm:p-4 sm:py-8 text-center text-center-lg text-gray-900"
-      >
-        <h1 class="text-gray-700 text-2xl sm:text-3xl font-bold">
+      <header class="p-2 py-4 sm:p-4 sm:py-8 text-center text-sm text-gray-700">
+        <h1 class="text-2xl sm:text-3xl font-bold">
           Tailwind Palette Generator
         </h1>
         <i>With HSL Tweakifier</i>
@@ -22,7 +20,7 @@
       <form
         class="p-2 py-4 sm:p-4 grid grid-flow-col gap-2 sm:gap-4 grid-cols-5 bg-gray-200 rounded-lg"
       >
-        <label style="grid-column: 1 / span 2;">
+        <label>
           <span class="text-xs text-gray-600 font-bold uppercase">
             Colour
           </span>
@@ -43,7 +41,7 @@
             data-color-hue
             class="w-full transition transition-colors duration-150 border border-gray-300 focus:border-teal-500 rounded p-3"
             type="number"
-            value="15"
+            value="0"
           />
         </label>
         <label>
@@ -55,19 +53,31 @@
             data-color-saturation
             class="w-full transition transition-colors duration-150 border border-gray-300 focus:border-teal-500 rounded p-3"
             type="number"
+            value="0"
+          />
+        </label>
+        <label>
+          <span class="text-xs text-gray-600 font-bold uppercase">
+            Lightness Min
+          </span>
+          <input
+            data-color-controller
+            data-color-lightness-min
+            class="w-full transition transition-colors duration-150 border border-gray-300 focus:border-teal-500 rounded p-3"
+            type="number"
             value="20"
           />
         </label>
         <label>
           <span class="text-xs text-gray-600 font-bold uppercase">
-            Lightness
+            Lightness Max
           </span>
           <input
             data-color-controller
-            data-color-lightness
+            data-color-lightness-max
             class="w-full transition transition-colors duration-150 border border-gray-300 focus:border-teal-500 rounded p-3"
             type="number"
-            value="30"
+            value="95"
           />
         </label>
       </form>
@@ -75,53 +85,57 @@
         <div
           data-color-swatch
           data-color-1
-          class="shadow-inner rounded bg-gray-100 flex-1 h-12"
+          class="shadow-inner rounded bg-gray-100 text-white flex-1 h-12"
         ></div>
         <div
           data-color-swatch
           data-color-2
-          class="shadow-inner rounded bg-gray-200 flex-1 h-12"
+          class="shadow-inner rounded bg-gray-200 text-white flex-1 h-12"
         ></div>
         <div
           data-color-swatch
           data-color-3
-          class="shadow-inner rounded bg-gray-300 flex-1 h-12"
+          class="shadow-inner rounded bg-gray-300 text-white flex-1 h-12"
         ></div>
         <div
           data-color-swatch
           data-color-4
-          class="shadow-inner rounded bg-gray-400 flex-1 h-12"
+          class="shadow-inner rounded bg-gray-400 text-white flex-1 h-12"
         ></div>
         <div
           data-color-swatch
           data-color-5
-          class="shadow-inner rounded bg-gray-500 flex-1 h-12"
+          class="shadow-inner rounded bg-gray-500 text-white flex-1 h-12"
         ></div>
         <div
           data-color-swatch
           data-color-6
-          class="shadow-inner rounded bg-gray-600 flex-1 h-12"
+          class="shadow-inner rounded bg-gray-600 text-white flex-1 h-12"
         ></div>
         <div
           data-color-swatch
           data-color-7
-          class="shadow-inner rounded bg-gray-700 flex-1 h-12"
+          class="shadow-inner rounded bg-gray-700 text-white flex-1 h-12"
         ></div>
         <div
           data-color-swatch
           data-color-8
-          class="shadow-inner rounded bg-gray-800 flex-1 h-12"
+          class="shadow-inner rounded bg-gray-800 text-white flex-1 h-12"
         ></div>
         <div
           data-color-swatch
           data-color-9
-          class="shadow-inner rounded bg-gray-900 flex-1 h-12"
+          class="shadow-inner rounded bg-gray-900 text-white flex-1 h-12"
         ></div>
       </div>
-      <section class="px-3 py-6 bg-gray-200 rounded-lg">
+      <section
+        data-output-wrap
+        class="px-3 py-6 bg-gray-200 border border-gray-300 rounded-lg"
+      >
         <pre data-output></pre>
       </section>
-      <section class="text-center px-3 py-6">
+      <section class="text-center text-sm px-3 py-6 text-gray-700">
+        By Simeon Griggs,
         <a href="https://github.com/SimeonGriggs/tailwind-css-palette-generator"
           >GitHub</a
         >
