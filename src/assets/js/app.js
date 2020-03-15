@@ -96,19 +96,35 @@ function isHex(value) {
   return re.test(value);
 }
 
-function createScale(tweakValue) {
+function createSaturationScale(tweakValue) {
   const tweak = parseInt(tweakValue) || 0;
 
   return {
-    0: -Math.round(tweak * 10) / 10,
-    1: -Math.round(tweak * 0.75 * 10) / 10,
-    2: -Math.round(tweak * 0.5 * 10) / 10,
-    3: -Math.round(tweak * 0.25 * 10) / 10,
+    0: Math.round(tweak * 10) / 10,
+    1: Math.round(tweak * 0.75 * 10) / 10,
+    2: Math.round(tweak * 0.5 * 10) / 10,
+    3: Math.round(tweak * 0.25 * 10) / 10,
     4: 0,
     5: Math.round(tweak * 0.25 * 10) / 10,
     6: Math.round(tweak * 0.5 * 10) / 10,
     7: Math.round(tweak * 0.75 * 10) / 10,
     8: Math.round(tweak * 10) / 10,
+  };
+}
+
+function createHueScale(tweakValue) {
+  const tweak = parseInt(tweakValue) || 0;
+
+  return {
+    0: tweak ? 3 + tweak : 0,
+    1: tweak ? 2 + tweak : 0,
+    2: tweak ? 1 + tweak : 0,
+    3: tweak ? 0 + tweak : 0,
+    4: tweak ? 0 : 0,
+    5: tweak || 0,
+    6: tweak ? 1 + tweak : 0,
+    7: tweak ? 2 + tweak : 0,
+    8: tweak ? 3 + tweak : 0,
   };
 }
 
@@ -143,6 +159,7 @@ function createPalette() {
     '[data-color-lightness-max]'
   );
   const colorSwatches = document.querySelectorAll('[data-color-swatch]');
+  const colorDots = document.querySelectorAll('[data-color-dot]');
 
   const { value } = colorInput;
 
@@ -152,8 +169,9 @@ function createPalette() {
     const valueHsl = hexToHSL(value);
     const { h, s, l } = valueHsl;
 
-    const hueScale = createScale(colorHue.value);
-    const saturationScale = createScale(colorSaturation.value);
+    const hueScale = createHueScale(colorHue.value, h);
+    console.log(hueScale);
+    const saturationScale = createSaturationScale(colorSaturation.value);
     const lightnessScale = createLightnessValues(
       colorLightnessMin.value,
       colorLightnessMax.value,
@@ -163,7 +181,8 @@ function createPalette() {
     const palette = {};
 
     for (let i = 0; i < colorSwatches.length; i++) {
-      const newH = h + hueScale[i];
+      let newH = h + hueScale[i];
+      newH = newH < 0 ? 360 + newH - 1 : newH;
       const newS = s + saturationScale[i];
       const newL = lightnessScale[i];
 
@@ -172,9 +191,24 @@ function createPalette() {
 
       palette[paletteI] = paletteHex;
 
+      // Style palette swatch with new colour
       colorSwatches[i].style.backgroundColor = paletteHex;
+      colorSwatches[i].innerHTML = `
+      <span class="flex flex-col -mx-2 pt-4 px-2">
+        <span class="font-mono text-xs">H ${newH}</span>
+        <span class="font-mono text-xs">S ${newS}%</span>
+        <span class="font-mono text-xs">L ${newL}%</span>
+      </span>
+      `;
+
+      // Position dots on colour graph
+      colorDots[i].classList.remove('hidden');
+      colorDots[i].style.backgroundColor = paletteHex;
+      colorDots[i].style.left = `${100 - newL}%`;
+      colorDots[i].style.top = `calc(50% + ${hueScale[i]}%)`;
     }
 
+    // Display new palette oject
     const outputWrap = document.querySelector('[data-output-wrap]');
     outputWrap.style.backgroundColor = palette[100];
     outputWrap.style.borderColor = palette[200];

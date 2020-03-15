@@ -11,14 +11,14 @@
   </head>
   <body class="px-2 sm:px-4">
     <section class="max-w-4xl mx-auto">
-      <header class="p-2 py-4 sm:p-4 sm:py-8 text-center text-sm text-gray-700">
+      <header class="p-2 py-4 sm:p-4 sm text-sm text-gray-700">
         <h1 class="text-2xl sm:text-3xl font-bold">
           Tailwind Palette Generator
         </h1>
         <i>With HSL Tweakifier</i>
       </header>
       <form
-        class="p-2 py-4 sm:p-4 grid grid-flow-col gap-2 sm:gap-4 grid-cols-5 bg-gray-200 rounded-lg"
+        class="p-2 py-4 sm:p-4 grid grid-flow-col gap-2 grid-cols-5 bg-gray-200 rounded-lg"
       >
         <label>
           <span class="text-xs text-gray-600 font-bold uppercase">
@@ -27,7 +27,7 @@
           <input
             data-color-controller
             data-color-input
-            class="w-full transition transition-colors duration-150 border border-gray-300 focus:border-teal-500 rounded p-3"
+            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 rounded p-3"
             type="text"
             value="#ace975"
           />
@@ -39,9 +39,11 @@
           <input
             data-color-controller
             data-color-hue
-            class="w-full transition transition-colors duration-150 border border-gray-300 focus:border-teal-500 rounded p-3"
+            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 rounded p-3"
             type="number"
             value="0"
+            min="-360"
+            max="360"
           />
         </label>
         <label>
@@ -51,9 +53,11 @@
           <input
             data-color-controller
             data-color-saturation
-            class="w-full transition transition-colors duration-150 border border-gray-300 focus:border-teal-500 rounded p-3"
+            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 rounded p-3"
             type="number"
             value="0"
+            min="0"
+            max="100"
           />
         </label>
         <label>
@@ -63,9 +67,11 @@
           <input
             data-color-controller
             data-color-lightness-min
-            class="w-full transition transition-colors duration-150 border border-gray-300 focus:border-teal-500 rounded p-3"
+            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 rounded p-3"
             type="number"
             value="20"
+            min="0"
+            max="100"
           />
         </label>
         <label>
@@ -75,70 +81,160 @@
           <input
             data-color-controller
             data-color-lightness-max
-            class="w-full transition transition-colors duration-150 border border-gray-300 focus:border-teal-500 rounded p-3"
+            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 rounded p-3"
             type="number"
             value="95"
+            min="0"
+            max="100"
           />
         </label>
       </form>
-      <div class="p-2 sm:p-4 sm:py-8 grid grid-flow-col gap-2 sm:gap-4">
+      <div class="p-2 sm:p-4 sm:py-8 grid grid-cols-9 gap-2">
         <div
           data-color-swatch
           data-color-1
-          class="shadow-inner rounded bg-gray-100 text-white flex-1 h-12"
+          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-100 flex-1 pt-12 p-3"
         ></div>
         <div
           data-color-swatch
           data-color-2
-          class="shadow-inner rounded bg-gray-200 text-white flex-1 h-12"
+          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-200 flex-1 pt-12 p-3"
         ></div>
         <div
           data-color-swatch
           data-color-3
-          class="shadow-inner rounded bg-gray-300 text-white flex-1 h-12"
+          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-400 flex-1 pt-12 p-3"
         ></div>
         <div
           data-color-swatch
           data-color-4
-          class="shadow-inner rounded bg-gray-400 text-white flex-1 h-12"
+          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-400 flex-1 pt-12 p-3"
         ></div>
         <div
           data-color-swatch
           data-color-5
-          class="shadow-inner rounded bg-gray-500 text-white flex-1 h-12"
+          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-500 flex-1 pt-12 p-3"
         ></div>
         <div
           data-color-swatch
           data-color-6
-          class="shadow-inner rounded bg-gray-600 text-white flex-1 h-12"
+          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-600 text-white flex-1 pt-12 p-3"
         ></div>
         <div
           data-color-swatch
           data-color-7
-          class="shadow-inner rounded bg-gray-700 text-white flex-1 h-12"
+          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-700 text-white flex-1 pt-12 p-3"
         ></div>
         <div
           data-color-swatch
           data-color-8
-          class="shadow-inner rounded bg-gray-800 text-white flex-1 h-12"
+          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-800 text-white flex-1 pt-12 p-3"
         ></div>
         <div
           data-color-swatch
           data-color-9
-          class="shadow-inner rounded bg-gray-900 text-white flex-1 h-12"
+          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-900 text-white flex-1 pt-12 p-3"
         ></div>
       </div>
+      <section class="relative bg-gray-200 mb-6 flex justify-between">
+        <div
+          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          data-color-dot
+          data-color-1
+        ></div>
+        <div
+          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          data-color-dot
+          data-color-2
+        ></div>
+        <div
+          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          data-color-dot
+          data-color-3
+        ></div>
+        <div
+          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          data-color-dot
+          data-color-4
+        ></div>
+        <div
+          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          data-color-dot
+          data-color-5
+        ></div>
+        <div
+          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          data-color-dot
+          data-color-6
+        ></div>
+        <div
+          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          data-color-dot
+          data-color-7
+        ></div>
+        <div
+          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          data-color-dot
+          data-color-8
+        ></div>
+        <div
+          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          data-color-dot
+          data-color-9
+        ></div>
+        <div
+          class="absolute inset-0 border-t border-gray-400"
+          style="top:50%; height: 50%;"
+        ></div>
+        <div
+          class="absolute p-2 leading-none bottom-0 left-0 text-xs text-gray-500 font-bold uppercase"
+        >
+          100 (White)
+        </div>
+        <div
+          class="absolute p-2 leading-none bottom-0 right-0 text-xs text-gray-500 font-bold uppercase"
+        >
+          0 (Black)
+        </div>
+        <div class="border-gray-400 py-10 border-l"></div>
+        <div class="border-gray-400 py-10 border-l"></div>
+        <div class="border-gray-400 py-10 border-l"></div>
+        <div class="border-gray-400 py-10 border-l"></div>
+        <div class="border-gray-400 py-10 border-l"></div>
+        <div class="border-gray-400 py-10 border-l"></div>
+        <div class="border-gray-400 py-10 border-l"></div>
+        <div class="border-gray-400 py-10 border-l"></div>
+        <div class="border-gray-400 py-10 border-l"></div>
+        <div class="border-gray-400 py-10 border-l"></div>
+        <div class="border-gray-400 py-10 border-l"></div>
+      </section>
+      <section class="typography max-w-xl px-3 pb-6 text-gray-700">
+        <h2>Lightness distribution 0-100 | Hue/Saturation tweak</h2>
+      </section>
       <section
         data-output-wrap
-        class="px-3 py-6 bg-gray-200 border border-gray-300 rounded-lg"
+        class="px-3 py-6 bg-gray-200 border border-gray-400 rounded-lg"
       >
         <pre data-output></pre>
       </section>
-      <section class="text-center text-sm px-3 py-6 text-gray-700">
-        By Simeon Griggs,
-        <a href="https://github.com/SimeonGriggs/tailwind-css-palette-generator"
-          >GitHub</a
-        >
+      <section class="typography max-w-xl px-3 py-6 text-gray-700">
+        <h2>What's the idea here?</h2>
+        <p>
+          Start with a base colour. This is the middle swatch. Tweaks to the
+          <strong>Hue</strong> and <strong>Saturation</strong> will increasly
+          change at either end. Control how light and dark the extremes are with
+          the <strong>Min</strong> and <strong>Max</strong> values.
+        </p>
+        <p>
+          This is by no means perfect, but it's a handy tool to get started.
+        </p>
+        <p>
+          By Simeon Griggs |
+          <a
+            href="https://github.com/SimeonGriggs/tailwind-css-palette-generator"
+            >GitHub</a
+          >
+        </p>
       </section>
     </section>
   </body>

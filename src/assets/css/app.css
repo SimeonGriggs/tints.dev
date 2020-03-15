@@ -2,4 +2,13 @@
 
 @tailwind components;
 
+.typography h2 {
+  @apply text-xl font-bold;
+}
+
+.typography h2,
+.typography p {
+  @apply mb-4;
+}
+
 @tailwind utilities;
