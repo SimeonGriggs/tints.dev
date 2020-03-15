@@ -2,13 +2,29 @@
 
 @tailwind components;
 
+.typography h1 {
+  @apply text-2xl font-bold;
+}
+
 .typography h2 {
   @apply text-xl font-bold;
 }
 
 .typography h2,
 .typography p {
-  @apply mb-4;
+  @apply mb-3;
+}
+
+.typography > *:first-child {
+  margin-top: 0;
+}
+
+.typography > *:last-child {
+  margin-bottom: 0;
+}
+
+.label {
+  @apply text-xs text-gray-600 font-bold uppercase;
 }
 
 @tailwind utilities;

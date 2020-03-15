@@ -170,7 +170,6 @@ function createPalette() {
     const { h, s, l } = valueHsl;
 
     const hueScale = createHueScale(colorHue.value, h);
-    console.log(hueScale);
     const saturationScale = createSaturationScale(colorSaturation.value);
     const lightnessScale = createLightnessValues(
       colorLightnessMin.value,
@@ -202,7 +201,7 @@ function createPalette() {
       `;
 
       // Position dots on colour graph
-      colorDots[i].classList.remove('hidden');
+      colorDots[i].classList.add('opacity-100');
       colorDots[i].style.backgroundColor = paletteHex;
       colorDots[i].style.left = `${100 - newL}%`;
       colorDots[i].style.top = `calc(50% + ${hueScale[i]}%)`;

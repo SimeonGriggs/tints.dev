@@ -11,35 +11,35 @@
   </head>
   <body class="px-2 sm:px-4">
     <section class="max-w-4xl mx-auto">
-      <header class="p-2 py-4 sm:p-4 sm text-sm text-gray-700">
-        <h1 class="text-2xl sm:text-3xl font-bold">
+      <section class="typography max-w-xl px-3 py-6 text-gray-700">
+        <h1>
           Tailwind Palette Generator
         </h1>
-        <i>With HSL Tweakifier</i>
-      </header>
+        <p>With HSL Tweakifier</p>
+      </section>
       <form
         class="p-2 py-4 sm:p-4 grid grid-flow-col gap-2 grid-cols-5 bg-gray-200 rounded-lg"
       >
         <label>
-          <span class="text-xs text-gray-600 font-bold uppercase">
+          <span class="label">
             Colour
           </span>
           <input
             data-color-controller
             data-color-input
-            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 rounded p-3"
+            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 outline-none rounded p-3"
             type="text"
             value="#ace975"
           />
         </label>
         <label>
-          <span class="text-xs text-gray-600 font-bold uppercase">
+          <span class="label">
             Hue
           </span>
           <input
             data-color-controller
             data-color-hue
-            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 rounded p-3"
+            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 outline-none rounded p-3"
             type="number"
             value="0"
             min="-360"
@@ -47,13 +47,13 @@
           />
         </label>
         <label>
-          <span class="text-xs text-gray-600 font-bold uppercase">
+          <span class="label">
             Saturation
           </span>
           <input
             data-color-controller
             data-color-saturation
-            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 rounded p-3"
+            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 outline-none rounded p-3"
             type="number"
             value="0"
             min="0"
@@ -61,13 +61,13 @@
           />
         </label>
         <label>
-          <span class="text-xs text-gray-600 font-bold uppercase">
+          <span class="label">
             Lightness Min
           </span>
           <input
             data-color-controller
             data-color-lightness-min
-            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 rounded p-3"
+            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 outline-none rounded p-3"
             type="number"
             value="20"
             min="0"
@@ -75,13 +75,13 @@
           />
         </label>
         <label>
-          <span class="text-xs text-gray-600 font-bold uppercase">
+          <span class="label">
             Lightness Max
           </span>
           <input
             data-color-controller
             data-color-lightness-max
-            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 rounded p-3"
+            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 outline-none rounded p-3"
             type="number"
             value="95"
             min="0"
@@ -93,129 +93,136 @@
         <div
           data-color-swatch
           data-color-1
-          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-100 flex-1 pt-12 p-3"
+          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-100 flex-1 pt-12 p-3"
         ></div>
         <div
           data-color-swatch
           data-color-2
-          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-200 flex-1 pt-12 p-3"
+          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-200 flex-1 pt-12 p-3"
         ></div>
         <div
           data-color-swatch
           data-color-3
-          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-400 flex-1 pt-12 p-3"
+          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-400 flex-1 pt-12 p-3"
         ></div>
         <div
           data-color-swatch
           data-color-4
-          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-400 flex-1 pt-12 p-3"
+          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-400 flex-1 pt-12 p-3"
         ></div>
         <div
           data-color-swatch
           data-color-5
-          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-500 flex-1 pt-12 p-3"
+          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-500 flex-1 pt-12 p-3"
         ></div>
         <div
           data-color-swatch
           data-color-6
-          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-600 text-white flex-1 pt-12 p-3"
+          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-600 text-white flex-1 pt-12 p-3"
         ></div>
         <div
           data-color-swatch
           data-color-7
-          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-700 text-white flex-1 pt-12 p-3"
+          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-700 text-white flex-1 pt-12 p-3"
         ></div>
         <div
           data-color-swatch
           data-color-8
-          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-800 text-white flex-1 pt-12 p-3"
+          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-800 text-white flex-1 pt-12 p-3"
         ></div>
         <div
           data-color-swatch
           data-color-9
-          class="flex flex-col justify-center items-start shadow-inner rounded bg-gray-900 text-white flex-1 pt-12 p-3"
+          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-900 text-white flex-1 pt-12 p-3"
         ></div>
       </div>
-      <section class="relative bg-gray-200 mb-6 flex justify-between">
+      <section class="relative rounded bg-gray-800 mb-6 flex justify-around">
         <div
-          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          class="pointer-events-none opacity-0 transition-opacity duration-500 absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5"
+          style="transition-delay: calc(100ms / 3);"
           data-color-dot
           data-color-1
         ></div>
         <div
-          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          class="pointer-events-none opacity-0 transition-opacity duration-500 absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5"
+          style="transition-delay: calc(200ms / 3);"
           data-color-dot
           data-color-2
         ></div>
         <div
-          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          class="pointer-events-none opacity-0 transition-opacity duration-500 absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5"
+          style="transition-delay: calc(300ms / 3);"
           data-color-dot
           data-color-3
         ></div>
         <div
-          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          class="pointer-events-none opacity-0 transition-opacity duration-500 absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5"
+          style="transition-delay: calc(400ms / 3);"
           data-color-dot
           data-color-4
         ></div>
         <div
-          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          class="pointer-events-none opacity-0 transition-opacity duration-500 absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5"
+          style="transition-delay: calc(500ms / 3);"
           data-color-dot
           data-color-5
         ></div>
         <div
-          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          class="pointer-events-none opacity-0 transition-opacity duration-500 absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5"
+          style="transition-delay: calc(600ms / 3);"
           data-color-dot
           data-color-6
         ></div>
         <div
-          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          class="pointer-events-none opacity-0 transition-opacity duration-500 absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5"
+          style="transition-delay: calc(700ms / 3);"
           data-color-dot
           data-color-7
         ></div>
         <div
-          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          class="pointer-events-none opacity-0 transition-opacity duration-500 absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5"
+          style="transition-delay: calc(800ms / 3);"
           data-color-dot
           data-color-8
         ></div>
         <div
-          class="hidden absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5 bg-red-500"
+          class="pointer-events-none opacity-0 transition-opacity duration-500 absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5"
+          style="transition-delay: calc(900ms / 3);"
           data-color-dot
           data-color-9
         ></div>
         <div
-          class="absolute inset-0 border-t border-gray-400"
+          class="absolute inset-0 border-t border-gray-700"
           style="top:50%; height: 50%;"
         ></div>
-        <div
-          class="absolute p-2 leading-none bottom-0 left-0 text-xs text-gray-500 font-bold uppercase"
-        >
+        <div class="absolute p-2 leading-none bottom-0 left-0 label">
           100 (White)
         </div>
-        <div
-          class="absolute p-2 leading-none bottom-0 right-0 text-xs text-gray-500 font-bold uppercase"
-        >
+        <div class="absolute p-2 leading-none bottom-0 right-0 label">
           0 (Black)
         </div>
-        <div class="border-gray-400 py-10 border-l"></div>
-        <div class="border-gray-400 py-10 border-l"></div>
-        <div class="border-gray-400 py-10 border-l"></div>
-        <div class="border-gray-400 py-10 border-l"></div>
-        <div class="border-gray-400 py-10 border-l"></div>
-        <div class="border-gray-400 py-10 border-l"></div>
-        <div class="border-gray-400 py-10 border-l"></div>
-        <div class="border-gray-400 py-10 border-l"></div>
-        <div class="border-gray-400 py-10 border-l"></div>
-        <div class="border-gray-400 py-10 border-l"></div>
-        <div class="border-gray-400 py-10 border-l"></div>
+        <div class="border-gray-700 py-10 border-l"></div>
+        <div class="border-gray-700 py-10 border-l"></div>
+        <div class="border-gray-700 py-10 border-l"></div>
+        <div class="border-gray-700 py-10 border-l"></div>
+        <div class="border-gray-700 py-10 border-l"></div>
+        <div class="border-gray-700 py-10 border-l"></div>
+        <div class="border-gray-700 py-10 border-l"></div>
+        <div class="border-gray-700 py-10 border-l"></div>
+        <div class="border-gray-700 py-10 border-l"></div>
       </section>
       <section class="typography max-w-xl px-3 pb-6 text-gray-700">
-        <h2>Lightness distribution 0-100 | Hue/Saturation tweak</h2>
+        <h2>Lightness distribution 0-100</h2>
+        <p>Y Axis shows amount of change in Hue between swatches.</p>
+        <p>
+          The way this is calculated is currently <i>very bad and wrong</i>.
+        </p>
       </section>
       <section
         data-output-wrap
-        class="px-3 py-6 bg-gray-200 border border-gray-400 rounded-lg"
+        class="p-3 bg-gray-200 text-gray-800 text-sm border border-gray-400 rounded-lg"
       >
-        <pre data-output></pre>
+        <pre data-output>waitingForPalette: {}</pre>
       </section>
       <section class="typography max-w-xl px-3 py-6 text-gray-700">
         <h2>What's the idea here?</h2>
