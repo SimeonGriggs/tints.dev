@@ -9,13 +9,16 @@
     />
     <link href="./assets/css/app.css" rel="stylesheet" />
   </head>
-  <body class="px-2 sm:px-4">
+  <body class="px-2 sm:px-4 text-current-900">
     <section class="max-w-4xl mx-auto">
-      <section class="typography max-w-xl px-3 py-6 text-gray-700">
+      <section class="typography max-w-xl px-3 py-6">
         <h1>
           Tailwind Palette Generator
         </h1>
-        <p>With HSL Tweakifier</p>
+        <p>With HSL Tweakifier.</p>
+        <button class="button" data-instructions-toggle>
+          Show Instructions
+        </button>
       </section>
       <form
         class="p-2 py-4 sm:p-4 grid grid-flow-col gap-2 grid-cols-5 bg-gray-200 rounded-lg"
@@ -27,10 +30,13 @@
           <input
             data-color-controller
             data-color-input
-            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 outline-none rounded p-3"
+            class="input"
             type="text"
-            value="#ace975"
+            value="#38B2AC"
           />
+          <span data-instruction class="instruction hidden">
+            Middle (500) hex value. Should have a Lightness value around 50%.
+          </span>
         </label>
         <label>
           <span class="label">
@@ -39,12 +45,16 @@
           <input
             data-color-controller
             data-color-hue
-            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 outline-none rounded p-3"
+            class="input"
             type="number"
             value="0"
             min="-360"
             max="360"
           />
+          <span data-instruction class="instruction hidden">
+            Increase/decrease Hue, increasingly at the extremes. Range -360 to
+            360.
+          </span>
         </label>
         <label>
           <span class="label">
@@ -53,12 +63,15 @@
           <input
             data-color-controller
             data-color-saturation
-            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 outline-none rounded p-3"
+            class="input"
             type="number"
             value="0"
             min="0"
             max="100"
           />
+          <span data-instruction class="instruction hidden">
+            Increase Saturation, increasingly at the extremes. Range 0-100.
+          </span>
         </label>
         <label>
           <span class="label">
@@ -67,74 +80,128 @@
           <input
             data-color-controller
             data-color-lightness-min
-            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 outline-none rounded p-3"
+            class="input"
             type="number"
-            value="20"
+            value="15"
             min="0"
             max="100"
           />
+          <span data-instruction class="instruction hidden">
+            How close to <strong>black (0)</strong> should the darkest colour
+            be? Range 0-100.
+          </span>
         </label>
         <label>
           <span class="label">
             Lightness Max
           </span>
+
           <input
             data-color-controller
             data-color-lightness-max
-            class="w-full transition transition-colors duration-150 border border-gray-400 focus:border-teal-500 outline-none rounded p-3"
+            class="input"
             type="number"
-            value="95"
+            value="96"
             min="0"
             max="100"
           />
+          <span data-instruction class="instruction hidden">
+            How close to <strong>white (100)</strong> should the darkest colour
+            be? Range 0-100.
+          </span>
         </label>
       </form>
       <div class="p-2 sm:p-4 sm:py-8 grid grid-cols-9 gap-2">
         <div
           data-color-swatch
           data-color-1
-          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-100 flex-1 pt-12 p-3"
-        ></div>
+          class="flex flex-col justify-center items-start flex-1 w-full"
+        >
+          <div
+            class="transition-colors duration-300 shadow-inner rounded bg-current-100 py-12 w-full"
+          ></div>
+          <span></span>
+        </div>
         <div
           data-color-swatch
           data-color-2
-          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-200 flex-1 pt-12 p-3"
-        ></div>
+          class="flex flex-col justify-center items-start flex-1 w-full"
+        >
+          <div
+            class="transition-colors duration-300 shadow-inner rounded bg-current-200 py-12 w-full"
+          ></div>
+          <span></span>
+        </div>
         <div
           data-color-swatch
           data-color-3
-          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-400 flex-1 pt-12 p-3"
-        ></div>
+          class="flex flex-col justify-center items-start flex-1 w-full"
+        >
+          <div
+            class="transition-colors duration-300 shadow-inner rounded bg-current-400 py-12 w-full"
+          ></div>
+          <span></span>
+        </div>
         <div
           data-color-swatch
           data-color-4
-          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-400 flex-1 pt-12 p-3"
-        ></div>
+          class="flex flex-col justify-center items-start flex-1 w-full"
+        >
+          <div
+            class="transition-colors duration-300 shadow-inner rounded bg-current-400 py-12 w-full"
+          ></div>
+          <span></span>
+        </div>
         <div
           data-color-swatch
           data-color-5
-          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-500 flex-1 pt-12 p-3"
-        ></div>
+          class="flex flex-col justify-center items-start flex-1 w-full"
+        >
+          <div
+            class="transition-colors duration-300 shadow-inner rounded bg-current-500 py-12 w-full"
+          ></div>
+          <span></span>
+        </div>
         <div
           data-color-swatch
           data-color-6
-          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-600 text-white flex-1 pt-12 p-3"
-        ></div>
+          class="flex flex-col justify-center items-start flex-1 w-full"
+        >
+          <div
+            class="transition-colors duration-300 shadow-inner rounded bg-current-600 py-12 w-full"
+          ></div>
+          <span></span>
+        </div>
         <div
           data-color-swatch
           data-color-7
-          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-700 text-white flex-1 pt-12 p-3"
-        ></div>
+          class="flex flex-col justify-center items-start flex-1 w-full"
+        >
+          <div
+            class="transition-colors duration-300 shadow-inner rounded bg-current-700 py-12 w-full"
+          ></div>
+          <span></span>
+        </div>
         <div
           data-color-swatch
           data-color-8
-          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-800 text-white flex-1 pt-12 p-3"
-        ></div>
+          class="flex flex-col justify-center items-start flex-1 w-full"
+        >
+          <div
+            class="transition-colors duration-300 shadow-inner rounded bg-current-800 py-12 w-full"
+          ></div>
+          <span></span>
+        </div>
         <div
           data-color-swatch
           data-color-9
-          class="flex flex-col justify-center items-start transition-colors duration-300 shadow-inner rounded bg-gray-900 text-white flex-1 pt-12 p-3"
-        ></div>
+          class="flex flex-col justify-center items-start flex-1 w-full"
+        >
+          <div
+            class="transition-colors duration-300 shadow-inner rounded bg-current-900 py-12 w-full"
+          ></div>
+          <span></span>
+        </div>
       </div>
       <section class="relative rounded bg-gray-800 mb-6 flex justify-between">
         <div
@@ -162,7 +229,7 @@
           data-color-4
         ></div>
         <div
-          class="pointer-events-none opacity-0 transition-opacity duration-500 absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5"
+          class="pointer-events-none opacity-0 transition-opacity duration-500 absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5  scale-125"
           style="transition-delay: calc(500ms / 3);"
           data-color-dot
           data-color-5
@@ -213,20 +280,27 @@
         <div class="border-gray-700 py-10 border-l"></div>
         <div class="border-transparent py-10 border-l"></div>
       </section>
-      <section class="typography max-w-xl px-3 pb-6 text-gray-700">
+      <section class="typography max-w-xl px-3 pb-6">
         <h2>Lightness distribution 0-100</h2>
-        <p>Y Axis shows amount of change in Hue between swatches.</p>
+        <p>Difference in <strong>Hue</strong> is shown on the Y axis.</p>
+        <p><strong>Saturation</strong> change is not current graphed here.</p>
+      </section>
+      <section class="typography max-w-xl px-3 py-6 border-t border-gray-200">
+        <h2>Object for tailwind.config.js</h2>
         <p>
-          The way this is calculated is currently <i>very bad and wrong</i>.
+          Add this to your config file
+          <a
+            href="https://tailwindcss.com/docs/customizing-colors/#extending-the-default-palette"
+            >as shown here</a
+          >.
         </p>
       </section>
       <section
-        data-output-wrap
-        class="p-3 bg-gray-200 text-gray-800 text-sm border border-gray-400 rounded-lg"
+        class="p-3 bg-current-100 text-current-800 text-sm border border-current-400 rounded-lg"
       >
         <pre data-output>waitingForPalette: {}</pre>
       </section>
-      <section class="typography max-w-xl px-3 py-6 text-gray-700">
+      <section class="typography max-w-xl px-3 py-6">
         <h2>What's the idea here?</h2>
         <p>
           Start with a base colour. This is the middle swatch. Tweaks to the

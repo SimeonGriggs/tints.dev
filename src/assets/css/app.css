@@ -2,17 +2,34 @@
 
 @tailwind components;
 
+.typography {
+  @apply transition-colors duration-300;
+}
+
+.typography h1,
+.typography h2 {
+  @apply text-current-800 font-bold;
+}
+
 .typography h1 {
-  @apply text-2xl font-bold;
+  @apply text-2xl;
 }
 
 .typography h2 {
-  @apply text-xl font-bold;
+  @apply text-xl;
 }
 
 .typography h2,
 .typography p {
   @apply mb-3;
+}
+
+.typography a {
+  @apply text-current-700 underline;
+}
+
+.typography a:hover {
+  @apply text-current-500;
 }
 
 .typography > *:first-child {
@@ -21,6 +38,30 @@
 
 .typography > *:last-child {
   margin-bottom: 0;
+}
+
+.button {
+  @apply py-2 px-4 rounded bg-current-700 text-white text-xs font-bold transition-colors duration-300;
+}
+
+.button:hover {
+  @apply bg-current-900;
+}
+
+.instruction {
+  @apply block text-gray-900 py-2 pr-4 text-sm;
+}
+
+.input {
+  @apply w-full transition transition-colors duration-150 border-2 border-gray-400 outline-none rounded p-3 text-current-900;
+}
+
+.input::selection {
+  @apply bg-current-200 text-current-900;
+}
+
+.input:focus {
+  @apply border-current-500 text-current-800;
 }
 
 .label {

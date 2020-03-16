@@ -116,15 +116,15 @@ function createHueScale(tweakValue) {
   const tweak = parseInt(tweakValue) || 0;
 
   return {
-    0: tweak ? 3 + tweak : 0,
-    1: tweak ? 2 + tweak : 0,
-    2: tweak ? 1 + tweak : 0,
+    0: tweak ? tweak * 3 + tweak : 0,
+    1: tweak ? tweak * 2 + tweak : 0,
+    2: tweak ? tweak * 1 + tweak : 0,
     3: tweak ? 0 + tweak : 0,
     4: tweak ? 0 : 0,
     5: tweak || 0,
-    6: tweak ? 1 + tweak : 0,
-    7: tweak ? 2 + tweak : 0,
-    8: tweak ? 3 + tweak : 0,
+    6: tweak ? tweak * 1 + tweak : 0,
+    7: tweak ? tweak * 2 + tweak : 0,
+    8: tweak ? tweak * 3 + tweak : 0,
   };
 }
 
@@ -180,9 +180,16 @@ function createPalette() {
     const palette = {};
 
     for (let i = 0; i < colorSwatches.length; i++) {
+      // Hue value must be between 0-360
+      // todo: fix this inside the function
       let newH = h + hueScale[i];
       newH = newH < 0 ? 360 + newH - 1 : newH;
-      const newS = s + saturationScale[i];
+
+      // Saturation must be between 0-100
+      // todo: fix this inside the function
+      let newS = s + saturationScale[i];
+      newS = newS > 100 ? 100 : newS;
+
       const newL = lightnessScale[i];
 
       const paletteHex = HSLToHex(newH, newS, newL);
@@ -190,15 +197,21 @@ function createPalette() {
 
       palette[paletteI] = paletteHex;
 
-      // Style palette swatch with new colour
-      colorSwatches[i].style.backgroundColor = paletteHex;
-      colorSwatches[i].innerHTML = `
-      <span class="flex flex-col -mx-2 pt-4 px-2">
+      // Show HSL details on new colour
+      const colorDetails = colorSwatches[i].querySelector('span');
+      colorDetails.classList.add(`flex`, `flex-col`, `pt-4`, `px-2`);
+      colorDetails.innerHTML = `
         <span class="font-mono text-xs">H ${newH}</span>
         <span class="font-mono text-xs">S ${newS}%</span>
         <span class="font-mono text-xs">L ${newL}%</span>
-      </span>
-      `;
+        `;
+      // <span class="font-mono text-xs">${paletteHex}</span>
+
+      // Update CSS Variable
+      document.documentElement.style.setProperty(
+        `--current-${paletteI}`,
+        paletteHex
+      );
 
       // Position dots on colour graph
       colorDots[i].classList.add('opacity-100');
@@ -208,11 +221,6 @@ function createPalette() {
     }
 
     // Display new palette oject
-    const outputWrap = document.querySelector('[data-output-wrap]');
-    outputWrap.style.backgroundColor = palette[100];
-    outputWrap.style.borderColor = palette[200];
-    outputWrap.style.color = palette[800];
-
     const output = document.querySelector('[data-output]');
     output.innerHTML = `awesomeColor: ${JSON.stringify(palette, null, '  ')}`;
   }
@@ -229,4 +237,32 @@ if (colorControllers) {
     controller.addEventListener('focus', () => createPalette());
     controller.addEventListener('blur', () => createPalette());
   });
+}
+
+/**
+ * Instructions toggle
+ */
+
+const instructionsToggle = document.querySelector('[data-instructions-toggle]');
+
+if (instructionsToggle) {
+  const instructions = document.querySelectorAll('[data-instruction]');
+
+  if (instructions) {
+    let instructionsVisible = false;
+
+    instructionsToggle.addEventListener('click', () => {
+      instructionsVisible = !instructionsVisible;
+
+      instructionsToggle.innerHTML = instructionsVisible
+        ? `Hide Instructions`
+        : `Show Instructions`;
+
+      Array.from(instructions).map(instruction =>
+        instructionsVisible
+          ? instruction.classList.remove('hidden')
+          : instruction.classList.add('hidden')
+      );
+    });
+  }
 }
