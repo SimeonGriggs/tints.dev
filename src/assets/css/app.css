@@ -6,9 +6,18 @@
   @apply transition-colors duration-300;
 }
 
+.typography-dark {
+  @apply text-current-100;
+}
+
 .typography h1,
 .typography h2 {
-  @apply text-current-800 font-bold;
+  @apply text-current-800 font-bold leading-tight;
+}
+
+.typography-dark h1,
+.typography-dark h2 {
+  @apply text-white;
 }
 
 .typography h1 {
@@ -19,6 +28,7 @@
   @apply text-xl;
 }
 
+.typography h1,
 .typography h2,
 .typography p {
   @apply mb-3;
@@ -44,8 +54,16 @@
   @apply py-2 px-4 rounded bg-current-700 text-white text-xs font-bold transition-colors duration-300;
 }
 
+.button-clear {
+  @apply py-2 px-0 bg-transparent text-current-700;
+}
+
 .button:hover {
   @apply bg-current-900;
+}
+
+.button-clear:hover {
+  @apply bg-transparent text-current-700;
 }
 
 .instruction {
@@ -65,7 +83,7 @@
 }
 
 .label {
-  @apply text-xs text-gray-600 font-bold uppercase;
+  @apply text-xs text-gray-600 font-bold uppercase leading-none;
 }
 
 @tailwind utilities;

@@ -10,10 +10,16 @@
   "author": "Santi <santiagomartinagra@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@vue/component-compiler-utils": "^3.1.1",
     "autoprefixer": "^9.7.4",
     "parcel-bundler": "^1.12.4",
     "postcss": "^7.0.27",
     "tailwindcss": "^1.2.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "dependencies": {
+    "vue": "^2.6.11",
+    "vue-hot-reload-api": "^2.3.4"
   }
 }
