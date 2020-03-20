@@ -51,7 +51,7 @@
 }
 
 .typography a {
-  @apply transition-colors duration-500 text-current-700 underline;
+  @apply transition-colors duration-300 text-current-700 underline;
 }
 
 .typography-dark a {
@@ -59,7 +59,7 @@
 }
 
 .typography a:hover {
-  @apply text-current-500;
+  @apply text-current-300;
 }
 
 .typography > *:first-child {

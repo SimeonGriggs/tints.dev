@@ -36,6 +36,8 @@
         These principals are inspired from the excellent
         <a
           href="https://refactoringui.com/book/"
+          target="_blank"
+          rel="noopener"
         >Refactoring UI book</a> by
         Adam Wathan & Steve Schoger. The same book which recommends against
         automated tools, like this :)
