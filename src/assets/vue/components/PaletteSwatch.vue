@@ -8,14 +8,10 @@
         swatchObject.paletteI > 500 ? 'text-white' : ''
       ]"
     >
-      <span class="opacity-50 font-mono text-xs">{{
-        swatchObject.paletteI
-      }}</span>
+      <span class="opacity-50 font-mono text-xs">{{ swatchObject.paletteI }}</span>
     </div>
-    <span class="transition-colors duration-300 flex flex-col p-2 pb-0">
-      <span class="font-mono text-xs pb-1 mb-1 border-b border-current-200">{{
-        swatchObject.hex
-      }}</span>
+    <span class="transition-colors duration-300 hidden md:flex flex-col p-2 pb-0">
+      <span class="font-mono text-xs pb-1 mb-1 border-b border-current-200">{{ swatchObject.hex }}</span>
       <span class="font-mono text-xs">H {{ swatchObject.h }}</span>
       <span class="font-mono text-xs">S {{ swatchObject.s }}%</span>
       <span class="font-mono text-xs">L {{ swatchObject.l }}%</span>

@@ -1,6 +1,6 @@
 <template>
   <section
-    class="transition-colors duration-300 bg-current-900 -mx-4 mb-4 px-4 py-8 md:m-0 md:px-8 md:py-12 md:fixed md:inset-0 md:left-auto md:w-1/3 md:overflow-scroll"
+    class="transition-colors duration-300 bg-current-900 -mx-4 mb-4 md:m-0 px-4 py-8 md:px-8 md:pt-12 md:fixed md:inset-0 md:left-auto md:w-1/3 md:overflow-scroll"
   >
     <div class="md:max-w-sm mx-auto typography typography-dark">
       <h1>

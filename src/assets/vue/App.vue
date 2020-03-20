@@ -21,14 +21,16 @@
         />
       </label>
 
-      <tweak-input @inputValue="tweak.h = $event" :value="tweak.h" label="Hue"></tweak-input>
-      <tweak-input @inputValue="tweak.s = $event" :value="tweak.s" label="Saturation"></tweak-input>
-      <tweak-input @inputValue="tweak.lMax = $event" :value="tweak.lMax" label="Lightness Max"></tweak-input>
-      <tweak-input @inputValue="tweak.lMin = $event" :value="tweak.lMin" label="Lightness Min"></tweak-input>
+      <tweak-input
+        v-for="(input, index) in tweakInputs"
+        :key="index"
+        :value="tweak[input.tweak]"
+        :input="input"
+      />
     </form>
 
     <!-- Swatches -->
-    <div class="grid grid-cols-9 gap-2 md:max-w-4xl mx-auto px-4">
+    <div class="grid grid-cols-9 gap-2 md:max-w-4xl mx-auto md:px-4">
       <palette-swatch
         v-for="(swatch, index) in palette"
         v-bind:key="index + '-' + swatch.hex"
@@ -37,7 +39,15 @@
     </div>
 
     <!-- Graphs -->
-    <graph-lightness v-if="palette.length > 0" v-bind:palette="palette"></graph-lightness>
+    <graph-lightness v-if="palette.length > 0"></graph-lightness>
+
+    <section
+      v-if="palette.length > 0"
+      class="grid gap-4 md:gap-8 md:grid-cols-2 md:max-w-4xl mx-auto my-4 md:my-8"
+    >
+      <graph-square graph="h" :inputs="tweakInputs"></graph-square>
+      <graph-square graph="s" :inputs="tweakInputs"></graph-square>
+    </section>
 
     <!-- Output -->
     <output-palette v-bind:palette="palette"></output-palette>
@@ -54,9 +64,11 @@ import SiteHeader from "./components/SiteHeader.vue";
 import PaletteSwatch from "./components/PaletteSwatch.vue";
 import TweakInput from "./components/TweakInput.vue";
 import GraphLightness from "./components/GraphLightness.vue";
+import GraphSquare from "./components/GraphSquare.vue";
 import OutputPalette from "./components/OutputPalette.vue";
 import SiteFooter from "./components/SiteFooter.vue";
 
+import { EventBus } from "../js/event-bus";
 import { hexToHSL, HSLToHex, isHex, round } from "../js/helpers";
 import {
   createSaturationScale,
@@ -76,7 +88,33 @@ export default Vue.extend({
         s: 20,
         lMax: 96,
         lMin: 15
-      }
+      },
+      tweakInputs: [
+        {
+          tweak: "h",
+          label: "Hue",
+          min: -20,
+          max: 20
+        },
+        {
+          tweak: "s",
+          label: "Saturation",
+          min: -20,
+          max: 20
+        },
+        {
+          tweak: "lMax",
+          label: "Lightness Max",
+          min: 50,
+          max: 100
+        },
+        {
+          tweak: "lMin",
+          label: "Lightness Min",
+          min: 0,
+          max: 50
+        }
+      ]
     };
   },
   components: {
@@ -84,17 +122,20 @@ export default Vue.extend({
     PaletteSwatch,
     TweakInput,
     GraphLightness,
+    GraphSquare,
     OutputPalette,
     SiteFooter
   },
-  watch: {
-    tweak: {
-      handler() {
-        // Todo, why doesn't the 'PaletteSwatch watch' method run when 'tweak' changes?!
-        this.updatePalette();
-      },
-      deep: true
-    }
+  mounted() {
+    // Spread in newly tweaked value and update
+    EventBus.$on("sendTweak", incomingTweak => {
+      this.tweak = {
+        ...this.tweak,
+        ...incomingTweak
+      };
+
+      this.updatePalette();
+    });
   },
   methods: {
     updatePalette() {
@@ -136,6 +177,7 @@ export default Vue.extend({
             h: newH,
             hScale: hueScale[i],
             s: round(newS, 2),
+            sScale: saturationScale[i],
             l: round(newL, 2)
           };
 
@@ -149,7 +191,11 @@ export default Vue.extend({
           newPalette.push(swatchObject);
         });
 
+        // Push array to state
         this.palette = newPalette;
+
+        // ...and an event for anyone listening
+        EventBus.$emit("newPalette", newPalette);
       }
     }
   }

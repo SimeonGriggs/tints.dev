@@ -1,26 +1,28 @@
 <template>
   <label>
-    <span class="label">
-      {{ inputLabel }}
-    </span>
+    <span class="label">{{ inputObject.label }}</span>
     <input
       class="input"
       v-model="inputValue"
-      @change="updateValue"
-      @blur="updateValue"
-      @focus="updateValue"
-      @input="updateValue"
+      :min="inputObject.min"
+      :max="inputObject.max"
+      @input="sendTweak"
+      @change="sendTweak"
+      @blur="sendTweak"
+      @focus="sendTweak"
       type="number"
     />
   </label>
 </template>
 
 <script>
+import { EventBus } from "../../js/event-bus";
+
 export default {
   data() {
     return {
       inputValue: this.value,
-      inputLabel: this.label
+      inputObject: this.input
     };
   },
   props: {
@@ -28,14 +30,17 @@ export default {
       type: Number,
       default: 0
     },
-    label: {
-      type: String,
-      default: ""
+    input: {
+      type: Object,
+      default: {}
     }
   },
   methods: {
-    updateValue() {
-      this.$emit("inputValue", parseInt(this.inputValue));
+    sendTweak() {
+      const tweak = {};
+      tweak[this.inputObject.tweak] = parseInt(this.inputValue);
+
+      EventBus.$emit("sendTweak", tweak);
     }
   }
 };
