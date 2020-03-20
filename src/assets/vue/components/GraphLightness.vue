@@ -15,16 +15,9 @@
           left: `${100 - color.l}%`
         }"
       ></div>
-      <div
-        class="absolute inset-0 border-t border-gray-600"
-        style="top:50%; height: 50%;"
-      ></div>
-      <div class="absolute p-2 leading-none bottom-0 left-0 label">
-        100 (White)
-      </div>
-      <div class="absolute p-2 leading-none bottom-0 right-0 label">
-        0 (Black)
-      </div>
+      <div class="absolute inset-0 border-t border-gray-600" style="top:50%; height: 50%;"></div>
+      <div class="absolute p-2 leading-none bottom-0 left-0 label">100 (White)</div>
+      <div class="absolute p-2 leading-none bottom-0 right-0 label">0 (Black)</div>
       <div class="border-transparent py-10 border-l"></div>
       <div class="border-gray-700 py-10 border-l"></div>
       <div class="border-gray-700 py-10 border-l"></div>
@@ -40,7 +33,9 @@
     <div class="typography px-4">
       <h2>Lightness distribution 0-100</h2>
       <p>
-        Difference in <b>Hue</b> is shown on the Y axis.<b>Saturation</b>
+        Difference in
+        <b>Hue</b> is shown on the Y axis.
+        <b>Saturation</b>
         change is not current graphed here.
       </p>
     </div>

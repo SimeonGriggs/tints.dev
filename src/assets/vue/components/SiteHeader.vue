@@ -4,32 +4,39 @@
   >
     <div class="md:max-w-sm mx-auto typography typography-dark">
       <h1>
-        Tailwind CSS Palette Generator
+        <a href="https://tailwind.simeongriggs.dev">Tailwind CSS Palette Generator</a>
       </h1>
       <p>With HSL Tweakifier</p>
     </div>
     <div
       class="md:max-w-sm mx-auto typography typography-dark mt-4 pt-4 border-t border-current-800"
     >
-      <h2>
-        What's the idea?
-      </h2>
-      <p>Set the initial <b>Colour</b> hex value. This will be palette 500.</p>
+      <h2>What's the idea?</h2>
       <p>
-        For colours that have <b>100% Saturation</b>, a way to make the palette
-        more interesting is to shift the <b>Hue</b> up or down.
+        Set the initial
+        <b>Colour</b> hex value, this is swatch 500.
       </p>
       <p>
-        Colours with less <b>Saturation</b> get more interesting by increasing
+        For colours that have
+        <b>100% Saturation</b>, make the palette
+        more interesting by shifting the
+        <b>Hue</b> up or down.
+      </p>
+      <p>
+        Colours with less
+        <b>Saturation</b> get more interesting by increasing
         <b>Saturation</b> at the extremes.
       </p>
       <p>
-        Shift the <b>Minimum/Maximum Lightness</b> to spread out the rest of the
+        Shift the
+        <b>Minimum/Maximum Lightness</b> to spread out the rest of the
         colours to the extremes of white and black.
       </p>
       <p>
         These principals are inspired from the excellent
-        <a href="https://refactoringui.com/book/">Refactoring UI book</a> by
+        <a
+          href="https://refactoringui.com/book/"
+        >Refactoring UI book</a> by
         Adam Wathan & Steve Schoger. The same book which recommends against
         automated tools, like this :)
       </p>

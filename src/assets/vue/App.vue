@@ -6,9 +6,7 @@
       class="md:max-w-4xl mx-auto mb-4 md:mb-8 p-2 py-4 sm:p-4 grid grid-flow-col gap-2 grid-cols-5 bg-gray-200 rounded-lg"
     >
       <label>
-        <span class="label">
-          Colour
-        </span>
+        <span class="label">Colour</span>
         <input
           class="input"
           v-bind:class="[
@@ -23,26 +21,10 @@
         />
       </label>
 
-      <tweak-input
-        @inputValue="tweak.h = $event"
-        :value="tweak.h"
-        label="Hue"
-      ></tweak-input>
-      <tweak-input
-        @inputValue="tweak.s = $event"
-        :value="tweak.s"
-        label="Saturation"
-      ></tweak-input>
-      <tweak-input
-        @inputValue="tweak.lMax = $event"
-        :value="tweak.lMax"
-        label="Lightness Max"
-      ></tweak-input>
-      <tweak-input
-        @inputValue="tweak.lMin = $event"
-        :value="tweak.lMin"
-        label="Lightness Min"
-      ></tweak-input>
+      <tweak-input @inputValue="tweak.h = $event" :value="tweak.h" label="Hue"></tweak-input>
+      <tweak-input @inputValue="tweak.s = $event" :value="tweak.s" label="Saturation"></tweak-input>
+      <tweak-input @inputValue="tweak.lMax = $event" :value="tweak.lMax" label="Lightness Max"></tweak-input>
+      <tweak-input @inputValue="tweak.lMin = $event" :value="tweak.lMin" label="Lightness Min"></tweak-input>
     </form>
 
     <!-- Swatches -->
@@ -55,7 +37,7 @@
     </div>
 
     <!-- Graphs -->
-    <graph-lightness v-bind:palette="palette"></graph-lightness>
+    <graph-lightness v-if="palette.length > 0" v-bind:palette="palette"></graph-lightness>
 
     <!-- Output -->
     <output-palette v-bind:palette="palette"></output-palette>
@@ -75,7 +57,7 @@ import GraphLightness from "./components/GraphLightness.vue";
 import OutputPalette from "./components/OutputPalette.vue";
 import SiteFooter from "./components/SiteFooter.vue";
 
-import { hexToHSL, HSLToHex, isHex } from "../js/helpers";
+import { hexToHSL, HSLToHex, isHex, round } from "../js/helpers";
 import {
   createSaturationScale,
   createHueScale,
@@ -153,10 +135,8 @@ export default Vue.extend({
             hex: newHex,
             h: newH,
             hScale: hueScale[i],
-            s: newS,
-            sScale: saturationScale[i],
-            l: newL,
-            lScale: lightnessScale[i]
+            s: round(newS, 2),
+            l: round(newL, 2)
           };
 
           // Update CSS vars

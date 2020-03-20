@@ -15,6 +15,12 @@
   @apply text-current-800 font-bold leading-tight;
 }
 
+.typography h1 a,
+.typography h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .typography-dark h1,
 .typography-dark h2 {
   @apply text-white;
@@ -35,7 +41,11 @@
 }
 
 .typography a {
-  @apply text-current-700 underline;
+  @apply transition-colors duration-500 text-current-700 underline;
+}
+
+.typography-dark a {
+  @apply text-current-300;
 }
 
 .typography a:hover {
