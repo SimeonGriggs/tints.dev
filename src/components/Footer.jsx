@@ -4,11 +4,11 @@ const Footer = () => (
   <section className="md:max-w-4xl typography py-4 md:py-8 mx-auto px-4">
     <p>
       <a
-        href="https://twitter.com/simeongriggs"
+        href="https://www.simeongriggs.dev"
         target="_blank"
         rel="noopener noreferrer"
       >
-        Simeon Griggs
+        simeonGriggs
       </a>{' '}
       |{' '}
       <a
