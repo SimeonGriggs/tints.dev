@@ -112,7 +112,7 @@ const Form = ({ palettes, setPalettes, labels }) => {
           Green
         </button>
       </div>
-      <form className="flex space-x-4 p-4 w-full mx-auto bg-gray-200 rounded-lg">
+      <form className="flex space-x-4 mb-4 p-4 w-full mx-auto bg-gray-200 rounded-lg">
         {Object.keys(tweaks).map((input, index) => (
           <FormInput
             key={index}
