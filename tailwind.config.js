@@ -1,8 +1,8 @@
 module.exports = {
+  purge: ['./**/*.html', './src/**/*.jsx'],
   theme: {
     extend: {
       fontSize: {
-        // 'text-2xs': `${0.75 - 0.125}rem`,
         'text-2xs': `0.625rem`,
       },
       colors: {

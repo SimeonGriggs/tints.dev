@@ -3,7 +3,7 @@
   publish = "dist"
 
   # Default build command.
-  command = "yarn prod"
+  command = "npm run build"
 
 [[redirects]]
   from = "https://tailwind-css-palette-generator.netlify.com/*"
