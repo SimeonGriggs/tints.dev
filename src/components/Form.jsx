@@ -65,7 +65,7 @@ const Form = ({ palettes, setPalettes, labels }) => {
           s: round(newS, 2),
           sScale: saturationScale[i],
           l: round(newL, 2),
-          lum: luminanceFromHex(newHex),
+          lum: round(luminanceFromHex(newHex)),
         };
       });
 
