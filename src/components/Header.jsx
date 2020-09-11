@@ -26,8 +26,8 @@ const Header = () => (
         <b>Saturation</b> at the extremes.
       </p>
       <p>
-        Shift the <b>Minimum/Maximum Lightness</b> to spread out the rest of the
-        colours to the extremes of white and black.
+        Shift the <b>Minimum/Maximum Lightness/Luminance</b> to spread out the
+        rest of the colours to the extremes of white and black.
       </p>
       <p>
         These principals are inspired from the excellent{' '}
