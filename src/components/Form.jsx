@@ -13,24 +13,11 @@ import {
   createSaturationScale,
   createHueScale,
   createDistributionValues,
-  createLightnessScale,
 } from '../helpers/scales.js';
 
-const Form = ({ palettes, setPalettes, labels }) => {
+const Form = ({ palettes, setPalettes, tweaks, setTweaks, labels }) => {
   const buttonClasses =
     'p-2 mr-2 mb-2 rounded leading-none uppercase font-bold text-sm';
-
-  const [tweaks, setTweaks] = useState({
-    name: 'green',
-    hex: '#28C76F',
-    h: 0,
-    hScale: 0,
-    s: 0,
-    sScale: 0,
-    lMax: 97,
-    lMin: 10,
-    dist: 'lightness',
-  });
 
   useEffect(() => {
     const newPalette = {};
