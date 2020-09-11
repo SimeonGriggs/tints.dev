@@ -16,7 +16,7 @@ const Footer = () => (
         target="_blank"
         rel="noopener noreferrer"
       >
-        True Frontier
+        kevnk
       </a>{' '}
       |{' '}
       <a
