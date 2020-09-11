@@ -238,7 +238,7 @@ const Form = ({
           type="button"
           className={`${
             !tweaks.name ? 'opacity-50 cursor-not-allowed ' : ''
-          }input bg-gray-300 text-2xl px-6 leading-snug w-20 text-gray-600`}
+          }input bg-gray-300 hover:bg-gray-400 text-2xl px-6 leading-snug w-20 text-gray-600`}
           title="Add to Palette"
           onClick={handleClick}
           disabled={!tweaks.name}
