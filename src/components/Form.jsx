@@ -16,7 +16,7 @@ import {
 
 const Form = ({ palettes, setPalettes, labels }) => {
   const buttonClasses =
-    'p-2 mr-2 mb-2 bg-gray-100 rounded leading-none uppercase font-bold text-sm hover:bg-gray-200';
+    'p-2 mr-2 mb-2 rounded leading-none uppercase font-bold text-sm';
 
   const [tweaks, setTweaks] = useState({
     name: 'green',
@@ -94,7 +94,11 @@ const Form = ({ palettes, setPalettes, labels }) => {
           Presets:
         </span>
         <button
-          className={buttonClasses}
+          className={`${buttonClasses} ${
+            tweaks.hex === '#9708CC'
+              ? 'bg-purple-500 text-white'
+              : 'bg-gray-100 hover:bg-gray-200'
+          }`}
           type="button"
           onClick={() =>
             setTweaks({ ...tweaks, name: 'purple', hex: '#9708CC' })
@@ -103,14 +107,22 @@ const Form = ({ palettes, setPalettes, labels }) => {
           Purple
         </button>
         <button
-          className={buttonClasses}
+          className={`${buttonClasses} ${
+            tweaks.hex === '#43CBFF'
+              ? 'bg-blue-500 text-white'
+              : 'bg-gray-100 hover:bg-gray-200'
+          }`}
           type="button"
           onClick={() => setTweaks({ ...tweaks, name: 'blue', hex: '#43CBFF' })}
         >
           Blue
         </button>
         <button
-          className={buttonClasses}
+          className={`${buttonClasses} ${
+            tweaks.hex === '#28C76F'
+              ? 'bg-green-500 text-white'
+              : 'bg-gray-100 hover:bg-gray-200'
+          }`}
           type="button"
           onClick={() =>
             setTweaks({ ...tweaks, name: 'green', hex: '#28C76F' })
