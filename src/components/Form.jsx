@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
 import FormInput from './FormInput.jsx';
-import { hexToHSL, HSLToHex, isHex, round } from '../helpers/helpers.js';
+import {
+  hexToHSL,
+  HSLToHex,
+  isHex,
+  round,
+  luminanceFromHex,
+} from '../helpers/helpers.js';
 import {
   createSaturationScale,
   createHueScale,
@@ -59,6 +65,7 @@ const Form = ({ palettes, setPalettes, labels }) => {
           s: round(newS, 2),
           sScale: saturationScale[i],
           l: round(newL, 2),
+          lum: luminanceFromHex(newHex),
         };
       });
 

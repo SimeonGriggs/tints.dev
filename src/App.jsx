@@ -4,6 +4,7 @@ import Header from './components/Header.jsx';
 import Form from './components/Form.jsx';
 import Palettes from './components/Palettes.jsx';
 import LightnessGraph from './components/LightnessGraph.jsx';
+import LuminanceGraph from './components/LuminanceGraph.jsx';
 import SquareGraph from './components/SquareGraph.jsx';
 import Output from './components/Output.jsx';
 import Footer from './components/Footer.jsx';
@@ -26,6 +27,7 @@ function App() {
         <Form setPalettes={setPalettes} palettes={palettes} labels={labels} />
         <Palettes palettes={palettes} />
         <LightnessGraph palettes={palettes} />
+        <LuminanceGraph palettes={palettes} />
 
         <div className="flex w-full my-8 space-x-4">
           <SquareGraph graph="h" labels={labels} palettes={palettes} />

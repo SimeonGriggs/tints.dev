@@ -1,5 +1,17 @@
-export function hexToHSL(H) {
-  // Convert hex to RGB first
+export function luminanceFromRGB(r, g, b) {
+  // Formula from WCAG 2.0
+  let [R, G, B] = [r, g, b].map(function (c) {
+    c /= 255; // to 0-1 range
+    return c < 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  });
+  return 21.26 * R + 71.52 * G + 7.22 * B;
+}
+
+export function luminanceFromHex(H) {
+  return luminanceFromRGB(...Object.values(hexToRGB(H)));
+}
+
+export function hexToRGB(H) {
   let r = 0;
   let g = 0;
   let b = 0;
@@ -12,6 +24,12 @@ export function hexToHSL(H) {
     g = `0x${H[3]}${H[4]}`;
     b = `0x${H[5]}${H[6]}`;
   }
+  return { r, g, b };
+}
+
+export function hexToHSL(H) {
+  // Convert hex to RGB first
+  let { r, g, b } = hexToRGB(H);
   // Then to HSL
   r /= 255;
   g /= 255;
