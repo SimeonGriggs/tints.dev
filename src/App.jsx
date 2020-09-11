@@ -11,6 +11,8 @@ import Footer from './components/Footer.jsx';
 function App() {
   const [palettes, setPalettes] = useState({});
 
+  const [colors, setColors] = useState({});
+
   const [tweaks, setTweaks] = useState({
     name: 'green',
     hex: '#28C76F',
@@ -43,6 +45,8 @@ function App() {
           palettes={palettes}
           setTweaks={setTweaks}
           tweaks={tweaks}
+          colors={colors}
+          setColors={setColors}
           labels={labels}
         />
         <Palettes palettes={palettes} />
@@ -63,7 +67,7 @@ function App() {
           />
         </div>
 
-        <Output palettes={palettes} />
+        <Output colors={Object.keys(colors).length ? colors : palettes} />
         <Footer />
       </main>
     </div>
