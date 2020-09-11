@@ -16,8 +16,8 @@ function App() {
     hex: 'Hex',
     h: 'Hue',
     s: 'Saturation',
-    lMin: 'Lightness Min',
-    lMax: 'Lightness Max',
+    lMin: 'Light/Lum Min',
+    lMax: 'Light/Lum Max',
   });
 
   return (

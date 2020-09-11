@@ -11,6 +11,27 @@ export function luminanceFromHex(H) {
   return luminanceFromRGB(...Object.values(hexToRGB(H)));
 }
 
+export function lightnessFromHSLum(H, S, Lum) {
+  let vals = {};
+  for (var L = 99; L >= 0; L--) {
+    vals[L] = Math.abs(
+      Lum - luminanceFromRGB(...Object.values(HSLtoRGB(H, S, L))),
+    );
+  }
+
+  // Run through all these and find the closest to 0
+  let lowestDiff = 100;
+  let newL = 100;
+  for (var i = Object.keys(vals).length - 1; i >= 0; i--) {
+    if (vals[i] < lowestDiff) {
+      newL = i;
+      lowestDiff = vals[i];
+    }
+  }
+
+  return newL;
+}
+
 export function hexToRGB(H) {
   let r = 0;
   let g = 0;
@@ -59,7 +80,7 @@ export function hexToHSL(H) {
   return { h, s, l };
 }
 
-export function HSLToHex(h, s, l) {
+export function HSLtoRGB(h, s, l) {
   s /= 100;
   l /= 100;
 
@@ -95,10 +116,21 @@ export function HSLToHex(h, s, l) {
     g = 0;
     b = x;
   }
+
+  return {
+    r: Math.round((r + m) * 255),
+    g: Math.round((g + m) * 255),
+    b: Math.round((b + m) * 255),
+  };
+}
+
+export function HSLToHex(h, s, l) {
+  let { r, g, b } = HSLtoRGB(h, s, l);
+
   // Having obtained RGB, convert channels to hex
-  r = Math.round((r + m) * 255).toString(16);
-  g = Math.round((g + m) * 255).toString(16);
-  b = Math.round((b + m) * 255).toString(16);
+  r = r.toString(16);
+  g = g.toString(16);
+  b = b.toString(16);
 
   // Prepend 0s, if necessary
   if (r.length === 1) r = `0${r}`;
