@@ -17,12 +17,13 @@ const FormInput = ({ labels, input, tweaks, setTweaks, type }) => {
 
   if (type === 'number') {
     step = 1;
-    min = 0;
     switch (input) {
       case 's':
+        min = -100;
         max = 100;
         break;
       case 'h':
+        min = -360;
         max = 360;
         break;
     }
