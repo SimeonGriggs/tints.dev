@@ -24,6 +24,12 @@ const FormInput = ({ labels, input, tweaks, setTweaks, type }) => {
         min = -360;
         max = 360;
         break;
+      case 'lMax':
+        max = 100;
+        break;
+      case 'lMin':
+        min = 0;
+        break;
     }
   }
 
