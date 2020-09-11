@@ -157,26 +157,34 @@ const Form = ({
         >
           Palette:
         </span>
-        {Object.keys(colors).map((color, index) => (
-          <button
-            key={`${color}${index}`}
-            className={`${buttonClasses} ${
-              colorInColors
-                ? 'bg-gray-800 text-white'
-                : 'bg-gray-100 hover:bg-gray-200'
-            }`}
-            type="button"
-            onClick={() =>
-              setTweaks({
-                ...tweaks,
-                name: color,
-                hex: colors[color]['500'].hex,
-              })
-            }
-          >
-            {color}
-          </button>
-        ))}
+        {Object.keys(colors).map((color, index) => {
+          let thisColorInColors =
+            Object.keys(colors).length &&
+            Object.keys(colors).includes(color) &&
+            colors[color]['500'].hex === tweaks.hex &&
+            colors[color]['500'].dist === tweaks.dist;
+          return (
+            <button
+              key={`${color}${index}`}
+              className={`${buttonClasses} ${
+                thisColorInColors
+                  ? 'bg-gray-800 text-white'
+                  : 'bg-gray-100 hover:bg-gray-200'
+              }`}
+              type="button"
+              onClick={() =>
+                setTweaks({
+                  ...tweaks,
+                  name: color,
+                  hex: colors[color]['500'].hex,
+                  dist: colors[color]['500'].dist,
+                })
+              }
+            >
+              {color}
+            </button>
+          );
+        })}
       </div>
     </div>
   );
