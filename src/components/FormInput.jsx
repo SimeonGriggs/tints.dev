@@ -30,7 +30,7 @@ const FormInput = ({ labels, input, tweaks, setTweaks, type }) => {
   }
 
   return (
-    <label htmlFor={input}>
+    <label htmlFor={input} className="w-full">
       <span className="label block mb-1">{labels[input]}</span>
       <input
         value={tweaks[input]}
