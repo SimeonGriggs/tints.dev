@@ -12,11 +12,9 @@ const FormInput = ({ labels, input, tweaks, setTweaks, type }) => {
   if (!labels[input]) return null;
 
   let min,
-    max,
-    step = null;
+    max = null;
 
   if (type === 'number') {
-    step = 1;
     switch (input) {
       case 's':
         min = -100;
@@ -38,7 +36,6 @@ const FormInput = ({ labels, input, tweaks, setTweaks, type }) => {
         type={type}
         min={min}
         max={max}
-        step={step}
         onChange={handleChange}
         className="input"
       />
