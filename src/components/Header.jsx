@@ -3,7 +3,7 @@ import React from 'react';
 const Header = () => (
   // Things
 
-  <header className="transition-colors duration-300 bg-current-900 -mx-4 mb-4 lg:m-0 px-4 py-8 lg:px-8 lg:pt-12 lg:fixed lg:inset-0 lg:left-auto lg:w-1/3 lg:overflow-scroll">
+  <header className="transition-colors duration-300 bg-current-900 mb-4 lg:m-0 px-4 py-8 lg:-mx-4 lg:px-8 lg:pt-12 lg:fixed lg:inset-0 lg:left-auto lg:w-1/3 lg:overflow-scroll">
     <div className="lg:max-w-sm mx-auto typography typography-dark">
       <h1>
         <a href="https://tailwind.simeongriggs.dev">
@@ -26,8 +26,8 @@ const Header = () => (
         <b>Saturation</b> at the extremes.
       </p>
       <p>
-        Shift the <b>Minimum/Maximum Lightness</b> to spread out the rest of the
-        colours to the extremes of white and black.
+        Shift the <b>Minimum/Maximum Lightness/Luminance</b> to spread out the
+        rest of the colours to the extremes of white and black.
       </p>
       <p>
         These principals are inspired from the excellent{' '}

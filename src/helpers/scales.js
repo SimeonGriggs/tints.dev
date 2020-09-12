@@ -30,7 +30,7 @@ export function createHueScale(tweakValue) {
   ];
 }
 
-export function createLightnessValues(min, max, lightness) {
+export function createDistributionValues(min, max, lightness) {
   const maxLightness = parseInt(max) || 100;
   const maxStep = (maxLightness - lightness) / 4;
 

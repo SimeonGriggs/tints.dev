@@ -10,6 +10,14 @@ const Footer = () => (
       >
         simeonGriggs
       </a>{' '}
+      &amp;{' '}
+      <a
+        href="https://truefrontierapps.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        kevnk
+      </a>{' '}
       |{' '}
       <a
         href="https://github.com/SimeonGriggs/tailwind-css-palette-generator"

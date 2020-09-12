@@ -11,13 +11,37 @@ const FormInput = ({ labels, input, tweaks, setTweaks, type }) => {
 
   if (!labels[input]) return null;
 
+  let min,
+    max = null;
+
+  if (type === 'number') {
+    switch (input) {
+      case 's':
+        min = -100;
+        max = 100;
+        break;
+      case 'h':
+        min = -360;
+        max = 360;
+        break;
+      case 'lMax':
+        max = 100;
+        break;
+      case 'lMin':
+        min = 0;
+        break;
+    }
+  }
+
   return (
-    <label htmlFor={input}>
+    <label htmlFor={input} className="w-full">
       <span className="label block mb-1">{labels[input]}</span>
       <input
         value={tweaks[input]}
         name={input}
         type={type}
+        min={min}
+        max={max}
         onChange={handleChange}
         className="input"
       />
