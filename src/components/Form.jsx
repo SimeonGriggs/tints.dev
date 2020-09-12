@@ -95,16 +95,19 @@ const Form = ({
 
   function handleClick(e) {
     e.preventDefault();
-    setColors({ ...colors, ...palettes });
+    let color = {};
+    color[tweaks.name] = { palettes: palettes[tweaks.name], tweaks };
+    setColors({ ...colors, ...color });
     setTweaks({ ...tweaks, hex: Object.values(palettes)[0]['500'].hex });
     return false;
   }
 
+  console.log('%c colors -->', 'color:#F80', colors);
+
   const colorInColors =
     Object.keys(colors).length &&
     Object.keys(colors).includes(tweaks.name) &&
-    colors[tweaks.name]['500'].hex === tweaks.hex &&
-    colors[tweaks.name]['500'].dist === tweaks.dist;
+    JSON.stringify(colors[tweaks.name].tweaks) === JSON.stringify(tweaks);
 
   const presets = (
     <div>
@@ -161,8 +164,8 @@ const Form = ({
           let thisColorInColors =
             Object.keys(colors).length &&
             Object.keys(colors).includes(color) &&
-            colors[color]['500'].hex === tweaks.hex &&
-            colors[color]['500'].dist === tweaks.dist;
+            JSON.stringify(colors[color].tweaks) === JSON.stringify(tweaks);
+
           return (
             <button
               key={`${color}${index}`}
@@ -175,9 +178,7 @@ const Form = ({
               onClick={() =>
                 setTweaks({
                   ...tweaks,
-                  name: color,
-                  hex: colors[color]['500'].hex,
-                  dist: colors[color]['500'].dist,
+                  ...colors[color].tweaks,
                 })
               }
             >

@@ -67,7 +67,7 @@ function App() {
           />
         </div>
 
-        <Output colors={Object.keys(colors).length ? colors : palettes} />
+        <Output colors={colors} palettes={palettes} />
         <Footer />
       </main>
     </div>

@@ -1,15 +1,25 @@
 import React from 'react';
 
-const Output = ({ colors }) => {
+const Output = ({ colors, palettes }) => {
   const paletteDisplay = {};
 
-  Object.keys(colors).map((color, index) => {
-    paletteDisplay[color] = {};
+  if (Object.keys(colors).length) {
+    Object.keys(colors).map((color, index) => {
+      paletteDisplay[color] = {};
 
-    Object.keys(colors[color]).map((swatch) => {
-      paletteDisplay[color][swatch] = colors[color][swatch].hex;
+      Object.keys(colors[color].palettes).map((swatch) => {
+        paletteDisplay[color][swatch] = colors[color].palettes[swatch].hex;
+      });
     });
-  });
+  } else {
+    Object.keys(palettes).map((color, index) => {
+      paletteDisplay[color] = {};
+
+      Object.keys(palettes[color]).map((swatch) => {
+        paletteDisplay[color][swatch] = palettes[color][swatch].hex;
+      });
+    });
+  }
 
   if (!paletteDisplay || Object.keys(paletteDisplay).length < 1) return null;
 
