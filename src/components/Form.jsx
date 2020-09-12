@@ -102,8 +102,6 @@ const Form = ({
     return false;
   }
 
-  console.log('%c colors -->', 'color:#F80', colors);
-
   const colorInColors =
     Object.keys(colors).length &&
     Object.keys(colors).includes(tweaks.name) &&
