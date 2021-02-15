@@ -7,6 +7,7 @@ module.exports = {
       },
       colors: {
         current: {
+          '50': 'var(--current-50, #F9FAFB)',
           '100': 'var(--current-100, #F7FAFC)',
           '200': 'var(--current-200, #EDF2F7)',
           '300': 'var(--current-300, #E2E8F0)',
