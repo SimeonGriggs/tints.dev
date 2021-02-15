@@ -44,32 +44,33 @@ const Form = ({
         useLightness ? l : lum,
       );
 
-      hueScale.forEach((swatch, i) => {
+      hueScale.forEach(({key, tweak}, i) => {
         // Hue value must be between 0-360
         // todo: fix this inside the function
-        let newH = h + hueScale[i];
+        let newH = h + hueScale[i].tweak;
         newH = newH < 0 ? 360 + newH - 1 : newH;
         newH = newH > 720 ? newH - 360 : newH;
         newH = newH > 360 ? newH - 360 : newH;
 
         // Saturation must be between 0-100
         // todo: fix this inside the function
-        let newS = s + saturationScale[i];
+        let newS = s + saturationScale[i].tweak;
         newS = newS > 100 ? 100 : newS;
 
         const newL = useLightness
-          ? distributionScale[i]
-          : lightnessFromHSLum(newH, newS, distributionScale[i]);
+          ? distributionScale[i].tweak
+          : lightnessFromHSLum(newH, newS, distributionScale[i].tweak);
 
+          console.log({newH, newS, newL});
         const newHex = HSLToHex(newH, newS, newL);
-        const paletteI = (i + 1) * 100;
+        const paletteI = key;
 
         newPalette[paletteI] = {
           hex: newHex,
           h: newH,
-          hScale: hueScale[i],
+          hScale: hueScale[i].tweak,
           s: round(newS, 2),
-          sScale: saturationScale[i],
+          sScale: saturationScale[i].tweak,
           l: round(newL, 2),
           lum: round(luminanceFromHex(newHex)),
           dist: tweaks.dist,
