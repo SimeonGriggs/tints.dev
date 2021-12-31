@@ -1,17 +1,70 @@
 {
-  "name": "tailwind-palette-vite",
-  "version": "0.0.0",
+  "name": "palette-generator",
+  "main": "./worker.js",
+  "description": "A 10-swatch palette generator primarily for Tailwind CSS",
+  "license": "MIT",
+  "version": "2.0.0",
+  "author": "Simeon Griggs",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build"
+    "build:css": "tailwindcss -i ./app/input.css -o ./app/styles/output.css --minify",
+    "build:remix": "remix build",
+    "build": "npm run clean && npm run build:css && npm run build:remix",
+    "clean": "rimraf ./app/styles/output.css .cache build",
+    "deploy": "npm run build && flyctl deploy",
+    "dev:css": "tailwindcss -i ./app/input.css -o ./app/styles/output.css --watch",
+    "dev:remix": "remix dev",
+    "dev": "concurrently \"npm:dev:*\"",
+    "lint:fix": "eslint . --fix",
+    "lint": "eslint .",
+    "postinstall": "remix setup node && husky install",
+    "start": "remix-serve build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint:fix"
+    }
   },
   "dependencies": {
-    "@pika/react": "^16.13.1",
-    "@pika/react-dom": "^16.13.1",
-    "tailwindcss": "^1.4.0"
+    "@headlessui/react": "^1.4.2",
+    "@heroicons/react": "^1.0.5",
+    "@remix-run/react": "1.0.6",
+    "@remix-run/serve": "1.0.6",
+    "@sanity/block-content-to-react": "^3.0.0",
+    "@tailwindcss/typography": "^0.5.0",
+    "husky": "^7.0.4",
+    "react": "^17.0.2",
+    "react-colorful": "^5.5.1",
+    "react-dom": "^17.0.2",
+    "react-popper-tooltip": "^4.3.1",
+    "remix": "1.0.6",
+    "usehooks-ts": "^2.1.1"
   },
   "devDependencies": {
-    "vite": "^0.17.0",
-    "vite-plugin-react": "^2.0.0"
-  }
+    "@babel/eslint-parser": "^7.16.5",
+    "@remix-run/dev": "1.0.6",
+    "@types/react": "^17.0.24",
+    "@types/react-dom": "^17.0.9",
+    "@typescript-eslint/eslint-plugin": "^5.8.1",
+    "@typescript-eslint/parser": "^5.8.1",
+    "autoprefixer": "^10.2.4",
+    "concurrently": "^6.5.1",
+    "esbuild": "^0.14.8",
+    "eslint": "^7.8.1",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-config-sanity": "^5.0.0",
+    "eslint-import-resolver-webpack": "^0.11.1",
+    "eslint-plugin-cypress": "^2.11.2",
+    "eslint-plugin-es5": "^1.4.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.1.2",
+    "rimraf": "^3.0.2",
+    "tailwindcss": "^3.0.7",
+    "typescript": "^4.1.2"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "sideEffects": false
 }

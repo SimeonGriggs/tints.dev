@@ -1,4 +1,10 @@
-node_modules
 .DS_Store
-dist
-*.local
+node_modules
+
+/.cache
+/.mf
+/build
+/public/build
+/app/styles/output.css
+
+worker.js

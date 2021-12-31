@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+
+/* * {
+  outline: 1px solid rgba(255, 0, 0, 0.1);
+} */
+
+html {
+  scroll-behavior: smooth;
+  /* scroll-padding-top: theme('spacing.header'); */
+  scroll-padding-top: calc(theme('spacing.header') + theme('spacing.4'));
+  overflow: auto;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  -ms-font-feature-settings: 'kern' 1;
+  font-feature-settings: 'kern';
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: theme('fontWeight.normal');
+  font-display: swap;
+  src: url('/fonts/JetBrainsMono-Regular.woff2');
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: theme('fontWeight.bold');
+  font-display: swap;
+  src: url('/fonts/JetBrainsMono-Bold.woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: theme('fontWeight.normal');
+  font-display: swap;
+  src: url('/fonts/Inter-Regular.woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: theme('fontWeight.normal');
+  font-style: italic;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic.woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: theme('fontWeight.medium');
+  font-display: swap;
+  src: url('/fonts/Inter-Medium.woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: theme('fontWeight.medium');
+  font-style: italic;
+  font-display: swap;
+  src: url('/fonts/Inter-MediumItalic.woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: theme('fontWeight.bold');
+  font-display: swap;
+  src: url('/fonts/Inter-Bold.woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-weight: theme('fontWeight.bold');
+  font-style: italic;
+  font-display: swap;
+  src: url('/fonts/Inter-BoldItalic.woff2');
+}
+
+@tailwind utilities;

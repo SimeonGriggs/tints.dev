@@ -1,0 +1,12 @@
+version: '3.5'
+services:
+  remix:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - '8080:8080'
+    command: npm start
+    environment:
+      NODE_ENV: dev
+      PORT: 8080
