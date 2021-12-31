@@ -71,6 +71,7 @@ export function createPaletteMetaImageUrl(palette: PaletteConfig) {
   imageUrl.searchParams.set(`response_type`, `image`)
   imageUrl.searchParams.set(`scale_factor`, `2`)
   imageUrl.searchParams.set(`wait_for`, `#meta-image`)
+  imageUrl.searchParams.set(`fail_on_status`, `300-399,400-499,500-599`)
 
   return {
     url: imageUrl.toString(),
