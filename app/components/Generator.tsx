@@ -48,7 +48,7 @@ export default function Generator({palettes, about}: {palettes: PaletteConfig[];
       return
     }
 
-    const updatedPalettes = palettesState.filter((p, i) => p.id !== deleteId)
+    const updatedPalettes = palettesState.filter((p) => p.id !== deleteId)
 
     if (updatedPalettes.length === 1) {
       // Switch from query params to path

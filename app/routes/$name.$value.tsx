@@ -6,7 +6,7 @@ import {Block} from '~/components/PortableText'
 import {
   createCanonicalUrl,
   createPaletteFromNameValue,
-  // createPaletteMetaImageUrl,
+  createPaletteMetaImageUrl,
 } from '~/lib/responses'
 import {isHex, isValidName} from '~/lib/helpers'
 import {getSanityData} from '~/lib/sanity'
@@ -15,14 +15,14 @@ import Generator from '~/components/Generator'
 export const meta: MetaFunction = ({data}: {data: any}) => {
   const {palettes} = data
 
-  // const imageUrl = createPaletteMetaImageUrl(palettes[0])
+  const {url, width, height} = createPaletteMetaImageUrl(palettes[0])
   const canonicalUrl = createCanonicalUrl(palettes)
 
   return {
     'og:url': canonicalUrl,
-    // 'og:image:width': '1200',
-    // 'og:image:height': '630',
-    // 'og:image': imageUrl,
+    'og:image:width': width,
+    'og:image:height': height,
+    'og:image': url,
   }
 }
 

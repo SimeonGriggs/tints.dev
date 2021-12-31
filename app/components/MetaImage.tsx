@@ -15,6 +15,7 @@ export default function MetaImage({
 
   return (
     <article
+      id="meta-image"
       className="absolute inset-0 z-50 mx-auto flex flex-col justify-between overflow-hidden"
       style={{maxWidth: 1200, maxHeight: 630}}
     >

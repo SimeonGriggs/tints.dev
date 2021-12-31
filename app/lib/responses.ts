@@ -58,7 +58,25 @@ export function createCanonicalUrl(palettes: PaletteConfig[], apiUrl = false) {
 }
 
 export function createPaletteMetaImageUrl(palette: PaletteConfig) {
-  return [META.origin, palette.name, palette.value.toUpperCase(), 'meta.png'].join('/')
+  const metaImageUrl = [META.origin, palette.name, palette.value.toUpperCase(), 'meta'].join('/')
+
+  const imageWidth = `1200`
+  const imageHeight = `630`
+  const imageUrl = new URL(`https://api.apiflash.com/v1/urltoimage`)
+  imageUrl.searchParams.set(`access_key`, `20f8de307f854876a99bb1bb1efe5257`)
+  imageUrl.searchParams.set(`url`, metaImageUrl)
+  imageUrl.searchParams.set(`height`, imageHeight)
+  imageUrl.searchParams.set(`width`, imageWidth)
+  imageUrl.searchParams.set(`format`, `png`)
+  imageUrl.searchParams.set(`response_type`, `image`)
+  imageUrl.searchParams.set(`scale_factor`, `2`)
+  imageUrl.searchParams.set(`wait_for`, `#meta-image`)
+
+  return {
+    url: imageUrl.toString(),
+    width: imageWidth,
+    height: imageHeight,
+  }
 }
 
 // Turn request URL object into initial palettes

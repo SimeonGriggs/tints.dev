@@ -1,7 +1,4 @@
-import {
-  createCanonicalUrl,
-  // createPaletteMetaImageUrl
-} from './responses'
+import {createCanonicalUrl, createPaletteMetaImageUrl} from './responses'
 import {PaletteConfig} from '~/types/palette'
 
 export function handleMeta(palettes: PaletteConfig[]) {
@@ -91,11 +88,11 @@ export function handleMeta(palettes: PaletteConfig[]) {
       canonicalOGTag.setAttribute(`content`, canonicalUrl)
     }
 
-    // const metaImageTag = document.querySelector(`meta[property="og:image"]`)
+    const metaImageTag = document.querySelector(`meta[property="og:image"]`)
 
-    // if (metaImageTag) {
-    //   const metaImageUrl = createPaletteMetaImageUrl(palettes[0])
-    //   metaImageTag.setAttribute(`content`, metaImageUrl)
-    // }
+    if (metaImageTag) {
+      const {url: metaImageUrl} = createPaletteMetaImageUrl(palettes[0])
+      metaImageTag.setAttribute(`content`, metaImageUrl)
+    }
   }
 }
