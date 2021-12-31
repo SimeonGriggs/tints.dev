@@ -6,8 +6,8 @@ export interface PaletteConfig {
   value: string
   swatches: SwatchValue[]
   useLightness: boolean
-  h?: number
-  s?: number
-  lMin?: number
-  lMax?: number
+  h: number
+  s: number
+  lMin: number
+  lMax: number
 }

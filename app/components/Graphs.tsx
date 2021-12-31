@@ -53,7 +53,7 @@ export default function Graphs({palettes}: {palettes: PaletteConfig[]}) {
         </div>
       )}
       <DistributionGraph palettes={displayPalettes} />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <SquareGraph palettes={displayPalettes} graph="h" />
         <SquareGraph palettes={displayPalettes} graph="s" />
       </div>

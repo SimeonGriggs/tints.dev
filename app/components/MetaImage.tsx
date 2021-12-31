@@ -17,7 +17,10 @@ export default function MetaImage({
     <article
       id="meta-image"
       className="absolute inset-0 z-50 mx-auto flex flex-col justify-between overflow-hidden"
-      style={{maxWidth: 1200, maxHeight: 630}}
+      style={{
+        width: 1200,
+        height: 630,
+      }}
     >
       {palettes.map((palette: PaletteConfig) => (
         <div key={palette.value} className="w-full p-12 grid grid-cols-1 gap-6">
@@ -33,9 +36,11 @@ export default function MetaImage({
             </span>
           </div>
           <div className="grid grid-cols-5 gap-6 w-full text-2xl">
-            {palette.swatches.map((swatch) => (
-              <Swatch key={swatch.stop} swatch={swatch} />
-            ))}
+            {palette.swatches
+              .filter((swatch) => ![0, 1000].includes(swatch.stop))
+              .map((swatch) => (
+                <Swatch key={swatch.stop} swatch={swatch} />
+              ))}
           </div>
         </div>
       ))}

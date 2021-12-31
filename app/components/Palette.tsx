@@ -297,9 +297,11 @@ export default function Palette({
       </div>
 
       <div className="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-2 text-2xs sm:text-xs">
-        {paletteState.swatches.map((swatch) => (
-          <Swatch key={swatch.stop} swatch={swatch} />
-        ))}
+        {paletteState.swatches
+          .filter((swatch) => ![0, 1000].includes(swatch.stop))
+          .map((swatch) => (
+            <Swatch key={swatch.stop} swatch={swatch} />
+          ))}
       </div>
 
       {showGraphs && <Graphs palettes={[paletteState]} />}

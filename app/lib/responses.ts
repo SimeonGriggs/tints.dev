@@ -119,9 +119,9 @@ export function output(palettes: PaletteConfig[]) {
 
   palettes.forEach((palette) => {
     const swatches = {}
-    palette.swatches.forEach((swatch) =>
-      Object.assign(swatches, {[swatch.stop]: swatch.hex.toUpperCase()})
-    )
+    palette.swatches
+      .filter((swatch) => ![0, 1000].includes(swatch.stop))
+      .forEach((swatch) => Object.assign(swatches, {[swatch.stop]: swatch.hex.toUpperCase()}))
 
     Object.assign(shaped, {[palette.name]: swatches})
   })

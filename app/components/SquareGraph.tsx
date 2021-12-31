@@ -1,4 +1,5 @@
 import React from 'react'
+import Dot from './Dot'
 import {PaletteConfig} from '~/types/palette'
 
 const labels = {
@@ -18,24 +19,17 @@ export default function SquareGraph({
       <div className="relative rounded bg-gray-50 border border-gray-200 flex justify-between h-40 w-full">
         {palettes.map((palette) => (
           <React.Fragment key={palette.value}>
-            {palette.swatches.map((swatch) => {
-              const scaleValue = swatch[`${graph}Scale`]
-              const limitedScale =
-                scaleValue > 0 ? Math.min(scaleValue, 50) : Math.max(scaleValue, -50)
+            {palette.swatches
+              .filter((swatch) => ![0, 1000].includes(swatch.stop))
+              .map((swatch) => {
+                const scaleValue = swatch[`${graph}Scale`]
+                const limitedScale =
+                  scaleValue > 0 ? Math.min(scaleValue, 50) : Math.max(scaleValue, -50)
 
-              return (
-                <div
-                  key={swatch.stop}
-                  style={{
-                    backgroundColor: swatch.hex,
-                    transitionDelay: `${swatch.stop / 2}ms`,
-                    top: `calc(50% - ${limitedScale}%)`,
-                    left: `${100 - swatch.l}%`,
-                  }}
-                  className="transition duration-500 absolute z-10 border-2 border-white shadow rounded-full transform -translate-y-1/2 -translate-x-1/2 w-5 h-5"
-                />
-              )
-            })}
+                return (
+                  <Dot key={swatch.stop} top={`calc(50% - ${limitedScale}%)`} swatch={swatch} />
+                )
+              })}
           </React.Fragment>
         ))}
         <div
