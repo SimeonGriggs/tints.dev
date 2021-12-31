@@ -10,14 +10,16 @@ export const meta: MetaFunction = () => {
   return {
     title,
     description,
+    type: 'website',
+    'theme-color': '#2522fc',
+    'color-scheme': 'light',
     'twitter:card': 'summary_large_image',
     'twitter:creator': `@simeonGriggs`,
     'twitter:title': title,
     'twitter:description': description,
+    'og:title': title,
     'og:url': META.origin,
-    'theme-color': '#2522fc',
-    'color-scheme': 'light',
-    type: 'website',
+    'og:type': 'website',
   }
 }
 

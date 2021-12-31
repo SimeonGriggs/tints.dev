@@ -62,7 +62,6 @@ export function handleMeta(palettes: PaletteConfig[]) {
   // Update meta tags
   if (typeof window !== 'undefined') {
     const metaTitleTag = document.querySelector(`meta[name="twitter:title"]`)
-    // const metaDescription = document.querySelector(`meta[name="description"]`)
 
     if (metaTitleTag) {
       metaTitleTag.setAttribute(`content`, documentTitle)
@@ -82,17 +81,23 @@ export function handleMeta(palettes: PaletteConfig[]) {
       canonicalLinkTag.setAttribute(`href`, canonicalUrl)
     }
 
-    const canonicalOGTag = document.querySelector(`meta[property="og:url"]`)
+    const ogUrlTag = document.querySelector(`meta[property="og:url"]`)
 
-    if (canonicalOGTag) {
-      canonicalOGTag.setAttribute(`content`, canonicalUrl)
+    if (ogUrlTag) {
+      ogUrlTag.setAttribute(`content`, canonicalUrl)
     }
 
-    const metaImageTag = document.querySelector(`meta[property="og:image"]`)
+    const ogTitleTag = document.querySelector(`meta[property="og:title"]`)
 
-    if (metaImageTag) {
+    if (ogTitleTag) {
+      ogTitleTag.setAttribute(`content`, canonicalUrl)
+    }
+
+    const ogImageTag = document.querySelector(`meta[property="og:image"]`)
+
+    if (ogImageTag) {
       const {url: metaImageUrl} = createPaletteMetaImageUrl(palettes[0])
-      metaImageTag.setAttribute(`content`, metaImageUrl)
+      ogImageTag.setAttribute(`content`, metaImageUrl)
     }
   }
 }
