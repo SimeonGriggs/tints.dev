@@ -1,3 +1,5 @@
+import {nanoid} from 'nanoid'
+
 import {createDistributionValues, createHueScale, createSaturationScale} from './scales'
 import {PaletteConfig} from '~/types/palette'
 import {DEFAULT_PALETTE_CONFIG, RANDOM_PALETTES} from '~/lib/constants'
@@ -236,15 +238,16 @@ export function createRandomPalette(currentValues: string[] = []) {
       : true
   )
 
-  const nameValue = {
+  const defaults = {
+    id: nanoid(),
     ...randomsWithoutCurrentValues[Math.floor(Math.random() * randomsWithoutCurrentValues.length)],
     useLightness: DEFAULT_PALETTE_CONFIG.useLightness,
     swatches: [],
   }
 
   const palette = {
-    ...nameValue,
-    swatches: createSwatches(nameValue),
+    ...defaults,
+    swatches: createSwatches(defaults),
   }
 
   return palette

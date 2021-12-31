@@ -1,6 +1,7 @@
 import type {SwatchValue} from './SwatchValue'
 
 export interface PaletteConfig {
+  id: string
   name: string
   value: string
   swatches: SwatchValue[]

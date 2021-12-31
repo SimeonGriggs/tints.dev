@@ -1,13 +1,22 @@
+import {nanoid} from 'nanoid'
+
 import {PaletteConfig} from '~/types/palette'
-import {createRandomPalette, createSwatches, isHex, removeTrailingSlash} from '~/lib/helpers'
+import {
+  createRandomPalette,
+  createSwatches,
+  isHex,
+  isValidName,
+  removeTrailingSlash,
+} from '~/lib/helpers'
 import {DEFAULT_PALETTE_CONFIG, META} from '~/lib/constants'
 
 export function createPaletteFromNameValue(name: string, value: string) {
-  if (!name || !value || !isHex(value)) {
+  if (!name || !isValidName(name) || !value || !isHex(value)) {
     return null
   }
 
   const nameValue = {
+    id: nanoid(),
     name,
     value: value.toUpperCase(),
     useLightness: DEFAULT_PALETTE_CONFIG.useLightness,

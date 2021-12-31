@@ -9,7 +9,6 @@ import {createRandomPalette} from '~/lib/helpers'
 import {convertParamsToPath, removeSearchParamByKey} from '~/lib/history'
 import {Block, PortableText} from '~/components/PortableText'
 import {handleMeta} from '~/lib/meta'
-import {createPaletteFromNameValue} from '~/lib/responses'
 
 export default function Generator({palettes, about}: {palettes: PaletteConfig[]; about: Block[]}) {
   const [palettesState, setPalettesState] = useState(palettes)
@@ -44,19 +43,19 @@ export default function Generator({palettes, about}: {palettes: PaletteConfig[];
     setPalettesState(currentPalettes)
   }
 
-  const handleDelete = (deleteIndex: number) => {
+  const handleDelete = (deleteId: string, deleteName: string) => {
     if (palettesState.length === 1) {
       return
     }
 
-    const updatedPalettes = palettesState.filter((p, i) => i !== deleteIndex)
+    const updatedPalettes = palettesState.filter((p, i) => p.id !== deleteId)
 
     if (updatedPalettes.length === 1) {
       // Switch from query params to path
       convertParamsToPath(updatedPalettes)
     } else {
       // Update query params
-      removeSearchParamByKey(palettesState[deleteIndex].name)
+      removeSearchParamByKey(deleteName)
     }
 
     setPalettesState(updatedPalettes)
@@ -78,11 +77,13 @@ export default function Generator({palettes, about}: {palettes: PaletteConfig[];
 
       <section className="grid grid-cols-1 p-4 gap-y-12 container mx-auto">
         {palettesState.map((palette: PaletteConfig, index: number) => (
-          <React.Fragment key={palette.value}>
+          <React.Fragment key={palette.id}>
             <Palette
               palette={palette}
               updateGlobal={(updatedPalette: PaletteConfig) => handleUpdate(updatedPalette, index)}
-              deleteGlobal={palettesState.length <= 1 ? undefined : () => handleDelete(index)}
+              deleteGlobal={
+                palettesState.length <= 1 ? undefined : () => handleDelete(palette.id, palette.name)
+              }
             />
             <div className="border-t border-gray-200" />
           </React.Fragment>
