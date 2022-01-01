@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useMemo} from 'react'
 
 import Header from './Header'
 import type {PaletteConfig} from '~/types/palette'
+import Demo from '~/components/Demo'
 import Palette from '~/components/Palette'
 import Graphs from '~/components/Graphs'
 import Output from '~/components/Output'
@@ -9,13 +10,31 @@ import {createRandomPalette} from '~/lib/helpers'
 import {convertParamsToPath, removeSearchParamByKey} from '~/lib/history'
 import {Block, PortableText} from '~/components/PortableText'
 import {handleMeta} from '~/lib/meta'
+import {usePrevious} from '~/lib/hooks'
 
 export default function Generator({palettes, about}: {palettes: PaletteConfig[]; about: Block[]}) {
   const [palettesState, setPalettesState] = useState(palettes)
+  const [showDemo, setShowDemo] = useState(false)
+  const previousPalettes: undefined | PaletteConfig[] = usePrevious(palettesState)
 
-  // Update document title on change
+  // Update document meta on each state change
   useEffect(() => {
-    handleMeta(palettesState)
+    // Push changes to history if the value changed
+    // TODO: Fix this TS nonsense
+    const previousValues = previousPalettes?.length
+      ? previousPalettes
+          .map(({value}) => value.toUpperCase())
+          .sort()
+          .join('')
+      : ``
+    const currentValues = palettesState
+      .map(({value}) => value.toUpperCase())
+      .sort()
+      .join('')
+
+    const valuesChanged = Boolean(previousValues && previousValues !== currentValues)
+
+    handleMeta(palettesState, valuesChanged)
   }, [palettesState])
 
   const handleNew = () => {
@@ -35,6 +54,8 @@ export default function Generator({palettes, about}: {palettes: PaletteConfig[];
       }, 50)
     }
   }
+
+  const handleDemo = () => setShowDemo(!showDemo)
 
   const handleUpdate = (palette: PaletteConfig, index: number) => {
     const currentPalettes = [...palettesState]
@@ -61,19 +82,23 @@ export default function Generator({palettes, about}: {palettes: PaletteConfig[];
     setPalettesState(updatedPalettes)
   }
 
-  const styleString = [
-    `:root { --color-primary: 255 115 179; }`,
-    `:root {`,
-    `--second: ${palettesState[0].swatches[6].hex};`,
-    ...palettesState[0].swatches.map((swatch) => `--first-${swatch.stop}: ${swatch.hex};`),
-    `}`,
-  ].join(`\n`)
+  const styleString = useMemo(
+    () =>
+      [
+        `:root {`,
+        ...palettesState[0].swatches.map((swatch) => `--first-${swatch.stop}: ${swatch.hex};`),
+        `}`,
+      ].join(`\n`),
+    [palettesState]
+  )
 
   return (
     <main className="pb-32 pt-header">
       <style>{styleString}</style>
 
-      <Header handleNew={handleNew} />
+      <Header handleNew={handleNew} handleDemo={handleDemo} />
+
+      {showDemo ? <Demo palettes={palettesState} close={handleDemo} /> : null}
 
       <section className="grid grid-cols-1 p-4 gap-y-12 container mx-auto">
         {palettesState.map((palette: PaletteConfig, index: number) => (

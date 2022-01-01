@@ -1,7 +1,7 @@
 import {createCanonicalUrl, createPaletteMetaImageUrl} from './responses'
 import {PaletteConfig} from '~/types/palette'
 
-export function handleMeta(palettes: PaletteConfig[]) {
+export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
   if (!palettes.length) {
     return
   }
@@ -56,7 +56,11 @@ export function handleMeta(palettes: PaletteConfig[]) {
     }
 
     // Update without pushing to history
-    window.history.replaceState({}, '', currentUrl.toString())
+    if (updateHistory) {
+      window.history.pushState({}, '', currentUrl.toString())
+    } else {
+      window.history.replaceState({}, '', currentUrl.toString())
+    }
   }
 
   // Update meta tags

@@ -17,9 +17,9 @@ export function createPaletteFromNameValue(name: string, value: string) {
 
   const nameValue = {
     id: nanoid(),
+    ...DEFAULT_PALETTE_CONFIG,
     name,
     value: value.toUpperCase(),
-    useLightness: DEFAULT_PALETTE_CONFIG.useLightness,
     swatches: [],
   }
 

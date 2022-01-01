@@ -10,7 +10,15 @@ const dotClasses = {
   ends: `w-1 h-6`,
 }
 
-export default function Dot({swatch, top}: {swatch: SwatchValue; top: number | string}) {
+export default function Dot({
+  swatch,
+  top,
+  highlight = 'l',
+}: {
+  swatch: SwatchValue
+  top: number | string
+  highlight: 'h' | 's' | 'l'
+}) {
   const {getArrowProps, getTooltipProps, setTooltipRef, setTriggerRef, visible} = usePopperTooltip()
 
   const classNames = [dotClasses.common]
@@ -38,7 +46,7 @@ export default function Dot({swatch, top}: {swatch: SwatchValue; top: number | s
         <div
           ref={setTooltipRef}
           {...getTooltipProps({
-            className: `w-12 text-center z-50 bg-white p-2 rounded shadow text-xs font-medium`,
+            className: `w-20 text-center z-50 bg-white p-2 rounded shadow text-xs md:text-sm font-mono`,
           })}
         >
           <div
@@ -47,7 +55,16 @@ export default function Dot({swatch, top}: {swatch: SwatchValue; top: number | s
               style: {clipPath: `polygon(50% 0%, 0% 100%, 100% 100%)`},
             })}
           />
-          {[0, 1000].includes(swatch.stop) ? `"${swatch.stop}"` : swatch.stop}
+          {[0, 1000].includes(swatch.stop) ? (
+            `"${swatch.stop}"`
+          ) : (
+            <span className="flex flex-col">
+              <span className="text-gray-900">{swatch.stop}</span>
+              <span className="text-gray-600">
+                {highlight.toUpperCase()}:{swatch[highlight]}
+              </span>
+            </span>
+          )}
         </div>
       )}
     </>

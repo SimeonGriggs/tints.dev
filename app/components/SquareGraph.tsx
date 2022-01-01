@@ -27,7 +27,12 @@ export default function SquareGraph({
                   scaleValue > 0 ? Math.min(scaleValue, 50) : Math.max(scaleValue, -50)
 
                 return (
-                  <Dot key={swatch.stop} top={`calc(50% - ${limitedScale}%)`} swatch={swatch} />
+                  <Dot
+                    key={swatch.stop}
+                    top={`calc(50% - ${limitedScale}%)`}
+                    swatch={swatch}
+                    highlight={graph}
+                  />
                 )
               })}
           </React.Fragment>

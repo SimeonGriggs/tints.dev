@@ -43,7 +43,7 @@ const paletteInputs = [
   },
   {
     name: `value`,
-    title: `Value`,
+    title: `Value (Swatch 500)`,
     value: ``,
     min: 6,
     max: 6,

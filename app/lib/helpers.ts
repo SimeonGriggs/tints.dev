@@ -17,6 +17,7 @@ export function luminanceFromHex(H: string) {
   return round(luminanceFromRGB(...Object.values(hexToRGB(H))), 2)
 }
 
+// TODO: Even out this function, luminance values aren't linear/good
 export function lightnessFromHSLum(H: number, S: number, Lum: number) {
   const vals = {}
   for (let L = 99; L >= 0; L--) {
@@ -195,7 +196,7 @@ export function createSwatches(palette: PaletteConfig) {
   const lightnessValue = useLightness ? valueL : luminanceFromHex(value)
   const distributionScale = createDistributionValues(lMin, lMax, lightnessValue)
 
-  const swatches = hueScale.map(({key, tweak}, i) => {
+  const swatches = hueScale.map(({key}, i) => {
     // Hue value must be between 0-360
     // todo: fix this inside the function
     let newH = valueH + hueScale[i].tweak
@@ -240,8 +241,8 @@ export function createRandomPalette(currentValues: string[] = []) {
 
   const defaults = {
     id: nanoid(),
+    ...DEFAULT_PALETTE_CONFIG,
     ...randomsWithoutCurrentValues[Math.floor(Math.random() * randomsWithoutCurrentValues.length)],
-    useLightness: DEFAULT_PALETTE_CONFIG.useLightness,
     swatches: [],
   }
 
