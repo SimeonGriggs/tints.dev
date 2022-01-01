@@ -65,10 +65,7 @@ export default function Palette({
   deleteGlobal: React.MouseEvent<HTMLElement> | undefined
 }) {
   const [paletteState, setPaletteState] = useState({
-    h: DEFAULT_PALETTE_CONFIG.h,
-    s: DEFAULT_PALETTE_CONFIG.s,
-    lMin: DEFAULT_PALETTE_CONFIG.lMin,
-    lMax: DEFAULT_PALETTE_CONFIG.lMax,
+    ...DEFAULT_PALETTE_CONFIG,
     ...palette,
     swatches: palette.swatches ?? createSwatches(palette),
   })
@@ -212,12 +209,19 @@ export default function Palette({
         ))}
         <div className="col-span-4 sm:col-span-1 p-2 border border-dashed border-gray-200 flex flex-wrap lg:flex-nowrap items-center justify-center gap-2">
           <ButtonIcon
+            testId="paletteCopy"
             title="Copy this Palette's URL to clipboard"
             onClick={handleCopyURL}
             icon={LinkIcon}
           />
-          <ButtonIcon title="Open this Palette's API URL" onClick={handleOpenAPI} icon={CodeIcon} />
           <ButtonIcon
+            testId="paletteApi"
+            title="Open this Palette's API URL"
+            onClick={handleOpenAPI}
+            icon={CodeIcon}
+          />
+          <ButtonIcon
+            testId="paletteGraphs"
             tone="success"
             onClick={() => setShowGraphs(!showGraphs)}
             tabIndex={-1}
@@ -226,6 +230,7 @@ export default function Palette({
             icon={AdjustmentsIcon}
           />
           <ButtonIcon
+            testId="paletteDelete"
             tone="danger"
             onClick={typeof deleteGlobal === 'function' ? deleteGlobal : undefined}
             disabled={Boolean(!deleteGlobal)}

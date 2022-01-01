@@ -1,4 +1,5 @@
 import {createCanonicalUrl, createPaletteMetaImageUrl} from './responses'
+import {titleCase} from './helpers'
 import {PaletteConfig} from '~/types/palette'
 
 export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
@@ -11,7 +12,7 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
   const paletteNames = palettes
     .map(({name}) => name)
     .reduce((acc, cur, curIndex, arr) => {
-      const curTitleCase = cur.charAt(0).toUpperCase() + cur.slice(1)
+      const curTitleCase = titleCase(cur)
 
       // Last name
       if (curIndex === arr.length - 1) {
@@ -75,7 +76,7 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
     const themeColorValue = palettes[0].swatches.find((swatch) => swatch.stop === 500)?.hex
 
     if (themeColorTag && themeColorValue) {
-      themeColorTag.setAttribute(`content`, themeColorValue)
+      themeColorTag.setAttribute(`content`, themeColorValue.toUpperCase())
     }
 
     const canonicalLinkTag = document.querySelector(`link[rel="canonical"]`)
@@ -94,7 +95,7 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
     const ogTitleTag = document.querySelector(`meta[property="og:title"]`)
 
     if (ogTitleTag) {
-      ogTitleTag.setAttribute(`content`, canonicalUrl)
+      ogTitleTag.setAttribute(`content`, documentTitle)
     }
 
     const ogImageTag = document.querySelector(`meta[property="og:image"]`)

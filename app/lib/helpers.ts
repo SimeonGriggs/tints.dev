@@ -217,9 +217,10 @@ export function createSwatches(palette: PaletteConfig) {
     const paletteI = key
 
     return {
-      // Used to display swatches
       stop: paletteI,
-      hex: newHex,
+      // Sometimes the initial value is changed slightly during conversion,
+      // overriding that with the original value
+      hex: paletteI === 500 ? `#${palette.value.toUpperCase()}` : newHex.toUpperCase(),
       // Used in graphs
       h: newH,
       hScale: hueScale[i].tweak,
@@ -256,4 +257,8 @@ export function createRandomPalette(currentValues: string[] = []) {
 
 export function removeTrailingSlash(s: string) {
   return s.endsWith('/') ? s.slice(0, -1) : s
+}
+
+export function titleCase(s: string) {
+  return s.charAt(0).toUpperCase() + s.slice(1)
 }

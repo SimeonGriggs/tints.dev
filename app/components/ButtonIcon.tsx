@@ -21,6 +21,7 @@ export default function ButtonIcon({
   onClick,
   icon,
   href = ``,
+  testId = ``,
   disabled = false,
   selected = false,
   tone = 'success',
@@ -29,6 +30,7 @@ export default function ButtonIcon({
   title: string
   icon: ReactNode
   href?: string
+  testId?: string
   onClick?: MouseEventHandler | undefined
   disabled?: boolean
   selected?: boolean
@@ -48,6 +50,7 @@ export default function ButtonIcon({
   if (href) {
     return (
       <a
+        data-test={testId}
         href={href}
         className={className}
         tabIndex={tabIndex}
@@ -66,6 +69,7 @@ export default function ButtonIcon({
   return (
     <>
       <button
+        data-test={testId}
         ref={setTriggerRef}
         type="button"
         className={className}

@@ -3,6 +3,7 @@ import {HexColorPicker} from 'react-colorful'
 import {useDebounce} from 'usehooks-ts'
 import {Popover} from '@headlessui/react'
 import {ColorSwatchIcon, XIcon} from '@heroicons/react/solid'
+import Button from './Button'
 
 export default function ColorPicker({
   color,
@@ -30,19 +31,16 @@ export default function ColorPicker({
 
       <Popover.Panel className="absolute right-0 z-50 bg-white shadow p-1 translate-y-1">
         {({close}) => (
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col items-center justify-center gap-2">
             <HexColorPicker
               color={value.startsWith(`#`) ? value : `#${value}`}
               onChange={setValue}
             />
-            <button
-              className="flex items-center justify-center text-xs font-bold p-2"
-              type="button"
-              onClick={() => close()}
-            >
+
+            <Button id="closePicker" onClick={() => close()}>
               <XIcon className="w-4 h-auto" />
-              Close
-            </button>
+              Close Picker
+            </Button>
           </div>
         )}
       </Popover.Panel>
