@@ -239,8 +239,8 @@ export function createRandomPalette(currentValues: string[] = []) {
   )
 
   const defaults = {
-    id: nanoid(),
     ...DEFAULT_PALETTE_CONFIG,
+    id: nanoid(),
     ...randomsWithoutCurrentValues[Math.floor(Math.random() * randomsWithoutCurrentValues.length)],
     swatches: [],
   }
@@ -259,4 +259,26 @@ export function removeTrailingSlash(s: string) {
 
 export function titleCase(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1)
+}
+
+export function arrayObjectDiff(before: PaletteConfig[], current: PaletteConfig[]) {
+  const defaultKeys = Object.keys(DEFAULT_PALETTE_CONFIG)
+
+  const changedKeys: (string | null)[] = defaultKeys
+    .map((key: string) => {
+      const beforeValues = before
+        .map((p) => p[key])
+        .sort()
+        .join()
+
+      const currentValues = current
+        .map((p) => p[key])
+        .sort()
+        .join()
+
+      return beforeValues === currentValues ? null : key
+    })
+    .filter(Boolean)
+
+  return changedKeys
 }

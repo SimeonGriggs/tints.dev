@@ -16,8 +16,8 @@ export function createPaletteFromNameValue(name: string, value: string) {
   }
 
   const nameValue = {
-    id: nanoid(),
     ...DEFAULT_PALETTE_CONFIG,
+    id: nanoid(),
     name,
     value: value.toUpperCase(),
     swatches: [],

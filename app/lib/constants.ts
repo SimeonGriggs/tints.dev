@@ -1,4 +1,7 @@
 export const DEFAULT_PALETTE_CONFIG = {
+  id: ``,
+  name: ``,
+  value: ``,
   h: 0,
   s: 0,
   lMin: 0,

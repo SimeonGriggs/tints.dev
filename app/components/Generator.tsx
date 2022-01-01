@@ -6,7 +6,7 @@ import Demo from '~/components/Demo'
 import Palette from '~/components/Palette'
 import Graphs from '~/components/Graphs'
 import Output from '~/components/Output'
-import {createRandomPalette} from '~/lib/helpers'
+import {arrayObjectDiff, createRandomPalette} from '~/lib/helpers'
 import {convertParamsToPath, removeSearchParamByKey} from '~/lib/history'
 import {Block, PortableText} from '~/components/PortableText'
 import {handleMeta} from '~/lib/meta'
@@ -17,24 +17,18 @@ export default function Generator({palettes, about}: {palettes: PaletteConfig[];
   const [showDemo, setShowDemo] = useState(false)
   const previousPalettes: undefined | PaletteConfig[] = usePrevious(palettesState)
 
-  // Update document meta on each state change
+  // Maybe update document meta on each state change
+  // Initially it seemed like a good idea to handle this globally as a side-effect
+  // ...but now I'm less sure
   useEffect(() => {
-    // Push changes to history if the value changed
-    // TODO: Fix this TS nonsense
-    const previousValues = previousPalettes?.length
-      ? previousPalettes
-          .map(({value}) => value.toUpperCase())
-          .sort()
-          .join('')
-      : ``
-    const currentValues = palettesState
-      .map(({value}) => value.toUpperCase())
-      .sort()
-      .join('')
+    // Only update meta if the `name` or `value` changed between renders
+    // Or if it's the first render
+    const keysChanged = previousPalettes ? arrayObjectDiff(previousPalettes, palettesState) : []
 
-    const valuesChanged = Boolean(previousValues && previousValues !== currentValues)
-
-    handleMeta(palettesState, valuesChanged)
+    if (!previousPalettes || keysChanged.includes(`value`) || keysChanged.includes(`name`)) {
+      // Only update history if the `value` changed
+      handleMeta(palettesState, keysChanged.includes(`value`))
+    }
   }, [palettesState])
 
   const handleNew = () => {
