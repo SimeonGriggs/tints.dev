@@ -1,7 +1,7 @@
 import React, {MouseEventHandler, ReactNode} from 'react'
 import {usePopperTooltip} from 'react-popper-tooltip'
 
-const classNames = `border p-1 transition-colors duration-100 rounded`
+const classNames = `border p-1 transition-colors duration-200 rounded`
 const disabledClassNames = `bg-gray-100 border-gray-200 text-gray-200 cursor-not-allowed pointer-events-none`
 const toneClassNames = {
   danger: `border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-500 hover:bg-red-100`,

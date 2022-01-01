@@ -7,8 +7,6 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
     return
   }
 
-  console.log(`handling meta`, updateHistory)
-
   // Generate a nice title for the colors
   // [blue, green, orange] => "Blue, Green & Orange"
   const paletteNames = palettes
@@ -57,8 +55,6 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
       })
       currentUrl.pathname = ``
     }
-
-    console.log(`updating history`)
 
     // Update without pushing to history
     if (updateHistory) {

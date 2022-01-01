@@ -29,7 +29,7 @@ export default function ColorPicker({
         <span className="sr-only">Open Color Picker</span>
       </Popover.Button>
 
-      <Popover.Panel className="absolute right-0 z-50 bg-white shadow p-1 translate-y-1">
+      <Popover.Panel className="absolute right-0 z-50 bg-white rounded-lg shadow p-1 pb-2 translate-y-1">
         {({close}) => (
           <div className="flex flex-col items-center justify-center gap-2">
             <HexColorPicker

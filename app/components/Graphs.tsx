@@ -44,7 +44,7 @@ export default function Graphs({palettes}: {palettes: PaletteConfig[]}) {
                 <span
                   className={`${
                     hiddenValues.includes(palette.value) ? 'translate-x-1' : 'translate-x-6'
-                  } transition-transform duration-100 inline-block w-4 h-4 transform bg-white rounded-full`}
+                  } transition-transform duration-200 inline-block w-4 h-4 transform bg-white rounded-full`}
                 />
               </Switch>
               <span className="text-xs text-gray-600 font-bold">{palette.name}</span>

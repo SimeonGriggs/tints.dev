@@ -53,7 +53,7 @@ const paletteInputs = [
 ]
 
 const inputClasses = `w-full p-2 border border-gray-200 bg-gray-50 text-gray-800 focus:outline-none focus:ring focus:bg-gray-100 focus:border-gray-300 invalid:border-red-500 invalid:bg-red-100`
-const labelClasses = `transition-color duration-100 text-xs font-bold`
+const labelClasses = `transition-color duration-200 text-xs font-bold`
 
 export default function Palette({
   palette,
@@ -294,7 +294,7 @@ export default function Palette({
             <span
               className={`${
                 paletteState.useLightness ? 'translate-x-6' : 'translate-x-1'
-              } transition-transform duration-100 inline-block w-4 h-4 transform bg-white rounded-full`}
+              } transition-transform duration-200 inline-block w-4 h-4 transform bg-white rounded-full`}
             />
           </Switch>
           <span
