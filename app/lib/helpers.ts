@@ -155,13 +155,11 @@ export function HSLToHex(h, s, l) {
 }
 
 export function isHex(value: string) {
-  if (value.length === 6 && !value.startsWith(`#`)) {
-    value = `#${value}`
-  }
+  const valueHex = value.length === 6 && !value.startsWith(`#`) ? `#${value}` : value
 
   const re = new RegExp(/^#[0-9A-F]{6}$/i)
 
-  return re.test(value.toUpperCase())
+  return re.test(valueHex.toUpperCase())
 }
 
 export function isValidName(name: string) {

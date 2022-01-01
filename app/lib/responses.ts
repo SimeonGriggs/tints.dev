@@ -95,7 +95,6 @@ export function requestToPalettes(url: string) {
   if (Array.from(palettesParams.keys()).length) {
     palettesParams.forEach((value, key) => {
       if (isHex(value)) {
-        // TODO: Sanitize inputs
         const palette = createPaletteFromNameValue(key, value)
 
         if (palette) {

@@ -207,7 +207,7 @@ export default function Palette({
                   <ColorPicker
                     color={paletteState.value}
                     onChange={handleColorPickerChange}
-                    ringStyle={{ringStyle}}
+                    ringStyle={ringStyle}
                   />
                 </>
               ) : null}

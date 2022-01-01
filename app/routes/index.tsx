@@ -16,7 +16,8 @@ export const loader: LoaderFunction = async ({request}) => {
 
 export default function Index() {
   // TODO: Pull from local storage if no query string provided (and override random)
-  const {palettes, about}: {palettes: PaletteConfig[]; about: Block[]} = useLoaderData()
+  const data = useLoaderData()
+  const {palettes, about}: {palettes: PaletteConfig[]; about: Block[]} = data ?? {}
 
-  return <Generator palettes={palettes} about={about} />
+  return palettes?.length ? <Generator palettes={palettes} about={about} /> : null
 }

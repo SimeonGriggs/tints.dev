@@ -1,9 +1,9 @@
 import type {LoaderFunction} from 'remix'
-import {isHex} from '~/lib/helpers'
+import {isHex, isValidName} from '~/lib/helpers'
 import {createPaletteFromNameValue, output} from '~/lib/responses'
 
 export const loader: LoaderFunction = ({params}) => {
-  if (!params?.name || !params?.value || !isHex(params?.value)) {
+  if (!params?.name || !isValidName(params.name) || !params?.value || !isHex(params.value)) {
     throw new Response(`Not Found`, {
       status: 404,
     })
