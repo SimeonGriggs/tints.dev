@@ -78,6 +78,13 @@ export default function Palette({
   }, [paletteState])
 
   function updateName(name: string) {
+    // Remove current search param
+    if (typeof window !== 'undefined') {
+      const currentUrl = new URL(window.location.href)
+      currentUrl.searchParams.delete(paletteState.name)
+      window.history.replaceState({}, '', currentUrl.toString())
+    }
+
     setPaletteState({
       ...paletteState,
       name,
