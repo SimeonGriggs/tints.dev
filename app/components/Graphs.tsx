@@ -24,7 +24,7 @@ export default function Graphs({palettes}: {palettes: PaletteConfig[]}) {
   return (
     <div className="grid grid-cols-1 gap-4">
       {palettes.length > 1 && (
-        <div className="flex justify-center items-center gap-2">
+        <div className="flex justify-center items-center gap-2 md:gap-4">
           {palettes.map((palette) => (
             <div key={palette.value} className="flex items-center gap-1">
               <Switch

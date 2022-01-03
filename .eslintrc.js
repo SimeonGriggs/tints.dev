@@ -46,6 +46,7 @@ module.exports = {
       rules: {
         'no-undef': 'off',
         'react/react-in-jsx-scope': 'off',
+        'react/jsx-no-bind': 'off',
 
         // No more prop-types
         'react/prop-types': 'off',

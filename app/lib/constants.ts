@@ -26,10 +26,10 @@ export const RANDOM_PALETTES = [
     name: `purple`,
     value: `A855F7`,
   },
-  {
-    name: `yellow`,
-    value: `EAB308`,
-  },
+  // {
+  //   name: `yellow`,
+  //   value: `EAB308`,
+  // },
   {
     name: `brand`,
     value: `2522FC`,

@@ -8,3 +8,5 @@ node_modules
 /app/styles/output.css
 
 worker.js
+
+cypress/videos

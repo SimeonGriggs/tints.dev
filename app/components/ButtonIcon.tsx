@@ -31,7 +31,7 @@ export default function ButtonIcon({
   icon: ReactNode
   href?: string
   testId?: string
-  onClick?: MouseEventHandler | undefined
+  onClick?: Function | undefined
   disabled?: boolean
   selected?: boolean
   tone?: 'danger' | 'success'

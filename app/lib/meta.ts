@@ -9,26 +9,11 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
 
   // Generate a nice title for the colors
   // [blue, green, orange] => "Blue, Green & Orange"
-  const paletteNames = palettes
-    .map(({name}) => name)
-    .reduce((acc, cur, curIndex, arr) => {
-      const curTitleCase = titleCase(cur)
-
-      // Last name
-      if (curIndex === arr.length - 1) {
-        return `${acc} ${curTitleCase}`
-      }
-
-      // Second last name
-      if (curIndex === arr.length - 2) {
-        return acc ? `${acc} ${curTitleCase} &` : `${curTitleCase} &`
-      }
-
-      return acc ? `${acc} ${curTitleCase},` : `${curTitleCase},`
-    }, ``)
+  const paletteNames = palettes.map(({name}) => titleCase(name))
+  const paletteTitle = new Intl.ListFormat('en').format(paletteNames)
 
   const documentTitle = [
-    paletteNames,
+    paletteTitle,
     `10-Color`,
     palettes.length === 1 ? `Palette` : `Palettes`,
     `for Tailwind CSS`,

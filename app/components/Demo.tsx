@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import {MoonIcon, SparklesIcon, SunIcon, XIcon} from '@heroicons/react/solid'
+import {MoonIcon, SparklesIcon, StarIcon, SunIcon, XIcon} from '@heroicons/react/solid'
 import Button from './Button'
 import {PaletteConfig} from '~/types/palette'
 
@@ -22,13 +22,13 @@ export default function Demo({close, palettes}: {close: Function; palettes: Pale
       {/* Demo container */}
       <div
         className={[
-          `relative container mx-auto border-gray-800 border-[16px] border-b-0 pb-0 rounded-t-3xl overflow-hidden grid grid-cols-1 md:grid-cols-3 md:min-h-[50vh] pointer-events-auto`,
-          darkMode ? `dark bg-first-900` : `bg-white`,
+          `relative container mx-auto border-gray-800 border-[16px] border-b-0 pb-0 rounded-t-3xl overflow-hidden grid grid-cols-1 md:grid-cols-3 md:min-h-[50vh] pointer-events-auto bg-gradient-to-b`,
+          darkMode ? `dark from-first-800 to-first-900` : `from-white to-first-100`,
         ].join(` `)}
       >
         <div className="absolute z-10 p-4 md:p-12">
           <button
-            className="bg-white rounded-full p-2 text-first-500 hover:bg-first-500 hover:text-white transition-colors duration-200"
+            className={`rounded-full p-2 bg-white dark:bg-first-900 text-first-500 hover:bg-first-500 hover:text-white transition-colors duration-200`}
             type="button"
             onClick={() => setDarkMode(!darkMode)}
           >
@@ -45,8 +45,8 @@ export default function Demo({close, palettes}: {close: Function; palettes: Pale
           alt=""
         />
 
-        <div className="md:col-span-2 md:col-start-2 p-4 md:p-12 flex flex-col items-start gap-2">
-          <div className="bg-first-50 text-first-500 dark:bg-first-800 dark:text-first-100 text-xs leading-none font-bold inline-flex items-center gap-2 rounded-full py-1.5 px-2">
+        <div className="md:col-span-2 md:col-start-2 p-4 md:p-12 flex flex-col items-start gap-4 md:gap-8">
+          <div className="bg-first-100 text-first-500 dark:bg-first-900 dark:text-first-100 text-xs leading-none font-bold inline-flex items-center gap-2 rounded-full py-1.5 px-2">
             <SparklesIcon className="w-3 h-auto" />
             Early Access
           </div>
@@ -55,17 +55,53 @@ export default function Demo({close, palettes}: {close: Function; palettes: Pale
             The tastiest demos
           </h2>
 
-          <p className="text-gray-600 dark:text-first-50 md:text-lg max-w-sm py-2 md:py-6">
-            This feature could do with some work. It's currently a placeholder. Future versions
-            would let you see multi-color Palettes in different designs.
-          </p>
-
-          <div className="flex items-center justify-start gap-2">
-            <div className="py-3 px-4 leading-none rounded-lg bg-first-500 border border-first-500 text-white font-bold text-sm transition-colors duration-200 hover:cursor-pointer hover:bg-first-100 hover:border-first-200 hover:text-first-600">
-              Explore
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+            <div className="flex flex-col md:col-span-1 lg:col-span-2">
+              <p className="text-gray-600 dark:text-first-50 md:text-lg max-w-sm mb-4">
+                This feature could do with some work. It's currently a placeholder.
+              </p>
+              <div className="flex items-center justify-start gap-2">
+                <div className="py-3 px-4 leading-none rounded bg-first-500 text-white font-bold text-sm transition-colors duration-200 hover:cursor-pointer hover:bg-first-100 hover:text-first-600">
+                  Explore
+                </div>
+                <div className="py-3 px-4 leading-none rounded bg-white text-first-500 font-bold text-sm transition-colors duration-200 hover:cursor-pointer hover:bg-first-100 hover:text-first-600">
+                  About
+                </div>
+              </div>
             </div>
-            <div className="py-3 px-4 leading-none rounded-lg bg-white border border-first-300 text-first-500 font-bold text-sm transition-colors duration-200 hover:cursor-pointer hover:bg-first-100 hover:border-first-200 hover:text-first-600">
-              About
+
+            <div className="md:col-span-2 lg:col-span-3">
+              <div className="grid grid-cols-1 gap-2 rounded-xl bg-first-500 text-white p-2 shadow-first-200 dark:shadow-first-900 shadow-lg">
+                <div className="flex gap-4">
+                  <div className="flex-1 flex flex-col gap-1 p-2">
+                    <span className="text-3xl tracking-tight leading-none">99.99%</span>
+                    <span className="text-xs font-bold text-first-100">Uptime</span>
+                  </div>
+                  <div className="flex-1 flex flex-col gap-1 p-2">
+                    <span className="text-3xl tracking-tight leading-none">$159m</span>
+                    <span className="text-xs font-bold text-first-100">Funding</span>
+                  </div>
+                  <div className="flex-1 hidden lg:flex flex-col gap-1 p-2">
+                    <span className="text-3xl tracking-tight leading-none">5,000</span>
+                    <span className="text-xs font-bold text-first-100">Features</span>
+                  </div>
+                </div>
+                <div className="bg-first-700 p-2 rounded-lg">
+                  <div className="flex flex-col gap-1 p-2">
+                    <div className="flex items-center text-first-100 mb-2">
+                      <StarIcon className="w-4 h-auto" />
+                      <StarIcon className="w-4 h-auto" />
+                      <StarIcon className="w-4 h-auto" />
+                      <StarIcon className="w-4 h-auto" />
+                      <StarIcon className="w-4 h-auto" />
+                    </div>
+                    <span className="text-3xl tracking-tight leading-none">Rated 5 Stars</span>
+                    <span className="text-xs font-bold text-first-100">
+                      By trusted research company
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

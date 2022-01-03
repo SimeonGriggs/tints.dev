@@ -264,6 +264,7 @@ export function titleCase(s: string) {
 export function arrayObjectDiff(before: PaletteConfig[], current: PaletteConfig[]) {
   const defaultKeys = Object.keys(DEFAULT_PALETTE_CONFIG)
 
+  // TODO: Fix this TS string-key-nonsense
   const changedKeys: (string | null)[] = defaultKeys
     .map((key: string) => {
       const beforeValues = before

@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useMemo} from 'react'
+import {Transition} from '@headlessui/react'
 
 import Header from './Header'
 import type {PaletteConfig} from '~/types/palette'
@@ -97,13 +98,28 @@ export default function Generator({palettes, about}: {palettes: PaletteConfig[];
       <section className="grid grid-cols-1 p-4 gap-y-12 container mx-auto">
         {palettesState.map((palette: PaletteConfig, index: number) => (
           <React.Fragment key={palette.id}>
-            <Palette
-              palette={palette}
-              updateGlobal={(updatedPalette: PaletteConfig) => handleUpdate(updatedPalette, index)}
-              deleteGlobal={
-                palettesState.length <= 1 ? undefined : () => handleDelete(palette.id, palette.name)
-              }
-            />
+            <Transition
+              appear
+              show
+              enter="transition-opacity duration-1000"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="transition-opacity duration-1000"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Palette
+                palette={palette}
+                updateGlobal={(updatedPalette: PaletteConfig) =>
+                  handleUpdate(updatedPalette, index)
+                }
+                deleteGlobal={
+                  palettesState.length <= 1
+                    ? undefined
+                    : () => handleDelete(palette.id, palette.name)
+                }
+              />
+            </Transition>
             <div className="border-t border-gray-200" />
           </React.Fragment>
         ))}

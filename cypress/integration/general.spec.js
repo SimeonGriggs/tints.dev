@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-/* global cy, it, describe, beforeEach */
+/* global Cypress, cy, it, describe, beforeEach */
 
 import {titleCase} from '../../app/lib/helpers'
 
@@ -26,6 +26,27 @@ describe('general tests', () => {
     cy.get('#add-button').click().get('article').should('have.length', 2)
     cy.location('search').should('not.be.empty')
     cy.location('pathname').should('equal', '/')
+  })
+
+  it('has correctly updated search params with more than one palette', () => {
+    cy.get('#add-button').click().get('article').should('have.length', 2)
+    cy.get('article').first().find('input[name="name"]').clear().type('greenish')
+    cy.get('article').first().find('input[name="value"]').clear().type('ace975')
+    cy.location('search').should('contain', 'greenish=ACE975')
+    cy.location('pathname').should('equal', '/')
+  })
+
+  // it('did not update back button when name changed', () => {
+  //   cy.get('article').first().find('input[name="name"]').clear().type('blueish')
+  //   history.should('have.length', 1)
+  // })
+
+  it('updated back button when value changed', () => {
+    cy.get('#add-button').click().get('article').should('have.length', 2)
+    cy.get('article').first().find('input[name="value"]').clear().type('ff00cc')
+    cy.location('search').should('contain', '=FF00CC')
+    cy.go('back')
+    cy.location('search').should('not.contain', '=FF00CC')
   })
 
   it('removes one palette when "delete" clicked', () => {

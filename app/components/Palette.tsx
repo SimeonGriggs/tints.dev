@@ -62,7 +62,7 @@ export default function Palette({
 }: {
   palette: PaletteConfig
   updateGlobal: Function
-  deleteGlobal: React.MouseEvent<HTMLElement> | undefined
+  deleteGlobal: Function | undefined
 }) {
   const [paletteState, setPaletteState] = useState({
     ...DEFAULT_PALETTE_CONFIG,
