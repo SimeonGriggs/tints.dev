@@ -18,7 +18,11 @@ const tweakInputs = [
     title: `Hue`,
     value: DEFAULT_PALETTE_CONFIG.h,
   },
-  {name: `s`, title: `Saturation`, value: DEFAULT_PALETTE_CONFIG.s},
+  {
+    name: `s`,
+    title: `Saturation`,
+    value: DEFAULT_PALETTE_CONFIG.s,
+  },
   {
     name: `lMax`,
     title: (useLightness: boolean) => (useLightness ? `Lightness Maximum` : `Luminance Maximum`),
@@ -52,7 +56,7 @@ const paletteInputs = [
   },
 ]
 
-const inputClasses = `w-full p-2 border border-gray-200 bg-gray-50 text-gray-800 focus:outline-none focus:ring focus:bg-gray-100 focus:border-gray-300 invalid:border-red-500 invalid:bg-red-100`
+const inputClasses = `w-full p-2 border border-gray-200 bg-gray-50 text-gray-800 focus:outline-none focus:ring focus:bg-gray-100 focus:border-gray-300 invalid:focus:border-dashed invalid:focus:border-red-500 invalid:focus:bg-red-100 invalid:border-red-500 invalid:bg-red-100`
 const labelClasses = `transition-color duration-200 text-xs font-bold`
 
 export default function Palette({
@@ -73,8 +77,13 @@ export default function Palette({
   const [, copy] = useCopyToClipboard()
 
   // Update global list every time local palette changes
+  // ... if name and value are legit
   useEffect(() => {
-    updateGlobal(paletteState)
+    const {name, value} = paletteState
+
+    if (isValidName(name) && isHex(value)) {
+      updateGlobal(paletteState)
+    }
   }, [paletteState])
 
   function updateName(name: string) {
@@ -97,6 +106,11 @@ export default function Palette({
       value,
     }
 
+    if (!isHex(value)) {
+      setPaletteState(newPalette)
+      return
+    }
+
     const newSwatches = createSwatches(newPalette)
 
     setPaletteState({
@@ -107,12 +121,12 @@ export default function Palette({
 
   // Handle changes to name or value of palette
   const handlePaletteChange = (e: React.FormEvent<HTMLInputElement>) => {
-    if (e.currentTarget.name === 'name' && isValidName(e.currentTarget.value)) {
+    if (e.currentTarget.name === 'name') {
       const newName = e.currentTarget.value
 
       updateName(newName)
-    } else if (e.currentTarget.name === 'value' && isHex(e.currentTarget.value)) {
-      const newValue = e.currentTarget.value.toUpperCase()
+    } else if (e.currentTarget.name === 'value') {
+      const newValue = e.currentTarget.value ? e.currentTarget.value.toUpperCase() : ``
 
       updateValue(newValue)
     }
@@ -120,13 +134,18 @@ export default function Palette({
 
   // Handle any changes to the tweaks values
   const handleTweakChange = (e: React.FormEvent<HTMLInputElement>) => {
-    if (!e.currentTarget.value) {
-      return
-    }
+    const tweakName = e.currentTarget.name
+    const newTweakValue = e.currentTarget.value ? parseInt(e.currentTarget.value, 10) : ``
 
     const newPalette = {
       ...paletteState,
-      [e.currentTarget.name]: parseInt(e.currentTarget.value, 10),
+      [tweakName]: newTweakValue,
+    }
+
+    // Don't update swatches if the new value is invalid
+    if (!String(newTweakValue)) {
+      setPaletteState(newPalette)
+      return
     }
 
     setPaletteState({
@@ -190,7 +209,7 @@ export default function Palette({
                 id={input.name}
                 name={input.name}
                 className={[inputClasses, input.classes].filter(Boolean).join(' ')}
-                defaultValue={
+                value={
                   input.name === 'name' || input.name === 'value' ? paletteState[input.name] : ``
                 }
                 style={ringStyle}
@@ -198,6 +217,7 @@ export default function Palette({
                 pattern={input.pattern}
                 min={input.min}
                 max={input.max}
+                required
               />
               {input.name === 'value' ? (
                 <>
@@ -263,11 +283,10 @@ export default function Palette({
               onChange={handleTweakChange}
               className={inputClasses}
               name={input.name}
-              defaultValue={input.value}
+              value={paletteState[input.name] ?? input.value}
               type="number"
               style={ringStyle}
-              // min={0}
-              // max={100}
+              required
             />
           </div>
         ))}

@@ -1,5 +1,6 @@
+/* eslint-disable max-nested-callbacks */
 /// <reference types="cypress" />
-/* global Cypress, cy, it, describe, beforeEach */
+/* global expect, cy, it, describe, beforeEach */
 
 import {titleCase} from '../../app/lib/helpers'
 
@@ -76,10 +77,46 @@ describe('general tests', () => {
     cy.get('article input[name="value"]')
       .first()
       .invoke('val')
-      .then((val) => {
-        cy.log(val)
+      .then((val) => cy.get('meta[name="theme-color"]').should('have.attr', 'content', `#${val}`))
+  })
 
-        cy.get('meta[name="theme-color"]').should('have.attr', 'content', `#${val}`)
+  it('updates the picker when a new value is typed', () => {
+    cy.get('article').first().find('input[name="value"]').clear().type('ff0000').blur()
+    cy.get('article').first().find('#headlessui-popover-button-1').click()
+    cy.get('.react-colorful__saturation').should(
+      'have.attr',
+      'style',
+      'background-color: rgb(255, 0, 0);'
+    )
+  })
+
+  it('updates the `value` field when the picker is used, and closes picker on button press', () => {
+    const inputColor = `ace975`
+    cy.get('article').first().find('input[name="value"]').clear().type(inputColor).blur()
+    cy.get('article').first().find('#headlessui-popover-button-1').click()
+    cy.wait(100)
+    cy.get('article input[name="value"]')
+      .first()
+      .invoke('val')
+      .then((val1) => {
+        // Field value is what we typed
+        expect(val1).to.equal(inputColor.toUpperCase())
+
+        // Use picker to set new value
+        cy.get('article').first().find('.react-colorful__saturation').click({x: 100, y: 100})
+        cy.wait(500)
+
+        // Field value should be updated
+        cy.get('article input[name="value"]')
+          .first()
+          .invoke('val')
+          .then((val2) => {
+            expect(val2).not.to.equal(inputColor.toUpperCase())
+            expect(val2).not.to.equal(val1.toUpperCase())
+          })
       })
+
+    cy.get('article').first().find('#closePicker').click()
+    cy.get('article').first().find('.react-colorful').should('not.exist')
   })
 })
