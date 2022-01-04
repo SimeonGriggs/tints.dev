@@ -14,7 +14,7 @@
     "cy:open": "cypress open",
     "deploy": "npm run build && flyctl deploy",
     "dev:css": "tailwindcss -i ./app/input.css -o ./app/styles/output.css --watch",
-    "dev:remix": "remix dev",
+    "dev:remix": "IP=$(ipconfig getifaddr en0); echo http://$IP:3000; remix dev",
     "dev": "concurrently \"npm:dev:*\"",
     "lint:fix": "eslint . --fix",
     "lint": "eslint .",

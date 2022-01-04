@@ -3,6 +3,7 @@
 /* global expect, cy, it, describe, beforeEach */
 
 import {titleCase} from '../../app/lib/helpers'
+import {META} from '../../app/lib/constants'
 
 describe('general tests', () => {
   beforeEach(() => {
@@ -53,6 +54,15 @@ describe('general tests', () => {
   it('removes one palette when "delete" clicked', () => {
     cy.get('#add-button').click().get('article').should('have.length', 2)
     cy.get('[data-test="paletteDelete"]').first().click().get('article').should('have.length', 1)
+  })
+
+  it('has the default title on `/` page load', () => {
+    cy.get('article').should('have.length', 1)
+    cy.location('search').should('be.empty')
+    cy.title().should('eq', META.title)
+    cy.get('meta[property="og:title"]').invoke('attr', 'content').should('eq', META.title)
+    cy.get('meta[name="twitter:title"]').invoke('attr', 'content').should('eq', META.title)
+    cy.get('meta[property="og:image"]').invoke('attr', 'content').should('not.be.empty')
   })
 
   it('meta tags reflect current first palette', () => {

@@ -24,6 +24,8 @@ export default function Generator({palettes, about}: {palettes: PaletteConfig[];
   useEffect(() => {
     // Only update meta if the `name` or `value` changed between renders
     // Or if it's the first render
+
+    // TODO: Don't update title if pathname was `/` and palette is random
     const keysChanged = previousPalettes ? arrayObjectDiff(previousPalettes, palettesState) : []
 
     if (!previousPalettes || keysChanged.includes(`value`) || keysChanged.includes(`name`)) {

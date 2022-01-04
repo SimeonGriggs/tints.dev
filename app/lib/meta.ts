@@ -7,21 +7,13 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
     return
   }
 
-  // Generate a nice title for the colors
-  // [blue, green, orange] => "Blue, Green & Orange"
-  const paletteNames = palettes.map(({name}) => titleCase(name))
-  const paletteTitle = new Intl.ListFormat('en').format(paletteNames)
+  let paletteIsRandom = false
 
-  const documentTitle = [
-    paletteTitle,
-    `10-Color`,
-    palettes.length === 1 ? `Palette` : `Palettes`,
-    `for Tailwind CSS`,
-  ].join(` `)
-
-  // Update document title
-  if (typeof document !== 'undefined') {
-    document.title = documentTitle
+  // If the palette loaded was random, we'll exit after changing the URL
+  if (typeof window !== 'undefined') {
+    if (window.location.pathname === `/` && !window.location.search) {
+      paletteIsRandom = true
+    }
   }
 
   // Update the URL
@@ -47,6 +39,27 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
     } else {
       window.history.replaceState({}, '', currentUrl.toString())
     }
+  }
+
+  if (paletteIsRandom) {
+    return
+  }
+
+  // Generate a nice title for the colors
+  // [blue, green, orange] => "Blue, Green & Orange"
+  const paletteNames = palettes.map(({name}) => titleCase(name))
+  const paletteTitle = new Intl.ListFormat('en').format(paletteNames)
+
+  const documentTitle = [
+    paletteTitle,
+    `10-Color`,
+    palettes.length === 1 ? `Palette` : `Palettes`,
+    `Generated for Tailwind CSS`,
+  ].join(` `)
+
+  // Update document title
+  if (typeof document !== 'undefined') {
+    document.title = documentTitle
   }
 
   // Update meta tags

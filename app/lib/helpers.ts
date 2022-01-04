@@ -203,7 +203,6 @@ export function createSwatches(palette: PaletteConfig) {
     newH = newH > 360 ? newH - 360 : newH
 
     // Saturation must be between 0-100
-    // todo: fix this inside the function
     let newS = valueS + saturationScale[i].tweak
     newS = newS > 100 ? 100 : newS
 

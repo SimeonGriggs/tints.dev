@@ -1,6 +1,7 @@
 import React from 'react'
 import Dot from './Dot'
 import {PaletteConfig} from '~/types/palette'
+import {DEFAULT_PALETTE_CONFIG} from '~/lib/constants'
 
 const labels = {
   h: 'Hue',
@@ -46,7 +47,7 @@ export default function SquareGraph({
           {/* eslint-disable-next-line no-nested-ternary */}
           {palettes.length > 1
             ? `Lightness/Luminance`
-            : palettes[0]?.useLightness
+            : palettes[0]?.useLightness || DEFAULT_PALETTE_CONFIG.useLightness
             ? `Lightness`
             : `Luminance`}
         </div>

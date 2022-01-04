@@ -45,17 +45,16 @@ export const links: LinksFunction = () => {
 }
 
 export default function App() {
-  return <Document title={META.title} />
+  return <Document />
 }
 
-function Document({title, children}: {title?: string; children?: React.ReactNode}) {
+function Document({children}: {children?: React.ReactNode}) {
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <link rel="icon" href="https://fav.farm/🎨" />
         <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-        {title ? <title>{title}</title> : null}
         <Meta />
         <Links />
       </head>

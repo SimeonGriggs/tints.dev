@@ -13,7 +13,7 @@ export default function DistributionGraph({palettes}: {palettes: PaletteConfig[]
       </div>
 
       <div
-        style={{height: graphHeight * palettes.length}}
+        style={{minHeight: graphHeight, height: graphHeight * palettes.length}}
         className="relative rounded bg-gray-800 flex justify-between h-full"
       >
         {palettes.map((palette, index) => (
