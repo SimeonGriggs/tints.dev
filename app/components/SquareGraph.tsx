@@ -46,7 +46,7 @@ export default function SquareGraph({
           {/* eslint-disable-next-line no-nested-ternary */}
           {palettes.length > 1
             ? `Lightness/Luminance`
-            : palettes[0].useLightness
+            : palettes[0]?.useLightness
             ? `Lightness`
             : `Luminance`}
         </div>
