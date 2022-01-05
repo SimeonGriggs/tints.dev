@@ -77,7 +77,7 @@ export function CatchBoundary() {
     case 404:
     case 406:
       return (
-        <Document title={`${caught.status} ${caught.data}`}>
+        <Document>
           <div className="w-screen min-h-screen flex items-center justify-center">
             <article className="prose prose-lg prose-blue w-full max-w-lg">
               <h1>

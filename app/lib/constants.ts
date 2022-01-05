@@ -3,11 +3,13 @@ export const DEFAULT_PALETTE_CONFIG = {
   name: ``,
   value: ``,
   h: 0,
-  s: 0,
+  s: 20,
   lMin: 0,
   lMax: 100,
-  useLightness: true,
+  useLightness: !true,
 }
+
+export const DEFAULT_STOPS = [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]
 
 export const RANDOM_PALETTES = [
   {

@@ -56,7 +56,8 @@ export const loader: LoaderFunction = async ({params}) => {
   }
 
   const palette = createPaletteFromNameValue(params.name, params.value)
-  const about = await getSanityData()
+  // const about = await getSanityData()
+  const about = []
 
   return {palettes: [palette], about}
 }

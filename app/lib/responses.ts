@@ -1,13 +1,8 @@
 import {nanoid} from 'nanoid'
 
 import {PaletteConfig} from '~/types/palette'
-import {
-  createRandomPalette,
-  createSwatches,
-  isHex,
-  isValidName,
-  removeTrailingSlash,
-} from '~/lib/helpers'
+import {createRandomPalette, isHex, isValidName, removeTrailingSlash} from '~/lib/helpers'
+import {createSwatches} from '~/lib/createSwatches'
 import {DEFAULT_PALETTE_CONFIG, META} from '~/lib/constants'
 
 export function createPaletteFromNameValue(name: string, value: string) {

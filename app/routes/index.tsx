@@ -31,7 +31,8 @@ export const meta: MetaFunction = ({data}: {data: any}) => {
 
 export const loader: LoaderFunction = async ({request}) => {
   const palettes = requestToPalettes(request.url)
-  const about = await getSanityData()
+  // const about = await getSanityData()
+  const about = []
 
   return {palettes, about}
 }
