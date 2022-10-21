@@ -9,7 +9,9 @@ export default function Output({palettes}: {palettes: PaletteConfig[]}) {
   const [, copy] = useCopyToClipboard()
   const shaped = output(palettes)
 
-  const displayed = JSON.stringify({colors: shaped}, null, 2)
+  const displayed = JSON.stringify({colors: shaped}, null, 2).replace(/"+[0-9]+"/g, function(match) {
+    return match.replace(/"/g,'');
+  })
 
   return (
     <section
