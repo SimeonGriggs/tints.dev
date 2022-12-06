@@ -190,14 +190,11 @@ export default function Palette({
 
   // Handle change from color picker widget (debounced)
   // Do this by faking an event to handlePaletteChange
-  const handleColorPickerChange = React.useCallback(
-    (newColor: string) => {
-      if (newColor && isHex(newColor)) {
-        updateValue(newColor.replace(`#`, ``).toUpperCase())
-      }
-    },
-    [updateValue]
-  )
+  const handleColorPickerChange = (newColor: string) => {
+    if (newColor && isHex(newColor)) {
+      updateValue(newColor.replace(`#`, ``).toUpperCase())
+    }
+  }
 
   const ringStyle = {
     '--tw-ring-color': palette.swatches[1].hex,
