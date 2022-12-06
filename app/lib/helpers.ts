@@ -139,20 +139,20 @@ export function HSLtoRGB(h: number, s: number, l: number) {
   }
 }
 
-export function HSLToHex(h: number, s: number, l: number) {
-  let {r, g, b}: {r: number; g: number; b: number} = HSLtoRGB(h, s, l)
+export function HSLToHex(h, s, l) {
+  let {r, g, b} = HSLtoRGB(h, s, l)
 
   // Having obtained RGB, convert channels to hex
-  let rString = r.toString()
-  let gString = g.toString()
-  let bString = b.toString()
+  r = r.toString(16)
+  g = g.toString(16)
+  b = b.toString(16)
 
   // Prepend 0s, if necessary
-  const rFinal = rString.length === 1 ? `0${r}` : r
-  const gFinal = gString.length === 1 ? `0${g}` : g
-  const bFinal = bString.length === 1 ? `0${b}` : b
+  if (r.length === 1) r = `0${r}`
+  if (g.length === 1) g = `0${g}`
+  if (b.length === 1) b = `0${b}`
 
-  return `#${rFinal}${gFinal}${bFinal}`
+  return `#${r}${g}${b}`
 }
 
 export function isHex(value: string) {
