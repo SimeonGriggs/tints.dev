@@ -1,25 +1,20 @@
 {
   "name": "palette-generator",
-  "main": "./worker.js",
   "description": "A 10-swatch palette generator primarily for Tailwind CSS",
   "license": "MIT",
   "version": "2.0.0",
   "author": "Simeon Griggs",
   "scripts": {
-    "build:css": "tailwindcss -i ./app/input.css -o ./app/styles/output.css --minify",
-    "build:remix": "remix build",
-    "build": "npm run clean && npm run build:css && npm run build:remix",
-    "clean": "rimraf ./app/styles/output.css .cache build",
-    "cy:run": "cypress run",
+    "build:css": "tailwindcss -m -i ./styles/app.css -o app/styles/app.css",
+    "build:sourcemap": "npm run build:css && remix build --sourcemap",
+    "build": "npm run build:css && remix build",
+    "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
+    "dev": "concurrently \"npm run dev:css\" \"remix dev\"",
+    "lint": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
     "cy:open": "cypress open",
-    "deploy": "npm run build && flyctl deploy",
-    "dev:css": "tailwindcss -i ./app/input.css -o ./app/styles/output.css --watch",
-    "dev:remix": "IP=$(ipconfig getifaddr en0); echo http://$IP:3000; remix dev",
-    "dev": "concurrently \"npm:dev:*\"",
-    "lint:fix": "eslint . --fix",
-    "lint": "eslint .",
-    "postinstall": "remix setup node && husky install",
-    "start": "remix-serve build"
+    "cy:run": "cypress run",
+    "postinstall": "remix setup node && husky install"
   },
   "husky": {
     "hooks": {
