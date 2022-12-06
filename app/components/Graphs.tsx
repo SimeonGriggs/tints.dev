@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 
 import DistributionGraph from '~/components/DistributionGraph'
 import SquareGraph from '~/components/SquareGraph'
-import {PaletteConfig} from '~/types/palette'
+import type {PaletteConfig} from '~/types/palette'
 
 export default function Graphs({palettes}: {palettes: PaletteConfig[]}) {
   const [hiddenValues, setHiddenValues] = useState<string[]>([])

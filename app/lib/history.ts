@@ -1,8 +1,9 @@
+import type {PaletteConfig} from '~/types/palette'
+
 import {createCanonicalUrl} from './responses'
-import {PaletteConfig} from '~/types/palette'
 
 export function removeSearchParamByKey(key: string) {
-  if (typeof window !== 'undefined') {
+  if (typeof document !== 'undefined') {
     const currentUrl = new URL(window.location.href)
     currentUrl.searchParams.delete(key)
     window.history.pushState({}, '', currentUrl.toString())
@@ -10,7 +11,7 @@ export function removeSearchParamByKey(key: string) {
 }
 
 export function convertParamsToPath(palettes: PaletteConfig[]) {
-  if (typeof window !== 'undefined') {
+  if (typeof document !== 'undefined') {
     const canonicalUrl = new URL(createCanonicalUrl(palettes))
     const currentUrl = new URL(window.location.href)
     currentUrl.pathname = canonicalUrl.pathname

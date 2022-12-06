@@ -1,4 +1,5 @@
-import type {LoaderFunction} from 'remix'
+import type {LoaderFunction} from '@remix-run/node'
+
 import {isHex, isValidName} from '~/lib/helpers'
 import {createPaletteFromNameValue, output} from '~/lib/responses'
 

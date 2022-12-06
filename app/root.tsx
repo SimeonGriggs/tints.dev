@@ -1,7 +1,18 @@
-import {Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch, Link} from 'remix'
-import type {MetaFunction, LinksFunction} from 'remix'
-import {META} from './lib/constants'
+import type {LinksFunction, MetaFunction} from '@remix-run/node'
+import {
+  Link,
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useCatch,
+} from '@remix-run/react'
+
 import stylesUrl from '~/styles/output.css'
+
+import {META} from './lib/constants'
 
 export const meta: MetaFunction = () => {
   const title = META.title

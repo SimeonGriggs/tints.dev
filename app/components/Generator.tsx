@@ -1,17 +1,19 @@
-import React, {useState, useEffect, useMemo} from 'react'
 import {Transition} from '@headlessui/react'
+import React, {useEffect, useMemo, useState} from 'react'
 
-import Header from './Header'
-import type {PaletteConfig} from '~/types/palette'
 import Demo from '~/components/Demo'
-import Palette from '~/components/Palette'
 import Graphs from '~/components/Graphs'
 import Output from '~/components/Output'
+import Palette from '~/components/Palette'
+import type {Block} from '~/components/Prose'
+import {Prose} from '~/components/Prose'
 import {arrayObjectDiff, createRandomPalette} from '~/lib/helpers'
 import {convertParamsToPath, removeSearchParamByKey} from '~/lib/history'
-import {Block, PortableText} from '~/components/PortableText'
-import {handleMeta} from '~/lib/meta'
 import {usePrevious} from '~/lib/hooks'
+import {handleMeta} from '~/lib/meta'
+import type {PaletteConfig} from '~/types/palette'
+
+import Header from './Header'
 
 export default function Generator({palettes, about}: {palettes: PaletteConfig[]; about: Block[]}) {
   const [palettesState, setPalettesState] = useState(palettes)
@@ -32,7 +34,7 @@ export default function Generator({palettes, about}: {palettes: PaletteConfig[];
       // Only update history if the `value` changed
       handleMeta(palettesState, keysChanged.includes(`value`))
     }
-  }, [palettesState])
+  }, [palettesState, previousPalettes])
 
   const handleNew = () => {
     const currentValues = palettesState.map((p) => p.value)
@@ -41,7 +43,7 @@ export default function Generator({palettes, about}: {palettes: PaletteConfig[];
     setPalettesState(newPalettes)
 
     // Scroll new ID into view
-    if (typeof window !== 'undefined') {
+    if (typeof document !== 'undefined') {
       setTimeout(() => {
         const newElement = document.getElementById(`s-${randomPalette.value.toUpperCase()}`)
 
@@ -130,7 +132,7 @@ export default function Generator({palettes, about}: {palettes: PaletteConfig[];
 
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <div className="row-start-2 md:row-start-1 md:col-span-3">
-            {about.length ? <PortableText blocks={about} /> : null}
+            {about.length ? <Prose blocks={about} /> : null}
           </div>
           <div className="row-start-1 md:col-span-2 flex flex-col gap-4">
             <div className="prose text-center">

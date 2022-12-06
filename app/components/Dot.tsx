@@ -1,7 +1,7 @@
 import React from 'react'
 import {usePopperTooltip} from 'react-popper-tooltip'
 
-import {SwatchValue} from '~/types/SwatchValue'
+import type {SwatchValue} from '~/types/SwatchValue'
 
 const dotClasses = {
   common: `transition duration-500 absolute z-10 border-2 border-white shadow transform -translate-y-1/2 -translate-x-1/2`,

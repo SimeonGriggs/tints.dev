@@ -1,11 +1,11 @@
-import {useLoaderData} from 'remix'
-import type {LoaderFunction, MetaFunction} from 'remix'
+import type {LoaderFunction, MetaFunction} from '@remix-run/node'
+import {useLoaderData} from '@remix-run/react'
 
-import {createCanonicalUrl, createPaletteMetaImageUrl, requestToPalettes} from '~/lib/responses'
-import type {PaletteConfig} from '~/types/palette'
-import {Block} from '~/components/PortableText'
-import {getSanityData} from '~/lib/sanity'
 import Generator from '~/components/Generator'
+import type {Block} from '~/components/Prose'
+import {createCanonicalUrl, createPaletteMetaImageUrl, requestToPalettes} from '~/lib/responses'
+import {getSanityData} from '~/lib/sanity'
+import type {PaletteConfig} from '~/types/palette'
 
 export const meta: MetaFunction = ({data}: {data: any}) => {
   if (!data) {
