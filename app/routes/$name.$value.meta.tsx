@@ -1,11 +1,11 @@
-import {useLoaderData} from 'remix'
-import type {MetaFunction, LoaderFunction} from 'remix'
+import type {LoaderFunction, MetaFunction} from '@remix-run/node'
+import {useLoaderData} from '@remix-run/react'
 
-import type {PaletteConfig} from '~/types/palette'
-import {createPaletteFromNameValue} from '~/lib/responses'
-import {isHex, isValidName, removeTrailingSlash} from '~/lib/helpers'
-import {META} from '~/lib/constants'
 import MetaImage from '~/components/MetaImage'
+import {META} from '~/lib/constants'
+import {isHex, isValidName, removeTrailingSlash} from '~/lib/helpers'
+import {createPaletteFromNameValue} from '~/lib/responses'
+import type {PaletteConfig} from '~/types/palette'
 
 export const meta: MetaFunction = ({data}: {data: any}) => {
   const {canonical} = data

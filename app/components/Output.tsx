@@ -1,16 +1,17 @@
-import {ClipboardCopyIcon} from '@heroicons/react/solid'
+import {ClipboardDocumentIcon} from '@heroicons/react/24/solid'
 import {useCopyToClipboard} from 'usehooks-ts'
 
-import ButtonIcon from './ButtonIcon'
-import {PaletteConfig} from '~/types/palette'
 import {output} from '~/lib/responses'
+import type {PaletteConfig} from '~/types/palette'
+
+import ButtonIcon from './ButtonIcon'
 
 export default function Output({palettes}: {palettes: PaletteConfig[]}) {
   const [, copy] = useCopyToClipboard()
   const shaped = output(palettes)
 
-  const displayed = JSON.stringify({colors: shaped}, null, 2).replace(/"+[0-9]+"/g, function(m) {
-    return m.replace(/"/g,'');
+  const displayed = JSON.stringify({colors: shaped}, null, 2).replace(/"+[0-9]+"/g, function (m) {
+    return m.replace(/"/g, '')
   })
 
   return (
@@ -22,7 +23,7 @@ export default function Output({palettes}: {palettes: PaletteConfig[]}) {
         <ButtonIcon
           onClick={() => copy(displayed)}
           title="Copy to Clipboard"
-          icon={ClipboardCopyIcon}
+          icon={ClipboardDocumentIcon}
         />
       </div>
       <pre>{displayed}</pre>

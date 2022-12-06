@@ -1,8 +1,9 @@
+import {Popover} from '@headlessui/react'
+import {SwatchIcon, XMarkIcon} from '@heroicons/react/24/solid'
 import React, {useEffect, useState} from 'react'
 import {HexColorPicker} from 'react-colorful'
 import {useDebounce} from 'usehooks-ts'
-import {Popover} from '@headlessui/react'
-import {ColorSwatchIcon, XIcon} from '@heroicons/react/solid'
+
 import Button from './Button'
 
 export default function ColorPicker({
@@ -21,7 +22,12 @@ export default function ColorPicker({
   useEffect(() => setValue(color), [color])
 
   // Update global `value` on picker change
-  useEffect(() => (value ? onChange(value.toUpperCase()) : null), [debouncedValue])
+  useEffect(() => {
+    if (value) {
+      onChange(value.toUpperCase())
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedValue])
 
   return (
     <Popover className="relative">
@@ -29,7 +35,7 @@ export default function ColorPicker({
         style={ringStyle}
         className="w-full p-2 border border-gray-200 bg-gray-50 focus:outline-none focus:ring focus:bg-gray-100 focus:border-gray-300 text-gray-500 focus:text-gray-900"
       >
-        <ColorSwatchIcon className="w-6 h-auto" />
+        <SwatchIcon className="w-6 h-auto" />
         <span className="sr-only">Open Color Picker</span>
       </Popover.Button>
 
@@ -42,7 +48,7 @@ export default function ColorPicker({
             />
 
             <Button id="closePicker" onClick={() => close()}>
-              <XIcon className="w-4 h-auto" />
+              <XMarkIcon className="w-4 h-auto" />
               Close Picker
             </Button>
           </div>

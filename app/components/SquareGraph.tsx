@@ -1,7 +1,9 @@
 import React from 'react'
-import Dot from './Dot'
-import {PaletteConfig} from '~/types/palette'
+
 import {DEFAULT_PALETTE_CONFIG} from '~/lib/constants'
+import type {PaletteConfig} from '~/types/palette'
+
+import Dot from './Dot'
 
 const labels = {
   h: 'Hue',

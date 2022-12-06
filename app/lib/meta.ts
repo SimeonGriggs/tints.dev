@@ -1,6 +1,7 @@
-import {createCanonicalUrl, createPaletteMetaImageUrl} from './responses'
+import type {PaletteConfig} from '~/types/palette'
+
 import {titleCase} from './helpers'
-import {PaletteConfig} from '~/types/palette'
+import {createCanonicalUrl, createPaletteMetaImageUrl} from './responses'
 
 export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
   if (!palettes.length) {
@@ -10,14 +11,14 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
   let paletteIsRandom = false
 
   // If the palette loaded was random, we'll exit after changing the URL
-  if (typeof window !== 'undefined') {
+  if (typeof document !== 'undefined') {
     if (window.location.pathname === `/` && !window.location.search) {
       paletteIsRandom = true
     }
   }
 
   // Update the URL
-  if (typeof window !== 'undefined') {
+  if (typeof document !== 'undefined') {
     const currentUrl = new URL(window.location.href)
 
     if (palettes.length === 1) {
@@ -63,7 +64,7 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
   }
 
   // Update meta tags
-  if (typeof window !== 'undefined') {
+  if (typeof document !== 'undefined') {
     const metaTitleTag = document.querySelector(`meta[name="twitter:title"]`)
 
     if (metaTitleTag) {

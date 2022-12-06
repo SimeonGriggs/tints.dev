@@ -1,6 +1,6 @@
 import {nanoid} from 'nanoid'
 
-import {PaletteConfig} from '~/types/palette'
+import {DEFAULT_PALETTE_CONFIG, META} from '~/lib/constants'
 import {
   createRandomPalette,
   createSwatches,
@@ -8,7 +8,7 @@ import {
   isValidName,
   removeTrailingSlash,
 } from '~/lib/helpers'
-import {DEFAULT_PALETTE_CONFIG, META} from '~/lib/constants'
+import type {PaletteConfig} from '~/types/palette'
 
 export function createPaletteFromNameValue(name: string, value: string) {
   if (!name || !isValidName(name) || !value || !isHex(value)) {
@@ -40,7 +40,7 @@ export function createCanonicalUrl(palettes: PaletteConfig[], apiUrl = false) {
     const canonicalUrl = [baseUrl, palettes[0].name, palettes[0].value.toUpperCase()].join(`/`)
 
     return removeTrailingSlash(canonicalUrl)
-  } else if (typeof window !== 'undefined') {
+  } else if (typeof document !== 'undefined') {
     // Use the current URL but maybe replace the base URL
     const currentUrl = new URL(window.location.href)
     const canonicalUrl = currentUrl.toString().replace(currentUrl.origin, baseUrl)

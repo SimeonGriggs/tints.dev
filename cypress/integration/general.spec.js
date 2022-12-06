@@ -1,9 +1,9 @@
 /* eslint-disable max-nested-callbacks */
 /// <reference types="cypress" />
-/* global expect, cy, it, describe, beforeEach */
 
-import {titleCase} from '../../app/lib/helpers'
+/* global expect, cy, it, describe, beforeEach */
 import {META} from '../../app/lib/constants'
+import {titleCase} from '../../app/lib/helpers'
 
 describe('general tests', () => {
   beforeEach(() => {

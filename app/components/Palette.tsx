@@ -1,16 +1,23 @@
-import React, {useState, useEffect} from 'react'
 import {Switch} from '@headlessui/react'
+import {
+  AdjustmentsHorizontalIcon,
+  CodeBracketIcon,
+  HashtagIcon,
+  LinkIcon,
+  TrashIcon,
+} from '@heroicons/react/24/solid'
+import React, {useEffect, useState} from 'react'
 import {useCopyToClipboard} from 'usehooks-ts'
-import {HashtagIcon, TrashIcon, AdjustmentsIcon, LinkIcon, CodeIcon} from '@heroicons/react/solid'
+
+import Graphs from '~/components/Graphs'
+import Swatch from '~/components/Swatch'
+import {DEFAULT_PALETTE_CONFIG} from '~/lib/constants'
+import {createSwatches, isHex, isValidName} from '~/lib/helpers'
+import {createCanonicalUrl} from '~/lib/responses'
+import type {PaletteConfig} from '~/types/palette'
 
 import ButtonIcon from './ButtonIcon'
 import ColorPicker from './ColorPicker'
-import Graphs from '~/components/Graphs'
-import Swatch from '~/components/Swatch'
-import {createSwatches, isHex, isValidName} from '~/lib/helpers'
-import {PaletteConfig} from '~/types/palette'
-import {DEFAULT_PALETTE_CONFIG} from '~/lib/constants'
-import {createCanonicalUrl} from '~/lib/responses'
 
 const tweakInputs = [
   {
@@ -84,11 +91,11 @@ export default function Palette({
     if (isValidName(name) && isHex(value)) {
       updateGlobal(paletteState)
     }
-  }, [paletteState])
+  }, [paletteState, updateGlobal])
 
   function updateName(name: string) {
     // Remove current search param
-    if (typeof window !== 'undefined') {
+    if (typeof document !== 'undefined') {
       const currentUrl = new URL(window.location.href)
       currentUrl.searchParams.delete(paletteState.name)
       window.history.replaceState({}, '', currentUrl.toString())
@@ -174,7 +181,7 @@ export default function Palette({
   }
 
   const handleOpenAPI = () => {
-    if (typeof window !== undefined) {
+    if (typeof document !== 'undefined') {
       const apiUrl = createCanonicalUrl([paletteState], true)
 
       window.open(apiUrl, '_blank')
@@ -183,11 +190,14 @@ export default function Palette({
 
   // Handle change from color picker widget (debounced)
   // Do this by faking an event to handlePaletteChange
-  const handleColorPickerChange = (newColor: string) => {
-    if (newColor && isHex(newColor)) {
-      updateValue(newColor.replace(`#`, ``).toUpperCase())
-    }
-  }
+  const handleColorPickerChange = React.useCallback(
+    (newColor: string) => {
+      if (newColor && isHex(newColor)) {
+        updateValue(newColor.replace(`#`, ``).toUpperCase())
+      }
+    },
+    [updateValue]
+  )
 
   const ringStyle = {
     '--tw-ring-color': palette.swatches[1].hex,
@@ -245,7 +255,7 @@ export default function Palette({
             testId="paletteApi"
             title="Open this Palette's API URL"
             onClick={handleOpenAPI}
-            icon={CodeIcon}
+            icon={CodeBracketIcon}
           />
           <ButtonIcon
             testId="paletteGraphs"
@@ -254,7 +264,7 @@ export default function Palette({
             tabIndex={-1}
             title={`${showGraphs ? 'Hide' : 'Show'} Graphs`}
             selected={showGraphs}
-            icon={AdjustmentsIcon}
+            icon={AdjustmentsHorizontalIcon}
           />
           <ButtonIcon
             testId="paletteDelete"

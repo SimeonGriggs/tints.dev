@@ -1,7 +1,8 @@
 import React from 'react'
 
+import type {PaletteConfig} from '~/types/palette'
+
 import Dot from './Dot'
-import {PaletteConfig} from '~/types/palette'
 
 const graphHeight = 40
 

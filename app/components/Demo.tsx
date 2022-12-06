@@ -1,7 +1,9 @@
+import {MoonIcon, SparklesIcon, StarIcon, SunIcon, XMarkIcon} from '@heroicons/react/24/solid'
 import {useState} from 'react'
-import {MoonIcon, SparklesIcon, StarIcon, SunIcon, XIcon} from '@heroicons/react/solid'
+
+import type {PaletteConfig} from '~/types/palette'
+
 import Button from './Button'
-import {PaletteConfig} from '~/types/palette'
 
 export default function Demo({close, palettes}: {close: Function; palettes: PaletteConfig[]}) {
   const [darkMode, setDarkMode] = useState(false)
@@ -11,7 +13,7 @@ export default function Demo({close, palettes}: {close: Function; palettes: Pale
       {/* Close button */}
       <div className="relative container z-10 w-full p-4 flex items-center justify-end pointer-events-auto">
         <Button id="close-demo" onClick={close}>
-          <XIcon className="w-4 h-auto" />
+          <XMarkIcon className="w-4 h-auto" />
           Close Demo
         </Button>
       </div>

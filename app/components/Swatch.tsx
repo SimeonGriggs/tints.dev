@@ -1,6 +1,6 @@
 import React from 'react'
 
-import {SwatchValue} from '~/types/SwatchValue'
+import type {SwatchValue} from '~/types/SwatchValue'
 
 export default function Swatch({swatch}: {swatch: SwatchValue}) {
   return (

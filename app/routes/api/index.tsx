@@ -1,4 +1,5 @@
-import type {LoaderFunction} from 'remix'
+import type {LoaderFunction} from '@remix-run/node'
+
 import {output, requestToPalettes} from '~/lib/responses'
 
 export const loader: LoaderFunction = ({request}) => {
