@@ -28,6 +28,7 @@
     "@remix-run/eslint-config": "^1.8.1",
     "@remix-run/react": "^1.8.1",
     "@remix-run/serve": "^1.8.1",
+    "@remix-run/vercel": "^1.8.1",
     "@sanity/block-content-to-react": "^3.0.0",
     "@tailwindcss/typography": "^0.5.8",
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
