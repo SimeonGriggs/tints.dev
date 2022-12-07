@@ -19,7 +19,9 @@ export default function ColorPicker({
   const debouncedValue = useDebounce<string>(value, 500)
 
   // Update local `value` on form change
-  useEffect(() => setValue(color), [color])
+  useEffect(() => {
+    setValue(color)
+  }, [color])
 
   // Update global `value` on picker change
   useEffect(() => {

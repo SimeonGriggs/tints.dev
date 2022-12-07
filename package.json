@@ -32,6 +32,7 @@
     "@sanity/block-content-to-react": "^3.0.0",
     "@tailwindcss/typography": "^0.5.8",
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
+    "@vercel/analytics": "^0.1.5",
     "cypress": "^11.2.0",
     "husky": "^8.0.2",
     "nanoid": "^4.0.0",

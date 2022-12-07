@@ -86,14 +86,15 @@ export default function Palette({
   // Update global list every time local palette changes
   // ... if name and value are legit
   useEffect(() => {
-    const {name, value} = paletteState
+    const name = isValidName(paletteState.name) ? paletteState.name : null
+    const value = isHex(paletteState.value) ? paletteState.value : null
 
-    if (isValidName(name) && isHex(value)) {
+    if ((name && value && name !== palette.name) || (name && value && value !== palette.value)) {
       updateGlobal(paletteState)
     }
-  }, [paletteState, updateGlobal])
+  }, [palette, paletteState, updateGlobal])
 
-  function updateName(name: string) {
+  const updateName = (name: string) => {
     // Remove current search param
     if (typeof document !== 'undefined') {
       const currentUrl = new URL(window.location.href)
@@ -107,7 +108,7 @@ export default function Palette({
     })
   }
 
-  function updateValue(value: string) {
+  const updateValue = (value: string) => {
     const newPalette = {
       ...paletteState,
       value,
@@ -130,11 +131,9 @@ export default function Palette({
   const handlePaletteChange = (e: React.FormEvent<HTMLInputElement>) => {
     if (e.currentTarget.name === 'name') {
       const newName = e.currentTarget.value
-
       updateName(newName)
     } else if (e.currentTarget.name === 'value') {
       const newValue = e.currentTarget.value ? e.currentTarget.value.toUpperCase() : ``
-
       updateValue(newValue)
     }
   }
