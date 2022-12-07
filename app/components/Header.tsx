@@ -1,6 +1,5 @@
 import {CodeBracketIcon, LinkIcon, PlusIcon, SparklesIcon} from '@heroicons/react/24/outline/'
 import {Link} from '@remix-run/react'
-import React from 'react'
 import {useCopyToClipboard} from 'usehooks-ts'
 
 import ButtonIcon from '~/components/ButtonIcon'
@@ -37,7 +36,7 @@ export default function Header({
       <div className="container mx-auto px-4 flex items-center justify-between h-header">
         <Link to="/" className="flex items-center gap-2">
           <>
-            <span className="font-bold text-first-600 text-xs md:text-lg font-mono">tints.dev</span>
+            <span className="font-bold text-first-600 text-sm md:text-lg font-mono">tints.dev</span>
             <span className="font-medium text-first-300 hidden md:block text-sm">
               Palette Generator + API for Tailwind CSS
             </span>

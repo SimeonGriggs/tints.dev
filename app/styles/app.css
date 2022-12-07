@@ -2400,6 +2400,14 @@ body {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
+  .sm\:flex-row {
+    flex-direction: row;
+  }
+
+  .sm\:items-center {
+    align-items: center;
+  }
+
   .sm\:gap-2 {
     gap: 0.5rem;
   }
