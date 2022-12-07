@@ -50,7 +50,7 @@ export default function Header({
           {stars ? (
             <span className="flex items-center gap-1 font-bold text-yellow-600 text-sm">
               <StarIcon className="w-4 h-auto" />
-              {stars}
+              {stars} <span className="sr-only">Stars on GitHub</span>
             </span>
           ) : null}
           <ButtonIcon
