@@ -9,6 +9,7 @@ import {
   ScrollRestoration,
   useCatch,
 } from '@remix-run/react'
+import {Analytics} from '@vercel/analytics/react'
 
 import stylesUrl from '~/styles/app.css'
 
@@ -48,7 +49,7 @@ export const links: LinksFunction = () => {
       as: 'font',
       href,
       type: 'font/woff2',
-      crossOrigin: 'anonymous',
+      crossOrigin: 'anonymous' as const,
     })),
     {rel: 'canonical', href: META.origin},
     {rel: 'stylesheet', href: stylesUrl},
@@ -75,6 +76,7 @@ function Document({children}: {children?: React.ReactNode}) {
         <ScrollRestoration />
         <Scripts />
         {process.env.NODE_ENV === 'development' && <LiveReload />}
+        <Analytics debug={process.env.NODE_ENV !== 'development'} />
       </body>
     </html>
   )
