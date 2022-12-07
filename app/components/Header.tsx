@@ -48,7 +48,7 @@ export default function Header({
           <ButtonIcon
             title="Open Project on GitHub"
             icon={GitHub}
-            href="https://github.com/SimeonGriggs/tailwind-css-palette-generator"
+            href="https://github.com/SimeonGriggs/tints.dev"
           />
           <ButtonIcon
             title="Say hello on Twitter"
