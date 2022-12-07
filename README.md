@@ -1,4 +1,6 @@
-# Palette Generator and API for Tailwind CSS
+# tints.dev
+
+## Palette Generator and API for Tailwind CSS
 
 Visit [tailwind.simeongriggs.dev](https://tailwind.simeongriggs.dev) to use the GUI and API.
 

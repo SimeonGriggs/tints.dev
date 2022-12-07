@@ -10,7 +10,7 @@ import {
   useCatch,
 } from '@remix-run/react'
 
-import stylesUrl from '~/styles/output.css'
+import stylesUrl from '~/styles/app.css'
 
 import {META} from './lib/constants'
 
