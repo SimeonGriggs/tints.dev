@@ -1,4 +1,4 @@
-import type {LinksFunction, MetaFunction} from '@remix-run/node'
+import type {LinksFunction, LoaderArgs, MetaFunction} from '@remix-run/node'
 import {
   Link,
   Links,
@@ -8,6 +8,7 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
+  useLoaderData,
 } from '@remix-run/react'
 import {Analytics} from '@vercel/analytics/react'
 
@@ -56,11 +57,17 @@ export const links: LinksFunction = () => {
   ]
 }
 
-export default function App() {
-  return <Document />
+export const loader = async (props: LoaderArgs) => {
+  return {
+    ENV: {
+      VERCEL_ANALYTICS_ID: process.env.VERCEL_ANALYTICS_ID,
+    },
+  }
 }
 
-function Document({children}: {children?: React.ReactNode}) {
+export default function App() {
+  const {ENV} = useLoaderData<typeof loader>()
+
   return (
     <html lang="en">
       <head>
@@ -71,11 +78,15 @@ function Document({children}: {children?: React.ReactNode}) {
         <Links />
       </head>
       <body className="bg-white text-gray-900">
-        {children ?? null}
         <Outlet />
         <ScrollRestoration />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.ENV = ${JSON.stringify(ENV)}`,
+          }}
+        />
         <Scripts />
-        {process.env.NODE_ENV === 'development' && <LiveReload />}
+        <LiveReload />
         <Analytics debug={process.env.NODE_ENV !== 'development'} />
       </body>
     </html>
@@ -90,24 +101,22 @@ export function CatchBoundary() {
     case 404:
     case 406:
       return (
-        <Document title={`${caught.status} ${caught.data}`}>
-          <div className="w-screen min-h-screen flex items-center justify-center">
-            <article className="prose prose-lg prose-blue w-full max-w-lg">
-              <h1>
-                <span className="font-mono text-blue-500 pr-5">{caught.status}</span>
-                <br /> {caught.data}
-              </h1>
-              {caught?.statusText ? <p>{caught.statusText}</p> : null}
-              <hr />
-              <p>
-                Report a broken link to <a href="mailto:simeon@hey.com">simeon@hey.com</a>
-              </p>
-              <p>
-                <Link to="/">Start fresh</Link>
-              </p>
-            </article>
-          </div>
-        </Document>
+        <div className="w-screen min-h-screen flex items-center justify-center">
+          <article className="prose prose-lg prose-blue w-full max-w-lg">
+            <h1>
+              <span className="font-mono text-blue-500 pr-5">{caught.status}</span>
+              <br /> {caught.data}
+            </h1>
+            {caught?.statusText ? <p>{caught.statusText}</p> : null}
+            <hr />
+            <p>
+              Report a broken link to <a href="mailto:simeon@hey.com">simeon@hey.com</a>
+            </p>
+            <p>
+              <Link to="/">Start fresh</Link>
+            </p>
+          </article>
+        </div>
       )
 
     default:
