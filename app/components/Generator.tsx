@@ -15,7 +15,13 @@ import type {PaletteConfig} from '~/types/palette'
 
 import Header from './Header'
 
-export default function Generator({palettes, about}: {palettes: PaletteConfig[]; about: Block[]}) {
+type GeneratorProps = {
+  palettes: PaletteConfig[]
+  about: Block[]
+  stars: number
+}
+
+export default function Generator({palettes, about, stars}: GeneratorProps) {
   const [palettesState, setPalettesState] = useState(palettes)
   const [showDemo, setShowDemo] = useState(false)
   const previousPalettes: undefined | PaletteConfig[] = usePrevious(palettesState)
@@ -95,7 +101,7 @@ export default function Generator({palettes, about}: {palettes: PaletteConfig[];
     <main className="pb-32 pt-header">
       <style>{styleString}</style>
 
-      <Header handleNew={handleNew} handleDemo={handleDemo} />
+      <Header handleNew={handleNew} handleDemo={handleDemo} stars={stars} />
 
       {showDemo ? <Demo palettes={palettesState} close={handleDemo} /> : null}
 

@@ -1,11 +1,11 @@
-import type {LoaderFunction, MetaFunction} from '@remix-run/node'
+import {json} from '@remix-run/node'
+import type {LoaderArgs, MetaFunction} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
 
 import Generator from '~/components/Generator'
-import type {Block} from '~/components/Prose'
+import {getGitHubData} from '~/lib/getGitHubData'
+import {getSanityData} from '~/lib/getSanityData'
 import {createCanonicalUrl, createPaletteMetaImageUrl, requestToPalettes} from '~/lib/responses'
-import {getSanityData} from '~/lib/sanity'
-import type {PaletteConfig} from '~/types/palette'
 
 export const meta: MetaFunction = ({data}: {data: any}) => {
   if (!data) {
@@ -29,16 +29,19 @@ export const meta: MetaFunction = ({data}: {data: any}) => {
   }
 }
 
-export const loader: LoaderFunction = async ({request}) => {
+export const loader = async ({request}: LoaderArgs) => {
   const palettes = requestToPalettes(request.url)
-  const about = await getSanityData()
+  const [about, github] = await Promise.all([getSanityData(), getGitHubData()])
 
-  return {palettes, about}
+  return json({
+    palettes,
+    about,
+    stars: github.stargazers_count ? Number(github.stargazers_count) : 0,
+  })
 }
 
 export default function Index() {
-  const data = useLoaderData()
-  const {palettes, about}: {palettes: PaletteConfig[]; about: Block[]} = data ?? {}
+  const {palettes, about, stars} = useLoaderData<typeof loader>()
 
-  return palettes?.length ? <Generator palettes={palettes} about={about} /> : null
+  return palettes?.length ? <Generator palettes={palettes} about={about} stars={stars} /> : null
 }

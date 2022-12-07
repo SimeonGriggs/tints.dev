@@ -87,7 +87,7 @@ export default function App() {
         />
         <Scripts />
         <LiveReload />
-        <Analytics debug={process.env.NODE_ENV !== 'development'} />
+        {process.env.NODE_ENV !== 'development' ? <Analytics debug={false} /> : null}
       </body>
     </html>
   )

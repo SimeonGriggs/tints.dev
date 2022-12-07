@@ -9,7 +9,7 @@ function getConnectionSpeed() {
 }
 
 export function sendToVercelAnalytics(metric) {
-  const analyticsId = typeof document !== 'undefined' && window?.ENV?.VERCEL_ANALYTICS_ID
+  const analyticsId = window?.ENV?.VERCEL_ANALYTICS_ID
 
   if (!analyticsId) {
     return

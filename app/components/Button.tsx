@@ -6,7 +6,7 @@ export default function Button({
   children,
 }: {
   id: string
-  onClick: Function
+  onClick: () => void
   children: React.ReactNode
 }) {
   return (

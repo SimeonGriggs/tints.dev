@@ -1454,6 +1454,14 @@ body {
   margin-left: 0.5rem;
 }
 
+.-mr-2 {
+  margin-right: -0.5rem;
+}
+
+.-mr-1 {
+  margin-right: -0.25rem;
+}
+
 .inline-block {
   display: inline-block;
 }
@@ -1736,6 +1744,10 @@ body {
 
 .rounded-xl {
   border-radius: 0.75rem;
+}
+
+.rounded-sm {
+  border-radius: 0.125rem;
 }
 
 .rounded-t-3xl {
@@ -2144,6 +2156,11 @@ body {
   color: var(--first-300);
 }
 
+.text-yellow-600 {
+  --tw-text-opacity: 1;
+  color: rgb(202 138 4 / var(--tw-text-opacity));
+}
+
 .text-gray-800 {
   --tw-text-opacity: 1;
   color: rgb(31 41 55 / var(--tw-text-opacity));
@@ -2299,6 +2316,11 @@ body {
   background-color: var(--first-100);
 }
 
+.hover\:bg-yellow-500:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(234 179 8 / var(--tw-bg-opacity));
+}
+
 .hover\:text-red-500:hover {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity));
@@ -2356,6 +2378,11 @@ body {
 .invalid\:focus\:bg-red-100:focus:invalid {
   --tw-bg-opacity: 1;
   background-color: rgb(254 226 226 / var(--tw-bg-opacity));
+}
+
+.group:hover .group-hover\:text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .prose-headings\:tracking-tight :is(:where(h1, h2, h3, h4, h5, h6, th):not(:where([class~="not-prose"] *))) {

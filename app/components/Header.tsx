@@ -1,4 +1,5 @@
 import {CodeBracketIcon, LinkIcon, PlusIcon, SparklesIcon} from '@heroicons/react/24/outline/'
+import {StarIcon} from '@heroicons/react/24/solid'
 import {Link} from '@remix-run/react'
 import {useCopyToClipboard} from 'usehooks-ts'
 
@@ -11,9 +12,11 @@ import Twitter from './Twitter'
 export default function Header({
   handleNew,
   handleDemo,
+  stars,
 }: {
   handleNew: Function
   handleDemo: Function
+  stars: number
 }) {
   const [, copy] = useCopyToClipboard()
 
@@ -44,6 +47,12 @@ export default function Header({
         </Link>
 
         <div className="flex items-center gap-1 sm:gap-2">
+          {stars ? (
+            <span className="flex items-center gap-1 font-bold text-yellow-600 text-sm">
+              <StarIcon className="w-4 h-auto" />
+              {stars} <span className="sr-only">Stars on GitHub</span>
+            </span>
+          ) : null}
           <ButtonIcon
             title="Open Project on GitHub"
             icon={GitHub}
