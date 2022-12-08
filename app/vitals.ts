@@ -1,15 +1,16 @@
+import type {Metric} from 'web-vitals'
+
 const vitalsUrl = 'https://vitals.vercel-analytics.com/v1/vitals'
 
 function getConnectionSpeed() {
-  return 'connection' in navigator &&
-    navigator['connection'] &&
-    'effectiveType' in navigator['connection']
-    ? navigator['connection']['effectiveType']
-    : ''
+  const isSupported = !!(navigator as any)?.connection?.effectiveType
+
+  return isSupported ? (navigator as any)?.connection?.effectiveType : ''
 }
 
-export function sendToVercelAnalytics(metric) {
-  const analyticsId = window?.ENV?.VERCEL_ANALYTICS_ID
+export function sendToVercelAnalytics(metric: Metric) {
+  // const analyticsId = window?.ENV?.VERCEL_ANALYTICS_ID
+  const analyticsId = `asdf`
 
   if (!analyticsId) {
     return
