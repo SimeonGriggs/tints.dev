@@ -1,4 +1,4 @@
-import type {LinksFunction, LoaderArgs, MetaFunction} from '@remix-run/node'
+import type {LinksFunction, LoaderArgs, MetaFunction, SerializeFrom} from '@remix-run/node'
 import {
   Link,
   Links,
@@ -62,6 +62,12 @@ export const loader = async (props: LoaderArgs) => {
     ENV: {
       VERCEL_ANALYTICS_ID: process.env.VERCEL_ANALYTICS_ID,
     },
+  }
+}
+
+declare global {
+  interface Window {
+    ENV: SerializeFrom<typeof loader>['ENV']
   }
 }
 
