@@ -1,6 +1,6 @@
 import {nanoid} from 'nanoid'
 
-import {DEFAULT_PALETTE_CONFIG, META} from '~/lib/constants'
+import {DEFAULT_PALETTE_CONFIG, META, OG_IMAGE_HEIGHT, OG_IMAGE_WIDTH} from '~/lib/constants'
 import {
   createRandomPalette,
   createSwatches,
@@ -58,25 +58,12 @@ export function createCanonicalUrl(palettes: PaletteConfig[], apiUrl = false) {
 }
 
 export function createPaletteMetaImageUrl(palette: PaletteConfig) {
-  const metaImageUrl = [META.origin, palette.name, palette.value.toUpperCase(), 'meta'].join('/')
-
-  const imageWidth = `1200`
-  const imageHeight = `630`
-  const imageUrl = new URL(`https://api.apiflash.com/v1/urltoimage`)
-  imageUrl.searchParams.set(`access_key`, `20f8de307f854876a99bb1bb1efe5257`)
-  imageUrl.searchParams.set(`url`, metaImageUrl)
-  imageUrl.searchParams.set(`height`, imageHeight)
-  imageUrl.searchParams.set(`width`, imageWidth)
-  imageUrl.searchParams.set(`format`, `png`)
-  imageUrl.searchParams.set(`response_type`, `image`)
-  imageUrl.searchParams.set(`scale_factor`, `2`)
-  imageUrl.searchParams.set(`wait_for`, `#meta-image`)
-  imageUrl.searchParams.set(`fail_on_status`, `300-399,400-499,500-599`)
+  const metaImageUrl = [META.origin, palette.name, palette.value.toUpperCase(), 'og'].join('/')
 
   return {
-    url: imageUrl.toString(),
-    width: imageWidth,
-    height: imageHeight,
+    url: metaImageUrl,
+    width: OG_IMAGE_WIDTH,
+    height: OG_IMAGE_HEIGHT,
   }
 }
 

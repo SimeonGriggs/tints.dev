@@ -41,3 +41,6 @@ export const META = {
   title: `Tailwind CSS 10-color Palette Generator and API`,
   description: `A fast and flexible, HSL-tweakable palette generator and API for Tailwind CSS`,
 }
+
+export const OG_IMAGE_WIDTH = 1200
+export const OG_IMAGE_HEIGHT = 630
