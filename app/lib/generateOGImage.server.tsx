@@ -38,9 +38,7 @@ export async function generateOGImage(
   const darkColor = palette.swatches.find((swatch) => swatch.stop === 800)?.hex
   const lightColor = palette.swatches.find((swatch) => swatch.stop === 300)?.hex
 
-  const displayUrl = canonical.startsWith(`https://`)
-    ? canonical.replace(`https://`, ``)
-    : canonical.replace(`http://`, ``)
+  const displayUrl = canonical.replace(/(^\w+:|^)\/\//, '').replace('www.', '')
 
   const svg = await satori(
     <div
