@@ -1,13 +1,8 @@
 @tailwind base;
 @tailwind components;
 
-/* * {
-  outline: 1px solid rgba(255, 0, 0, 0.1);
-} */
-
 html {
   scroll-behavior: smooth;
-  /* scroll-padding-top: theme('spacing.header'); */
   scroll-padding-top: calc(theme('spacing.header') + theme('spacing.4'));
   overflow: auto;
 }

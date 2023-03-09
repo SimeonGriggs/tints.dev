@@ -12,7 +12,7 @@ import {
 } from '@remix-run/react'
 import {Analytics} from '@vercel/analytics/react'
 
-import stylesUrl from '~/styles/app.css'
+import stylesheet from '~/tailwind.css'
 
 import {META} from './lib/constants'
 
@@ -53,7 +53,7 @@ export const links: LinksFunction = () => {
       crossOrigin: 'anonymous' as const,
     })),
     {rel: 'canonical', href: META.origin},
-    {rel: 'stylesheet', href: stylesUrl},
+    {rel: 'stylesheet', href: stylesheet},
   ]
 }
 

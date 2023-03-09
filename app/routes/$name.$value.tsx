@@ -25,8 +25,8 @@ export const meta: MetaFunction = ({data}: {data: any}) => {
 
   return {
     'og:url': canonicalUrl,
-    'og:image:width': width,
-    'og:image:height': height,
+    'og:image:width': String(width),
+    'og:image:height': String(height),
     'og:image': url,
   }
 }

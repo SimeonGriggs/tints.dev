@@ -1,4 +1,4 @@
-import {CodeBracketIcon, LinkIcon, PlusIcon, SparklesIcon} from '@heroicons/react/24/outline/'
+import {CodeBracketIcon, LinkIcon, PlusIcon, SparklesIcon} from '@heroicons/react/24/outline'
 import {StarIcon} from '@heroicons/react/24/solid'
 import {Link} from '@remix-run/react'
 import {useCopyToClipboard} from 'usehooks-ts'
