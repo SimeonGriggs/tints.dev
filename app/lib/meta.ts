@@ -53,7 +53,7 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
 
   const documentTitle = [
     paletteTitle,
-    `10-Color`,
+    `11-Color`,
     palettes.length === 1 ? `Palette` : `Palettes`,
     `Generated for Tailwind CSS`,
   ].join(` `)

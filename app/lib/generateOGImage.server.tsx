@@ -77,7 +77,6 @@ export async function generateOGImage(
             fontFamily: 'Inter, sans-serif',
             transform: `translateY(-12px)`,
           }}
-          // className="text-5xl font-bold transform -translate-y-1"
         >
           #{palette.value.toUpperCase()}
         </span>
@@ -93,7 +92,6 @@ export async function generateOGImage(
           fontFamily: 'JetBrains Mono, monospace',
           margin: `0 -6px`,
         }}
-        // className="grid grid-cols-5 gap-6 w-full text-2xl"
       >
         {palette.swatches
           .filter((swatch) => ![0, 1000].includes(swatch.stop))
@@ -103,7 +101,7 @@ export async function generateOGImage(
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                width: `20%`,
+                width: `16.66%`,
                 padding: `0 12px`,
                 gap: 4,
               }}
@@ -120,18 +118,20 @@ export async function generateOGImage(
                 className="h-12 xl:h-16 w-full rounded shadow-inner flex flex-col items-center justify-center transition-colors duration-500"
               />
               <div
-                style={{display: 'flex', justifyContent: 'space-between', padding: `0 4px 24px`}}
-                // className="flex flex-col sm:flex-row sm:items-center justify-between px-0.5 sm:px-1"
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  padding: `0 4px 24px`,
+                  fontSize: 20,
+                }}
               >
+                <div style={{display: 'flex'}}>{swatch.stop}</div>
                 <div
-                  style={{display: 'flex'}}
-                  // className="font-mono"
-                >
-                  {swatch.stop}
-                </div>
-                <div
-                  style={{display: 'flex', fontVariantNumeric: 'tabular-nums', opacity: 0.5}}
-                  // className="tabular-nums opacity-50"
+                  style={{
+                    display: 'flex',
+                    fontVariantNumeric: 'tabular-nums',
+                    opacity: 0.5,
+                  }}
                 >
                   {swatch.hex.toUpperCase()}
                 </div>
