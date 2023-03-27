@@ -333,7 +333,7 @@ export default function Palette({
         </div>
       </div>
 
-      <div className="grid gap-1 grid-cols-5 lg:grid-cols-10 sm:gap-2 text-2xs sm:text-xs">
+      <div className="grid gap-1 grid-cols-5 lg:grid-cols-11 sm:gap-2 text-2xs sm:text-xs">
         {paletteState.swatches
           .filter((swatch) => ![0, 1000].includes(swatch.stop))
           .map((swatch) => (
