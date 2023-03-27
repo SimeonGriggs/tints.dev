@@ -86,10 +86,10 @@ export default function Palette({
   // Update global list every time local palette changes
   // ... if name and value are legit
   useEffect(() => {
-    const name = isValidName(paletteState.name) ? paletteState.name : null
-    const value = isHex(paletteState.value) ? paletteState.value : null
+    const validName = isValidName(paletteState.name) ? paletteState.name : null
+    const validValue = isHex(paletteState.value) ? paletteState.value : null
 
-    if ((name && value && name !== palette.name) || (name && value && value !== palette.value)) {
+    if (validName && validValue) {
       updateGlobal(paletteState)
     }
   }, [palette, paletteState, updateGlobal])

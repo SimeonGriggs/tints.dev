@@ -1,5 +1,6 @@
 import {Transition} from '@headlessui/react'
 import React, {useEffect, useMemo, useState} from 'react'
+import isEqual from 'react-fast-compare'
 
 import Demo from '~/components/Demo'
 import Graphs from '~/components/Graphs'
@@ -66,7 +67,9 @@ export default function Generator({palettes, about, stars}: GeneratorProps) {
     const currentPalettes = [...palettesState]
     currentPalettes[index] = palette
 
-    setPalettesState(currentPalettes)
+    if (!isEqual(currentPalettes, palettesState)) {
+      setPalettesState(currentPalettes)
+    }
   }
 
   const handleDelete = (deleteId: string, deleteName: string) => {
