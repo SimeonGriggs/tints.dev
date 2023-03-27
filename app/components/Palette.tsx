@@ -7,7 +7,6 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/solid'
 import React, {useEffect, useState} from 'react'
-import isEqual from 'react-fast-compare'
 import {useCopyToClipboard} from 'usehooks-ts'
 
 import Graphs from '~/components/Graphs'
