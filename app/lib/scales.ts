@@ -13,6 +13,7 @@ export function createSaturationScale(tweak: number = 0) {
     {key: 700, tweak: Math.round(tweak * 0.5)},
     {key: 800, tweak: Math.round(tweak * 0.75)},
     {key: 900, tweak: Math.round(tweak)},
+    {key: 950, tweak: Math.round(tweak * 1.125)},
     {key: 1000, tweak: Math.round(tweak) * 1.25},
   ]
 }
@@ -30,6 +31,7 @@ export function createHueScale(tweak: number = 0) {
     {key: 700, tweak: tweak ? tweak * 1 + tweak : 0},
     {key: 800, tweak: tweak ? tweak * 2 + tweak : 0},
     {key: 900, tweak: tweak ? tweak * 3 + tweak : 0},
+    {key: 950, tweak: tweak ? tweak * 3.5 + tweak : 0},
     {key: 1000, tweak: tweak ? tweak * 4 + tweak : 0},
   ]
 }
@@ -55,6 +57,7 @@ export function createDistributionValues(min: number, max: number, lightness: nu
     {key: 700, tweak: Math.round(lightness - minStep * 2)},
     {key: 800, tweak: Math.round(lightness - minStep * 3)},
     {key: 900, tweak: Math.round(lightness - minStep * 4)},
+    {key: 950, tweak: Math.round(lightness - minStep * 4.5)},
     {key: 1000, tweak: Math.round(lightness - minStep * 5)}, // Closest to 0, darkest colour
   ]
 
