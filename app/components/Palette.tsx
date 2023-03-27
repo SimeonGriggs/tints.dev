@@ -7,6 +7,7 @@ import {
   TrashIcon,
 } from '@heroicons/react/24/solid'
 import React, {useEffect, useState} from 'react'
+import isEqual from 'react-fast-compare'
 import {useCopyToClipboard} from 'usehooks-ts'
 
 import Graphs from '~/components/Graphs'
@@ -86,10 +87,10 @@ export default function Palette({
   // Update global list every time local palette changes
   // ... if name and value are legit
   useEffect(() => {
-    const name = isValidName(paletteState.name) ? paletteState.name : null
-    const value = isHex(paletteState.value) ? paletteState.value : null
+    const validName = isValidName(paletteState.name) ? paletteState.name : null
+    const validValue = isHex(paletteState.value) ? paletteState.value : null
 
-    if ((name && value && name !== palette.name) || (name && value && value !== palette.value)) {
+    if (validName && validValue) {
       updateGlobal(paletteState)
     }
   }, [palette, paletteState, updateGlobal])

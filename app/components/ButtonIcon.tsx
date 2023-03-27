@@ -29,7 +29,7 @@ export default function ButtonIcon({
   tabIndex = -1,
 }: {
   title: string
-  icon: ReactNode
+  icon: ReactNode | React.ForwardRefExoticComponent<React.SVGProps<SVGSVGElement>>
   href?: string
   testId?: string
   onClick?: Function | undefined
