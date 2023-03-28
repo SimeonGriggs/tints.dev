@@ -1,5 +1,4 @@
 import {DEFAULT_STOPS} from './constants'
-import {round} from './helpers'
 
 export function createSaturationScale(tweak: number = 0, stop: number = 500) {
   const stops = DEFAULT_STOPS
