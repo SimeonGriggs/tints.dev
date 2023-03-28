@@ -1,12 +1,13 @@
 import type {PaletteConfig} from '~/types/palette'
 
+export const DEFAULT_STOP = 500
 export const DEFAULT_STOPS = [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 1000]
 
 export const DEFAULT_PALETTE_CONFIG: PaletteConfig = {
   id: ``,
   name: ``,
   value: ``,
-  valueStop: 200,
+  valueStop: DEFAULT_STOP,
   swatches: [],
   h: 0,
   s: 0,

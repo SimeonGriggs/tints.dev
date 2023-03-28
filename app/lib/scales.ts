@@ -1,6 +1,6 @@
-import {DEFAULT_STOPS} from './constants'
+import {DEFAULT_STOP, DEFAULT_STOPS} from './constants'
 
-export function createSaturationScale(tweak: number = 0, stop: number = 500) {
+export function createSaturationScale(tweak: number = 0, stop: number = DEFAULT_STOP) {
   const stops = DEFAULT_STOPS
   const index = stops.indexOf(stop)
 
@@ -20,7 +20,7 @@ export function createSaturationScale(tweak: number = 0, stop: number = 500) {
   })
 }
 
-export function createHueScale(tweak: number = 0, stop: number = 500) {
+export function createHueScale(tweak: number = 0, stop: number = DEFAULT_STOP) {
   const stops = DEFAULT_STOPS
   const index = stops.indexOf(stop)
 
@@ -47,7 +47,7 @@ export function createDistributionValues(
   min: number = 0,
   max: number = 100,
   lightness: number,
-  stop: number = 200
+  stop: number = DEFAULT_STOP
 ) {
   const stops = DEFAULT_STOPS
 

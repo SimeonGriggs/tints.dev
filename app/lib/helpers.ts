@@ -1,6 +1,6 @@
 import {nanoid} from 'nanoid'
 
-import {DEFAULT_PALETTE_CONFIG, RANDOM_PALETTES} from '~/lib/constants'
+import {DEFAULT_PALETTE_CONFIG, DEFAULT_STOP, RANDOM_PALETTES} from '~/lib/constants'
 import type {PaletteConfig} from '~/types/palette'
 
 import {createDistributionValues, createHueScale, createSaturationScale} from './scales'
@@ -175,7 +175,7 @@ export function round(value: number, precision: number = 0) {
 }
 
 export function createSwatches(palette: PaletteConfig) {
-  const {value, valueStop = 500} = palette
+  const {value, valueStop = DEFAULT_STOP} = palette
 
   // Tweaks may be passed in, otherwise use defaults
   const useLightness = palette.useLightness ?? DEFAULT_PALETTE_CONFIG.useLightness
