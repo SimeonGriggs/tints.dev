@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 import {DEFAULT_STOPS} from '~/lib/constants'
 
-import {inputClasses, labelClasses} from './Palette'
+import {inputClasses} from './Palette'
 
 type StopSelectProps = {
   value: string
