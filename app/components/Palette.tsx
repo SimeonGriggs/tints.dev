@@ -18,6 +18,7 @@ import type {PaletteConfig} from '~/types/palette'
 
 import ButtonIcon from './ButtonIcon'
 import ColorPicker from './ColorPicker'
+import StopSelect from './StopSelect'
 
 const tweakInputs = [
   {
@@ -54,7 +55,7 @@ const paletteInputs = [
   },
   {
     name: `value`,
-    title: `Value (Swatch 500)`,
+    title: `Value`,
     value: ``,
     min: 6,
     max: 6,
@@ -63,8 +64,8 @@ const paletteInputs = [
   },
 ]
 
-const inputClasses = `w-full p-2 border border-gray-200 bg-gray-50 text-gray-800 focus:outline-none focus:ring focus:bg-gray-100 focus:border-gray-300 invalid:focus:border-dashed invalid:focus:border-red-500 invalid:focus:bg-red-100 invalid:border-red-500 invalid:bg-red-100`
-const labelClasses = `transition-color duration-200 text-xs font-bold`
+export const inputClasses = `w-full p-2 border border-gray-200 bg-gray-50 text-gray-800 focus:outline-none focus:ring focus:bg-gray-100 focus:border-gray-300 invalid:focus:border-dashed invalid:focus:border-red-500 invalid:focus:bg-red-100 invalid:border-red-500 invalid:bg-red-100`
+export const labelClasses = `transition-color duration-200 text-xs font-bold`
 
 export default function Palette({
   palette,
@@ -160,11 +161,13 @@ export default function Palette({
       if (isHex(newValue)) {
         updateValue(newValue)
       }
-    } else if (e.currentTarget.name === 'valueStop') {
-      const newValueStop = parseInt(e.currentTarget.value, 10)
-      if (DEFAULT_STOPS.includes(newValueStop)) {
-        updateValueStop(newValueStop)
-      }
+    }
+  }
+
+  const handleStopChange = (value: string) => {
+    const newValueStop = parseInt(value, 10)
+    if (DEFAULT_STOPS.includes(newValueStop)) {
+      updateValueStop(newValueStop)
     }
   }
 
@@ -255,19 +258,7 @@ export default function Palette({
                 max={input.max}
                 required
               />
-              {input.name === 'name' ? (
-                <select
-                  name="valueStop"
-                  value={paletteState.valueStop}
-                  onChange={handlePaletteChange}
-                >
-                  {DEFAULT_STOPS.map((stop) => (
-                    <option key={stop} value={stop}>
-                      {stop}
-                    </option>
-                  ))}
-                </select>
-              ) : null}
+
               {input.name === 'value' ? (
                 <>
                   <div className="absolute inset-0 pointer-events-none flex items-center justify-start text-gray-400">
@@ -277,6 +268,10 @@ export default function Palette({
                     color={paletteState.value}
                     onChange={handleColorPickerChange}
                     ringStyle={ringStyle}
+                  />
+                  <StopSelect
+                    value={paletteState.valueStop.toString()}
+                    onChange={handleStopChange}
                   />
                 </>
               ) : null}
