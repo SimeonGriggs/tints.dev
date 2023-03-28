@@ -175,7 +175,7 @@ export function round(value: number, precision: number = 0) {
 }
 
 export function createSwatches(palette: PaletteConfig) {
-  const {value} = palette
+  const {value, valueStop = 500} = palette
 
   // Tweaks may be passed in, otherwise use defaults
   const useLightness = palette.useLightness ?? DEFAULT_PALETTE_CONFIG.useLightness
@@ -185,45 +185,35 @@ export function createSwatches(palette: PaletteConfig) {
   const lMax = palette.lMax ?? DEFAULT_PALETTE_CONFIG.lMax
 
   // Create hue and saturation scales based on tweaks
-  const hueScale = createHueScale(h)
-  const saturationScale = createSaturationScale(s)
+  const hueScale = createHueScale(h, valueStop)
+  const saturationScale = createSaturationScale(s, valueStop)
 
   // Get the base hex's H/S/L values
   const {h: valueH, s: valueS, l: valueL} = hexToHSL(value)
 
   // Create lightness scales based on tweak + lightness/luminance of current value
   const lightnessValue = useLightness ? valueL : luminanceFromHex(value)
-  const distributionScale = createDistributionValues(lMin, lMax, lightnessValue)
+  const distributionScale = createDistributionValues(lMin, lMax, lightnessValue, valueStop)
 
-  const swatches = hueScale.map(({key}, i) => {
-    // Hue value must be between 0-360
-    // todo: fix this inside the function
-    let newH = valueH + hueScale[i].tweak
-    newH = newH < 0 ? 360 + newH - 1 : newH
-    newH = newH > 720 ? newH - 360 : newH
-    newH = newH > 360 ? newH - 360 : newH
-
-    // Saturation must be between 0-100
-    let newS = valueS + saturationScale[i].tweak
-    newS = newS > 100 ? 100 : newS
-
+  const swatches = hueScale.map(({stop}, stopIndex) => {
+    const newH = valueH + hueScale[stopIndex].tweak
+    const newS = valueS + saturationScale[stopIndex].tweak
     const newL = useLightness
-      ? distributionScale[i].tweak
-      : lightnessFromHSLum(newH, newS, distributionScale[i].tweak)
+      ? distributionScale[stopIndex].tweak
+      : lightnessFromHSLum(newH, newS, distributionScale[stopIndex].tweak)
 
     const newHex = HSLToHex(newH, newS, newL)
-    const paletteI = key
 
     return {
-      stop: paletteI,
+      stop,
       // Sometimes the initial value is changed slightly during conversion,
       // overriding that with the original value
-      hex: paletteI === 500 ? `#${palette.value.toUpperCase()}` : newHex.toUpperCase(),
+      hex: stop === valueStop ? `#${value.toUpperCase()}` : newHex.toUpperCase(),
       // Used in graphs
       h: newH,
-      hScale: hueScale[i].tweak,
+      hScale: hueScale[stopIndex].tweak,
       s: newS,
-      sScale: saturationScale[i].tweak,
+      sScale: saturationScale[stopIndex].tweak,
       l: newL,
     }
   })

@@ -11,7 +11,7 @@ import {useCopyToClipboard} from 'usehooks-ts'
 
 import Graphs from '~/components/Graphs'
 import Swatch from '~/components/Swatch'
-import {DEFAULT_PALETTE_CONFIG} from '~/lib/constants'
+import {DEFAULT_PALETTE_CONFIG, DEFAULT_STOPS} from '~/lib/constants'
 import {createSwatches, isHex, isValidName} from '~/lib/helpers'
 import {createCanonicalUrl} from '~/lib/responses'
 import type {PaletteConfig} from '~/types/palette'
@@ -95,6 +95,10 @@ export default function Palette({
   }, [palette, paletteState, updateGlobal])
 
   const updateName = (name: string) => {
+    if (!isValidName(name)) {
+      return
+    }
+
     // Remove current search param
     if (typeof document !== 'undefined') {
       const currentUrl = new URL(window.location.href)
@@ -109,14 +113,31 @@ export default function Palette({
   }
 
   const updateValue = (value: string) => {
+    if (!isHex(value)) {
+      return
+    }
+
     const newPalette = {
       ...paletteState,
       value,
     }
 
-    if (!isHex(value)) {
-      setPaletteState(newPalette)
+    const newSwatches = createSwatches(newPalette)
+
+    setPaletteState({
+      ...newPalette,
+      swatches: newSwatches,
+    })
+  }
+
+  const updateValueStop = (valueStop: number) => {
+    if (!DEFAULT_STOPS.includes(valueStop)) {
       return
+    }
+
+    const newPalette = {
+      ...paletteState,
+      valueStop,
     }
 
     const newSwatches = createSwatches(newPalette)
@@ -128,13 +149,22 @@ export default function Palette({
   }
 
   // Handle changes to name or value of palette
-  const handlePaletteChange = (e: React.FormEvent<HTMLInputElement>) => {
+  const handlePaletteChange = (e: React.FormEvent<HTMLInputElement | HTMLSelectElement>) => {
     if (e.currentTarget.name === 'name') {
       const newName = e.currentTarget.value
-      updateName(newName)
+      if (isValidName(newName)) {
+        updateName(newName)
+      }
     } else if (e.currentTarget.name === 'value') {
       const newValue = e.currentTarget.value ? e.currentTarget.value.toUpperCase() : ``
-      updateValue(newValue)
+      if (isHex(newValue)) {
+        updateValue(newValue)
+      }
+    } else if (e.currentTarget.name === 'valueStop') {
+      const newValueStop = parseInt(e.currentTarget.value, 10)
+      if (DEFAULT_STOPS.includes(newValueStop)) {
+        updateValueStop(newValueStop)
+      }
     }
   }
 
@@ -225,6 +255,19 @@ export default function Palette({
                 max={input.max}
                 required
               />
+              {input.name === 'name' ? (
+                <select
+                  name="valueStop"
+                  value={paletteState.valueStop}
+                  onChange={handlePaletteChange}
+                >
+                  {DEFAULT_STOPS.map((stop) => (
+                    <option key={stop} value={stop}>
+                      {stop}
+                    </option>
+                  ))}
+                </select>
+              ) : null}
               {input.name === 'value' ? (
                 <>
                   <div className="absolute inset-0 pointer-events-none flex items-center justify-start text-gray-400">
@@ -333,7 +376,7 @@ export default function Palette({
         </div>
       </div>
 
-      <div className="grid gap-1 grid-cols-5 lg:grid-cols-11 sm:gap-2 text-2xs sm:text-xs">
+      <div className="grid gap-1 grid-cols-11 sm:grid-cols-4 lg:grid-cols-11 sm:gap-2 text-2xs sm:text-xs">
         {paletteState.swatches
           .filter((swatch) => ![0, 1000].includes(swatch.stop))
           .map((swatch) => (

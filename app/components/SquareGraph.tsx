@@ -35,6 +35,7 @@ export default function SquareGraph({
                     top={`calc(50% - ${limitedScale}%)`}
                     swatch={swatch}
                     highlight={graph}
+                    palette={palette}
                   />
                 )
               })}

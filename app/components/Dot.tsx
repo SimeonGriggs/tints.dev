@@ -2,11 +2,12 @@ import React from 'react'
 import {usePopperTooltip} from 'react-popper-tooltip'
 
 import type {SwatchValue} from '~/types/SwatchValue'
+import type {PaletteConfig} from '~/types/palette'
 
 const dotClasses = {
   common: `transition duration-500 absolute z-10 border-2 border-white shadow transform -translate-y-1/2 -translate-x-1/2`,
   default: `rounded-full w-4 h-4`,
-  '500': `rotate-45 w-5 h-5`,
+  'value-stop': `rotate-45 w-5 h-5`,
   ends: `w-1 h-6`,
 }
 
@@ -14,17 +15,19 @@ export default function Dot({
   swatch,
   top,
   highlight = 'l',
+  palette,
 }: {
   swatch: SwatchValue
   top: number | string
   highlight: 'h' | 's' | 'l'
+  palette: PaletteConfig
 }) {
   const {getArrowProps, getTooltipProps, setTooltipRef, setTriggerRef, visible} = usePopperTooltip()
 
   const classNames = [dotClasses.common]
 
-  if (swatch.stop === 500) {
-    classNames.push(dotClasses['500'])
+  if (swatch.stop === palette?.valueStop) {
+    classNames.push(dotClasses['value-stop'])
   } else if (swatch.stop === 0 || swatch.stop === 1000) {
     classNames.push(dotClasses.ends)
   } else {

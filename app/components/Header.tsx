@@ -14,8 +14,8 @@ export default function Header({
   handleDemo,
   stars,
 }: {
-  handleNew: Function
-  handleDemo: Function
+  handleNew: () => void
+  handleDemo: () => void
   stars: number
 }) {
   const [, copy] = useCopyToClipboard()
@@ -37,10 +37,10 @@ export default function Header({
   return (
     <header className="fixed z-40 inset-0 bottom-auto bg-white/90 backdrop-blur-lg border-b border-first-100">
       <div className="container mx-auto px-4 flex items-center justify-between h-header">
-        <Link to="/" className="flex items-center gap-2">
+        <Link to="/" className="flex flex-col lg:flex-row lg:items-center lg:gap-2">
           <>
             <span className="font-bold text-first-600 text-sm md:text-lg font-mono">tints.dev</span>
-            <span className="font-medium text-first-300 hidden md:block text-sm">
+            <span className="font-medium text-first-300 hidden md:block text-xs lg:text-sm">
               Palette Generator + API for Tailwind CSS
             </span>
           </>
