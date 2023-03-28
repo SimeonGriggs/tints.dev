@@ -19,7 +19,7 @@
     }
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.4",
+    "@headlessui/react": "^1.7.13",
     "@heroicons/react": "^2.0.13",
     "@portabletext/react": "^2.0.0",
     "@remix-run/eslint-config": "^1.8.1",
@@ -31,6 +31,7 @@
     "@tailwindcss/typography": "^0.5.8",
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
     "@vercel/analytics": "^0.1.5",
+    "clsx": "^1.2.1",
     "cypress": "^11.2.0",
     "husky": "^8.0.2",
     "nanoid": "^4.0.0",
