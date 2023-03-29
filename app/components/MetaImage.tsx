@@ -1,6 +1,6 @@
 import Swatch from '~/components/Swatch'
 import {META} from '~/lib/constants'
-import type {PaletteConfig} from '~/types/palette'
+import type {PaletteConfig} from '~/types'
 
 export default function MetaImage({
   palettes,

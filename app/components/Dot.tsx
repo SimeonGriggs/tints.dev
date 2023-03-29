@@ -1,8 +1,8 @@
 import React from 'react'
 import {usePopperTooltip} from 'react-popper-tooltip'
 
-import type {SwatchValue} from '~/types/SwatchValue'
-import type {PaletteConfig} from '~/types/palette'
+import {createDisplayColor} from '~/lib/createDisplayColor'
+import type {Mode, PaletteConfig, SwatchValue} from '~/types'
 
 const dotClasses = {
   common: `transition duration-500 absolute z-10 border-2 border-white shadow transform -translate-y-1/2 -translate-x-1/2`,
@@ -11,17 +11,16 @@ const dotClasses = {
   ends: `w-1 h-6`,
 }
 
-export default function Dot({
-  swatch,
-  top,
-  highlight = 'l',
-  palette,
-}: {
+type DotProps = {
   swatch: SwatchValue
   top: number | string
-  highlight: 'h' | 's' | 'l'
-  palette: PaletteConfig
-}) {
+  mode: Mode
+  highlight?: 'h' | 's' | 'l'
+  palette?: PaletteConfig
+}
+
+export default function Dot(props: DotProps) {
+  const {swatch, top, highlight = 'l', palette, mode} = props
   const {getArrowProps, getTooltipProps, setTooltipRef, setTriggerRef, visible} = usePopperTooltip()
 
   const classNames = [dotClasses.common]
@@ -34,12 +33,14 @@ export default function Dot({
     classNames.push(dotClasses.default)
   }
 
+  const display = createDisplayColor(swatch.hex, mode)
+
   return (
     <>
       <div
         ref={setTriggerRef}
         style={{
-          backgroundColor: swatch.hex,
+          backgroundColor: display || `transparent`,
           left: `${100 - swatch.l}%`,
           top,
         }}

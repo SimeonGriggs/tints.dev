@@ -1,4 +1,4 @@
-import type {PaletteConfig} from '~/types/palette'
+import type {PaletteConfig} from '~/types'
 
 import {createCanonicalUrl} from './responses'
 

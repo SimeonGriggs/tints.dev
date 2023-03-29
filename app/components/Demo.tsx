@@ -1,7 +1,7 @@
 import {MoonIcon, SparklesIcon, StarIcon, SunIcon, XMarkIcon} from '@heroicons/react/24/solid'
 import {useState} from 'react'
 
-import type {PaletteConfig} from '~/types/palette'
+import type {PaletteConfig} from '~/types'
 
 import Button from './Button'
 

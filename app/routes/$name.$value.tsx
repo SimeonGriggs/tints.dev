@@ -59,9 +59,9 @@ export const loader = async ({request, params}: LoaderArgs) => {
   const [about, github] = await Promise.all([getSanityData(), getGitHubData()])
 
   return json({
-    palettes: [palette],
+    palettes: palette ? [palette] : [],
     about,
-    stars: github.stargazers_count ? Number(github.stargazers_count) : 0,
+    stars: github?.stargazers_count ? Number(github.stargazers_count) : 0,
   })
 }
 

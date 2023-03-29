@@ -12,9 +12,10 @@ import {useCopyToClipboard} from 'usehooks-ts'
 import Graphs from '~/components/Graphs'
 import Swatch from '~/components/Swatch'
 import {DEFAULT_PALETTE_CONFIG, DEFAULT_STOPS} from '~/lib/constants'
-import {createSwatches, isHex, isValidName} from '~/lib/helpers'
+import {createSwatches} from '~/lib/createSwatches'
+import {isHex, isValidName} from '~/lib/helpers'
 import {createCanonicalUrl} from '~/lib/responses'
-import type {PaletteConfig} from '~/types/palette'
+import type {Mode, PaletteConfig} from '~/types'
 
 import ButtonIcon from './ButtonIcon'
 import ColorPicker from './ColorPicker'
@@ -67,15 +68,16 @@ const paletteInputs = [
 export const inputClasses = `w-full p-2 border border-gray-200 bg-gray-50 text-gray-800 focus:outline-none focus:ring focus:bg-gray-100 focus:border-gray-300 invalid:focus:border-dashed invalid:focus:border-red-500 invalid:focus:bg-red-100 invalid:border-red-500 invalid:bg-red-100`
 export const labelClasses = `transition-color duration-200 text-xs font-bold`
 
-export default function Palette({
-  palette,
-  updateGlobal,
-  deleteGlobal,
-}: {
+type PaletteProps = {
   palette: PaletteConfig
   updateGlobal: Function
   deleteGlobal: Function | undefined
-}) {
+  currentMode: Mode
+}
+
+export default function Palette(props: PaletteProps) {
+  const {palette, updateGlobal, deleteGlobal, currentMode} = props
+
   const [paletteState, setPaletteState] = useState({
     ...DEFAULT_PALETTE_CONFIG,
     ...palette,
@@ -375,7 +377,7 @@ export default function Palette({
         {paletteState.swatches
           .filter((swatch) => ![0, 1000].includes(swatch.stop))
           .map((swatch) => (
-            <Swatch key={swatch.stop} swatch={swatch} />
+            <Swatch key={swatch.stop} swatch={swatch} mode={currentMode} />
           ))}
       </div>
 

@@ -1,4 +1,4 @@
-import type {PaletteConfig} from '~/types/palette'
+import type {PaletteConfig} from '~/types'
 
 import {titleCase} from './helpers'
 import {createCanonicalUrl, createPaletteMetaImageUrl} from './responses'

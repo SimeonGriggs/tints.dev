@@ -1,7 +1,7 @@
 import React from 'react'
 
 import {DEFAULT_PALETTE_CONFIG} from '~/lib/constants'
-import type {PaletteConfig} from '~/types/palette'
+import type {Mode, PaletteConfig} from '~/types'
 
 import Dot from './Dot'
 
@@ -10,13 +10,15 @@ const labels = {
   s: 'Saturation',
 }
 
-export default function SquareGraph({
-  palettes,
-  graph = `h`,
-}: {
+type SquareGraphProps = {
   palettes: PaletteConfig[]
   graph: 'h' | 's'
-}) {
+  mode: Mode
+}
+
+export default function SquareGraph(props: SquareGraphProps) {
+  const {palettes, graph = `h`, mode} = props
+
   return (
     <section className="grid grid-cols-1 gap-2">
       <div className="relative rounded bg-gray-50 border border-gray-200 flex justify-between h-40 w-full">
@@ -36,6 +38,7 @@ export default function SquareGraph({
                     swatch={swatch}
                     highlight={graph}
                     palette={palette}
+                    mode={mode}
                   />
                 )
               })}
