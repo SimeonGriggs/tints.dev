@@ -1,16 +1,14 @@
 import {nanoid} from 'nanoid'
 
 import {DEFAULT_PALETTE_CONFIG, META, OG_IMAGE_HEIGHT, OG_IMAGE_WIDTH} from '~/lib/constants'
-import {
-  createRandomPalette,
-  createSwatches,
-  isHex,
-  isValidName,
-  removeTrailingSlash,
-} from '~/lib/helpers'
-import type {PaletteConfig} from '~/types/palette'
+import {createRandomPalette} from '~/lib/createRandomPalette'
+import {createSwatches} from '~/lib/createSwatches'
+import {isHex, isValidName, removeTrailingSlash} from '~/lib/helpers'
+import type {Mode, PaletteConfig} from '~/types'
 
-export function createPaletteFromNameValue(name: string, value: string) {
+import {createDisplayColor} from './createDisplayColor'
+
+export function createPaletteFromNameValue(name: string, value: string): PaletteConfig | null {
   if (!name || !isValidName(name) || !value || !isHex(value)) {
     return null
   }
@@ -100,14 +98,16 @@ export function requestToPalettes(url: string) {
 }
 
 // Convert array of palette objects used in GUI to array of colour swatches for Tailwind Config
-export function output(palettes: PaletteConfig[]) {
+export function output(palettes: PaletteConfig[], mode: Mode) {
   const shaped = {}
 
   palettes.forEach((palette) => {
     const swatches = {}
     palette.swatches
       .filter((swatch) => ![0, 1000].includes(swatch.stop))
-      .forEach((swatch) => Object.assign(swatches, {[swatch.stop]: swatch.hex.toUpperCase()}))
+      .forEach((swatch) =>
+        Object.assign(swatches, {[swatch.stop]: createDisplayColor(swatch.hex, mode)})
+      )
 
     Object.assign(shaped, {[palette.name]: swatches})
   })

@@ -3,7 +3,7 @@ import type {SatoriOptions} from 'satori'
 import satori from 'satori'
 
 import {META, OG_IMAGE_HEIGHT, OG_IMAGE_WIDTH} from '~/lib/constants'
-import type {PaletteConfig} from '~/types/palette'
+import type {PaletteConfig} from '~/types'
 
 const fontMono = (baseUrl: string) =>
   fetch(new URL(`${baseUrl}/fonts/JetBrainsMono-Regular.ttf`)).then((res) => res.arrayBuffer())

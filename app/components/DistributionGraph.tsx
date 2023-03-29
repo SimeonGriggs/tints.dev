@@ -1,12 +1,18 @@
 import React from 'react'
 
-import type {PaletteConfig} from '~/types/palette'
+import type {Mode, PaletteConfig} from '~/types'
 
 import Dot from './Dot'
 
 const graphHeight = 40
 
-export default function DistributionGraph({palettes}: {palettes: PaletteConfig[]}) {
+type DistributionGraphProps = {
+  palettes: PaletteConfig[]
+  mode: Mode
+}
+
+export default function DistributionGraph(props: DistributionGraphProps) {
+  const {palettes, mode} = props
   return (
     <section className="grid grid-cols-1 gap-2">
       <div className="text-lg font-medium text-center">
@@ -24,6 +30,7 @@ export default function DistributionGraph({palettes}: {palettes: PaletteConfig[]
                 key={swatch.stop}
                 swatch={swatch}
                 top={(index + 1) * graphHeight - graphHeight / 2}
+                mode={mode}
               />
             ))}
           </React.Fragment>

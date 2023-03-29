@@ -36,7 +36,7 @@ export const loader = async ({request}: LoaderArgs) => {
   return json({
     palettes,
     about,
-    stars: github.stargazers_count ? Number(github.stargazers_count) : 0,
+    stars: github?.stargazers_count ? Number(github.stargazers_count) : 0,
   })
 }
 

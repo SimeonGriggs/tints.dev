@@ -1,14 +1,16 @@
 import {ClipboardDocumentIcon} from '@heroicons/react/24/solid'
 import {useCopyToClipboard} from 'usehooks-ts'
 
+import ButtonIcon from '~/components/ButtonIcon'
 import {output} from '~/lib/responses'
-import type {PaletteConfig} from '~/types/palette'
+import type {Mode, PaletteConfig} from '~/types'
 
-import ButtonIcon from './ButtonIcon'
+type OutputProps = {palettes: PaletteConfig[]; mode: Mode}
 
-export default function Output({palettes}: {palettes: PaletteConfig[]}) {
+export default function Output(props: OutputProps) {
+  const {palettes, mode} = props
   const [, copy] = useCopyToClipboard()
-  const shaped = output(palettes)
+  const shaped = output(palettes, mode)
 
   const displayed = JSON.stringify({colors: shaped}, null, 2).replace(/"+[0-9]+"/g, function (m) {
     return m.replace(/"/g, '')

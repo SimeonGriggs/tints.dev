@@ -3,9 +3,12 @@ import React, {useState} from 'react'
 
 import DistributionGraph from '~/components/DistributionGraph'
 import SquareGraph from '~/components/SquareGraph'
-import type {PaletteConfig} from '~/types/palette'
+import type {Mode, PaletteConfig} from '~/types'
 
-export default function Graphs({palettes}: {palettes: PaletteConfig[]}) {
+type GraphsProps = {palettes: PaletteConfig[]; mode: Mode}
+
+export default function Graphs(props: GraphsProps) {
+  const {palettes, mode} = props
   const [hiddenValues, setHiddenValues] = useState<string[]>([])
 
   const handleShowHide = (value: string) => {
@@ -52,10 +55,10 @@ export default function Graphs({palettes}: {palettes: PaletteConfig[]}) {
           ))}
         </div>
       )}
-      <DistributionGraph palettes={displayPalettes} />
+      <DistributionGraph palettes={displayPalettes} mode={mode} />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <SquareGraph palettes={displayPalettes} graph="h" />
-        <SquareGraph palettes={displayPalettes} graph="s" />
+        <SquareGraph palettes={displayPalettes} graph="h" mode={mode} />
+        <SquareGraph palettes={displayPalettes} graph="s" mode={mode} />
       </div>
     </div>
   )

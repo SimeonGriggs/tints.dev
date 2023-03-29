@@ -1,4 +1,14 @@
-import type {SwatchValue} from './SwatchValue'
+export interface SwatchValue {
+  hex: string
+  stop: number
+  h: number
+  hScale: number
+  s: number
+  sScale: number
+  l: number
+}
+
+export type Mode = `hex` | `p-3`
 
 export interface PaletteConfig {
   id: string

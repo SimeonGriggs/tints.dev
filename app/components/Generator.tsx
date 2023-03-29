@@ -1,4 +1,5 @@
 import {Transition} from '@headlessui/react'
+import clsx from 'clsx'
 import React, {useEffect, useMemo, useState} from 'react'
 import isEqual from 'react-fast-compare'
 
@@ -8,11 +9,13 @@ import Output from '~/components/Output'
 import Palette from '~/components/Palette'
 import type {Block} from '~/components/Prose'
 import {Prose} from '~/components/Prose'
-import {arrayObjectDiff, createRandomPalette} from '~/lib/helpers'
+import {MODES} from '~/lib/constants'
+import {createRandomPalette} from '~/lib/createRandomPalette'
+import {arrayObjectDiff} from '~/lib/helpers'
 import {convertParamsToPath, removeSearchParamByKey} from '~/lib/history'
 import {usePrevious} from '~/lib/hooks'
 import {handleMeta} from '~/lib/meta'
-import type {PaletteConfig} from '~/types/palette'
+import type {Mode, PaletteConfig} from '~/types'
 
 import Header from './Header'
 
@@ -25,6 +28,7 @@ type GeneratorProps = {
 export default function Generator({palettes, about, stars}: GeneratorProps) {
   const [palettesState, setPalettesState] = useState(palettes)
   const [showDemo, setShowDemo] = useState(false)
+  const [currentMode, setCurrentMode] = useState<Mode>(MODES[0])
   const previousPalettes: undefined | PaletteConfig[] = usePrevious(palettesState)
 
   // Maybe update document meta on each state change
@@ -108,6 +112,30 @@ export default function Generator({palettes, about, stars}: GeneratorProps) {
 
       {showDemo ? <Demo palettes={palettesState} close={handleDemo} /> : null}
 
+      <div className="container p-4 mx-auto flex items-center justify-start gap-2">
+        {MODES.map((mode) => (
+          <button
+            key={mode}
+            onClick={() => setCurrentMode(mode)}
+            className={clsx(
+              'py-2 px-4 border border-gray-200 transition-colors duration-100 font-mono',
+              mode === currentMode
+                ? 'bg-first-700 border-first-700 text-white'
+                : 'bg-gray-50 hover:bg-first-700 hover:text-white focus-visible:bg-first-700 focus-visible:text-white'
+            )}
+          >
+            {mode}
+          </button>
+        ))}
+        <div className="ml-auto text-right">
+          <div className="px-4 py-2 border-gray-200 border border-dotted text-sm text-first-500 font-bold">
+            <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/simeongriggs">
+              🤙 Sponsor tints.dev
+            </a>
+          </div>
+        </div>
+      </div>
+
       <section className="grid grid-cols-1 p-4 gap-y-12 container mx-auto">
         {palettesState.map((palette: PaletteConfig, index: number) => (
           <React.Fragment key={palette.id}>
@@ -131,13 +159,14 @@ export default function Generator({palettes, about, stars}: GeneratorProps) {
                     ? undefined
                     : () => handleDelete(palette.id, palette.name)
                 }
+                currentMode={currentMode}
               />
             </Transition>
             <div className="border-t border-gray-200" />
           </React.Fragment>
         ))}
 
-        <Graphs palettes={palettesState} />
+        <Graphs palettes={palettesState} mode={currentMode} />
 
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <div className="row-start-2 md:row-start-1 md:col-span-3">
@@ -149,7 +178,7 @@ export default function Generator({palettes, about, stars}: GeneratorProps) {
                 Paste this into your <code>tailwind.config.js</code>
               </p>
             </div>
-            <Output palettes={palettesState} />
+            <Output palettes={palettesState} mode={currentMode} />
           </div>
         </div>
       </section>
