@@ -1,10 +1,10 @@
-import {DEFAULT_PALETTE_CONFIG, DEFAULT_STOP} from '~/lib/constants'
+import {DEFAULT_PALETTE_CONFIG} from '~/lib/constants'
 import {HSLToHex, hexToHSL, lightnessFromHSLum, luminanceFromHex} from '~/lib/helpers'
 import {createDistributionValues, createHueScale, createSaturationScale} from '~/lib/scales'
 import type {PaletteConfig} from '~/types'
 
 export function createSwatches(palette: PaletteConfig) {
-  const {value, valueStop, mode} = palette
+  const {value, valueStop} = palette
 
   // Tweaks may be passed in, otherwise use defaults
   const useLightness = palette.useLightness ?? DEFAULT_PALETTE_CONFIG.useLightness

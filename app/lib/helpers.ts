@@ -1,9 +1,5 @@
-import {nanoid} from 'nanoid'
-
-import {DEFAULT_PALETTE_CONFIG, DEFAULT_STOP, RANDOM_PALETTES} from '~/lib/constants'
+import {DEFAULT_PALETTE_CONFIG} from '~/lib/constants'
 import type {PaletteConfig} from '~/types'
-
-import {createDistributionValues, createHueScale, createSaturationScale} from './scales'
 
 export function luminanceFromRGB(r: number, g: number, b: number) {
   // Formula from WCAG 2.0

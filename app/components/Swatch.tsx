@@ -1,7 +1,4 @@
-import React from 'react'
-
 import {createDisplayColor} from '~/lib/createDisplayColor'
-import {hexToHSL, hexToRGB, round} from '~/lib/helpers'
 import type {Mode, SwatchValue} from '~/types'
 
 type SwatchProps = {

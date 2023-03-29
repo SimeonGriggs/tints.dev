@@ -12,7 +12,6 @@ import {
   createPaletteFromNameValue,
   createPaletteMetaImageUrl,
 } from '~/lib/responses'
-import {PaletteConfig} from '~/types'
 
 export const meta: MetaFunction = ({data}: {data: any}) => {
   if (!data) {
