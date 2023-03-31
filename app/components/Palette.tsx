@@ -98,12 +98,8 @@ export default function Palette(props: PaletteProps) {
   }, [palette, paletteState, updateGlobal])
 
   const updateName = (name: string) => {
-    if (!isValidName(name)) {
-      return
-    }
-
     // Remove current search param
-    if (typeof document !== 'undefined') {
+    if (typeof document !== 'undefined' && isValidName(name)) {
       const currentUrl = new URL(window.location.href)
       currentUrl.searchParams.delete(paletteState.name)
       window.history.replaceState({}, '', currentUrl.toString())
@@ -116,10 +112,6 @@ export default function Palette(props: PaletteProps) {
   }
 
   const updateValue = (value: string) => {
-    if (!isHex(value)) {
-      return
-    }
-
     const newPalette = {
       ...paletteState,
       value,
@@ -154,15 +146,11 @@ export default function Palette(props: PaletteProps) {
   // Handle changes to name or value of palette
   const handlePaletteChange = (e: React.FormEvent<HTMLInputElement | HTMLSelectElement>) => {
     if (e.currentTarget.name === 'name') {
-      const newName = e.currentTarget.value
-      if (isValidName(newName)) {
-        updateName(newName)
-      }
+      const newName = e.currentTarget.value ?? ``
+      updateName(newName)
     } else if (e.currentTarget.name === 'value') {
       const newValue = e.currentTarget.value ? e.currentTarget.value.toUpperCase() : ``
-      if (isHex(newValue)) {
-        updateValue(newValue)
-      }
+      updateValue(newValue)
     }
   }
 

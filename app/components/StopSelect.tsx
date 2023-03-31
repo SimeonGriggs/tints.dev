@@ -32,8 +32,9 @@ export default function StopSelect(props: StopSelectProps) {
             key={stop}
             value={stop}
             className={clsx(
-              `p-2 hover:bg-first-700 hover:text-white focus-visible:bg-first-700 focus-visible:text-white cursor-pointer
-              data-[headlessui-state=active]:bg-first-700 data-[headlessui-state=active]:text-white transition-colors duration-100
+              value === String(stop) ? `text-first-950 bg-first-100` : ``,
+              `p-2 hover:bg-first-800 hover:text-white cursor-pointer
+              data-[headlessui-state=active]:bg-first-800 data-[headlessui-state=active]:text-white transition-colors duration-100
               `
             )}
           >
