@@ -66,12 +66,13 @@ export function createDistributionValues(
       continue
     }
 
-    const diff = Math.abs(stops.indexOf(stopValue) - stops.indexOf(stop))
+    const diff = Math.abs((stopValue - stop) / 100)
     const totalDiff =
       stopValue < stop
-        ? Math.abs(stops.indexOf(stop) - stops.indexOf(0))
-        : Math.abs(stops.indexOf(stop) - stops.indexOf(1000))
+        ? Math.abs(stops.indexOf(stop) - stops.indexOf(DEFAULT_STOPS[0])) - 1
+        : Math.abs(stops.indexOf(stop) - stops.indexOf(DEFAULT_STOPS[DEFAULT_STOPS.length - 1])) - 1
     const increment = stopValue < stop ? max - lightness : lightness - min
+
     const tweak =
       stopValue < stop
         ? (increment / totalDiff) * diff + lightness

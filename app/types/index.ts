@@ -21,4 +21,5 @@ export interface PaletteConfig {
   s: number
   lMin: number
   lMax: number
+  mode: Mode
 }
