@@ -65,11 +65,11 @@ export default function Header({
           />
           <ButtonIcon title="Copy URL" icon={LinkIcon} onClick={handleCopyURL} />
           <ButtonIcon title="Open API Link" icon={CodeBracketIcon} onClick={handleOpenAPI} />
-          <Button id="demo-button" onClick={handleDemo}>
+          <Button id="demo-button" onClick={handleDemo} square>
             <SparklesIcon className="w-4 h-auto" />
             <span className="sr-only md:not-sr-only">Demo</span>
           </Button>
-          <Button id="add-button" onClick={handleNew}>
+          <Button id="add-button" onClick={handleNew} square>
             <PlusIcon className="w-4 h-auto" />
             <span className="sr-only md:not-sr-only">Add</span>
           </Button>

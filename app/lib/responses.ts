@@ -106,7 +106,7 @@ export function output(palettes: PaletteConfig[], mode: Mode) {
     palette.swatches
       .filter((swatch) => ![0, 1000].includes(swatch.stop))
       .forEach((swatch) =>
-        Object.assign(swatches, {[swatch.stop]: createDisplayColor(swatch.hex, mode)})
+        Object.assign(swatches, {[swatch.stop]: createDisplayColor(swatch.hex, mode, true)})
       )
 
     Object.assign(shaped, {[palette.name]: swatches})

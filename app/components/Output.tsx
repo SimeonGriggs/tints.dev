@@ -19,7 +19,7 @@ export default function Output(props: OutputProps) {
   return (
     <section
       id="output"
-      className="relative w-full p-4 mx-auto bg-gray-50 text-gray-800 text-sm border border-gray-200 rounded-lg"
+      className="relative w-full p-4 mx-auto bg-gray-50 text-gray-800 text-sm border border-gray-200 rounded-lg overflow-scroll"
     >
       <div className="absolute right-4 top-4">
         <ButtonIcon

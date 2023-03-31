@@ -1,10 +1,13 @@
 import {Popover} from '@headlessui/react'
 import {SwatchIcon, XMarkIcon} from '@heroicons/react/24/solid'
-import React, {useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {HexColorPicker} from 'react-colorful'
 import {useDebounce} from 'usehooks-ts'
 
+import {HSLToHex, hexToHSL, round} from '~/lib/helpers'
+
 import Button from './Button'
+import {inputClasses, labelClasses} from './Palette'
 
 export default function ColorPicker({
   color,
@@ -31,6 +34,21 @@ export default function ColorPicker({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue])
 
+  const {h, s, l: lightness} = hexToHSL(value)
+  const handleLightnessChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newLightness = Number(e.target.value)
+
+      if (newLightness < 0 || newLightness > 100) {
+        return
+      }
+
+      const newValue = HSLToHex(h, s, newLightness)
+      setValue(newValue)
+    },
+    [h, s]
+  )
+
   return (
     <Popover className="relative">
       <Popover.Button
@@ -43,16 +61,33 @@ export default function ColorPicker({
 
       <Popover.Panel className="absolute right-0 z-50 bg-white rounded-lg shadow p-1 pb-2 translate-y-1">
         {({close}) => (
-          <div className="flex flex-col items-center justify-center gap-2">
+          <div className="flex flex-col items-justify-center gap-4">
             <HexColorPicker
               color={value.startsWith(`#`) ? value : `#${value}`}
               onChange={setValue}
             />
 
-            <Button id="closePicker" onClick={() => close()}>
-              <XMarkIcon className="w-4 h-auto" />
-              Close Picker
-            </Button>
+            <div className="flex flex-col gap-2 px-2">
+              <label className={labelClasses} htmlFor="lightness">
+                Lightness
+              </label>
+              <input
+                className={inputClasses}
+                value={round(lightness)}
+                type="number"
+                min="0"
+                max="100"
+                onChange={handleLightnessChange}
+                name="lightness"
+              />
+            </div>
+
+            <div className="px-2 pb-2 flex justify-end">
+              <Button id="closePicker" onClick={() => close()}>
+                <XMarkIcon className="w-4 h-auto" />
+                Close
+              </Button>
+            </div>
           </div>
         )}
       </Popover.Panel>
