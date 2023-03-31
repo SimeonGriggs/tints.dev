@@ -23,7 +23,6 @@ export function createSwatches(palette: PaletteConfig) {
   // Create lightness scales based on tweak + lightness/luminance of current value
   const lightnessValue = useLightness ? valueL : luminanceFromHex(value)
   const distributionScale = createDistributionValues(lMin, lMax, lightnessValue, valueStop)
-  console.log(distributionScale)
 
   const swatches = hueScale.map(({stop}, stopIndex) => {
     const newH = valueH + hueScale[stopIndex].tweak
