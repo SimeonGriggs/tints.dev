@@ -30,14 +30,7 @@ export function createHueScale(tweak: number = 0, stop: number = DEFAULT_STOP) {
 
   return stops.map((stop) => {
     const diff = Math.abs(stops.indexOf(stop) - index)
-    const tweakValue = tweak ? (diff + 1) * tweak - tweak : 0
-
-    // If tweak value is below 0 or above 360, wrap it around
-    if (tweakValue < 0) {
-      return {stop, tweak: 360 + tweakValue}
-    } else if (tweakValue > 360) {
-      return {stop, tweak: tweakValue - 360}
-    }
+    const tweakValue = tweak ? diff * tweak : 0
 
     return {stop, tweak: tweakValue}
   })
