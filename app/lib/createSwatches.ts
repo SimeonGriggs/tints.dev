@@ -1,5 +1,12 @@
 import {DEFAULT_PALETTE_CONFIG} from '~/lib/constants'
-import {HSLToHex, hexToHSL, lightnessFromHSLum, luminanceFromHex} from '~/lib/helpers'
+import {
+  HSLToHex,
+  clamp,
+  hexToHSL,
+  lightnessFromHSLum,
+  luminanceFromHex,
+  unsignedModulo,
+} from '~/lib/helpers'
 import {createDistributionValues, createHueScale, createSaturationScale} from '~/lib/scales'
 import type {PaletteConfig} from '~/types'
 
@@ -25,8 +32,8 @@ export function createSwatches(palette: PaletteConfig) {
   const distributionScale = createDistributionValues(lMin, lMax, lightnessValue, valueStop)
 
   const swatches = hueScale.map(({stop}, stopIndex) => {
-    const newH = valueH + hueScale[stopIndex].tweak
-    const newS = valueS + saturationScale[stopIndex].tweak
+    const newH = unsignedModulo(valueH + hueScale[stopIndex].tweak, 360)
+    const newS = clamp(valueS + saturationScale[stopIndex].tweak, 0, 100)
     const newL = useLightness
       ? distributionScale[stopIndex].tweak
       : lightnessFromHSLum(newH, newS, distributionScale[stopIndex].tweak)
@@ -40,9 +47,9 @@ export function createSwatches(palette: PaletteConfig) {
       hex: stop === valueStop ? `#${value.toUpperCase()}` : newHex.toUpperCase(),
       // Used in graphs
       h: newH,
-      hScale: hueScale[stopIndex].tweak,
+      hScale: ((unsignedModulo(hueScale[stopIndex].tweak + 180, 360) - 180) / 180) * 50,
       s: newS,
-      sScale: saturationScale[stopIndex].tweak,
+      sScale: newS - 50,
       l: newL,
     }
   })
