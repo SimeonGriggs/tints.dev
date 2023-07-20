@@ -200,3 +200,11 @@ export function arrayObjectDiff(before: PaletteConfig[], current: PaletteConfig[
 
   return changedKeys
 }
+
+export function unsignedModulo(x: number, n: number) {
+  return ((x % n) + n) % n
+}
+
+export function clamp(x: number, min: number, max: number) {
+  return Math.min(Math.max(x, min), max)
+}
