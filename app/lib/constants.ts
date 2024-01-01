@@ -3,7 +3,7 @@ import type {Mode, PaletteConfig} from '~/types'
 export const DEFAULT_STOP = 500
 export const DEFAULT_STOPS = [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 1000]
 
-export const MODES: Mode[] = [`hex`, `p-3`]
+export const MODES: Mode[] = [`hex`, `p-3`, 'oklch']
 
 export const DEFAULT_PALETTE_CONFIG: PaletteConfig = {
   id: ``,
