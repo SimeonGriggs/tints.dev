@@ -7,7 +7,7 @@ export function createRandomPalette(currentValues: string[] = []) {
   const randomsWithoutCurrentValues = RANDOM_PALETTES.filter((p) =>
     currentValues?.length
       ? !currentValues.map((v) => v.toUpperCase()).includes(p.value.toUpperCase())
-      : true
+      : true,
   )
 
   const defaults = {

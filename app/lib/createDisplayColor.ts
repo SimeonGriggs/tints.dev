@@ -7,7 +7,7 @@ import {isHex, round} from './helpers'
 export function createDisplayColor(
   color: string,
   mode?: Mode,
-  alphaPlaceholder?: boolean
+  alphaPlaceholder?: boolean,
 ): string | null {
   if (!color || !isHex(color)) {
     return null

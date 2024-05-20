@@ -1,51 +1,33 @@
-import type {LinksFunction, LoaderArgs, MetaFunction, SerializeFrom} from '@remix-run/node'
-import {
-  Link,
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useCatch,
-  useLoaderData,
-} from '@remix-run/react'
+import type {LinksFunction, MetaFunction, SerializeFrom} from '@remix-run/node'
+import {Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData} from '@remix-run/react'
 import {Analytics} from '@vercel/analytics/react'
 
-import stylesheet from '~/tailwind.css'
-
-import {META} from './lib/constants'
+import {FONTS, META} from '~/lib/constants'
+import styles from '~/styles/app.css?url'
 
 export const meta: MetaFunction = () => {
   const title = META.title
   const description = META.description
 
-  return {
-    title,
-    description,
-    type: 'website',
-    'theme-color': '#2522fc',
-    'color-scheme': 'light',
-    'twitter:card': 'summary_large_image',
-    'twitter:creator': `@simeonGriggs`,
-    'twitter:title': title,
-    'twitter:description': description,
-    'og:title': title,
-    'og:url': META.origin,
-    'og:type': 'website',
-  }
+  return [
+    {title},
+    {name: 'description', content: description},
+    {type: 'website'},
+    {'theme-color': '#2522fc'},
+    {'color-scheme': 'light'},
+    {'twitter:card': 'summary_large_image'},
+    {'twitter:creator': `@simeonGriggs`},
+    {'twitter:title': title},
+    {'twitter:description': description},
+    {'og:title': title},
+    {'og:url': META.origin},
+    {'og:type': 'website'},
+  ]
 }
-
-const fonts = [
-  `/fonts/JetBrainsMono-Regular.woff2`,
-  `/fonts/Inter-Regular.woff2`,
-  `/fonts/Inter-Medium.woff2`,
-  `/fonts/Inter-Bold.woff2`,
-]
 
 export const links: LinksFunction = () => {
   return [
-    ...fonts.map((href: string) => ({
+    ...FONTS.map((href: string) => ({
       rel: 'preload',
       as: 'font',
       href,
@@ -53,11 +35,12 @@ export const links: LinksFunction = () => {
       crossOrigin: 'anonymous' as const,
     })),
     {rel: 'canonical', href: META.origin},
-    {rel: 'stylesheet', href: stylesheet},
+    {rel: 'preload', href: styles, as: 'style'},
+    {rel: 'stylesheet', href: styles},
   ]
 }
 
-export const loader = async (props: LoaderArgs) => {
+export const loader = async () => {
   return {
     ENV: {
       VERCEL_ANALYTICS_ID: process.env.VERCEL_ANALYTICS_ID,
@@ -92,22 +75,14 @@ export default function App() {
           }}
         />
         <Scripts />
-        <LiveReload />
         {process.env.NODE_ENV !== 'development' ? <Analytics debug={false} /> : null}
       </body>
     </html>
   )
 }
 
-export function CatchBoundary() {
-  const caught = useCatch()
-
-  switch (caught.status) {
-    case 401:
-    case 404:
-    case 406:
-      return (
-        <div className="w-screen min-h-screen flex items-center justify-center">
+{
+  /* <div className="w-screen min-h-screen flex items-center justify-center">
           <article className="prose prose-lg prose-blue w-full max-w-lg">
             <h1>
               <span className="font-mono text-blue-500 pr-5">{caught.status}</span>
@@ -122,10 +97,5 @@ export function CatchBoundary() {
               <Link to="/">Start fresh</Link>
             </p>
           </article>
-        </div>
-      )
-
-    default:
-      throw new Error(`Unexpected caught response with status: ${caught.status}`)
-  }
+        </div> */
 }

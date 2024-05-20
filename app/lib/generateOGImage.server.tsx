@@ -13,7 +13,7 @@ const fontSans = (baseUrl: string) =>
 export async function generateOGImage(
   palettes: PaletteConfig[],
   origin: string,
-  canonical: string
+  canonical: string,
 ) {
   const fontMonoData = await fontMono(origin)
   const fontSansData = await fontSans(origin)
@@ -172,7 +172,7 @@ export async function generateOGImage(
         </span>
       </div>
     </div>,
-    options
+    options,
   )
 
   const resvg = new Resvg(svg)

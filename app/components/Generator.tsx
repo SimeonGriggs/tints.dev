@@ -1,4 +1,3 @@
-import {Transition} from '@headlessui/react'
 import clsx from 'clsx'
 import React, {useEffect, useMemo, useState} from 'react'
 import isEqual from 'react-fast-compare'
@@ -101,7 +100,7 @@ export default function Generator({palettes, about, stars}: GeneratorProps) {
         ...palettesState[0].swatches.map((swatch) => `--first-${swatch.stop}: ${swatch.hex};`),
         `}`,
       ].join(`\n`),
-    [palettesState]
+    [palettesState],
   )
 
   return (
@@ -121,7 +120,7 @@ export default function Generator({palettes, about, stars}: GeneratorProps) {
               'py-2 px-4 border border-gray-200 transition-colors duration-100 font-mono',
               mode === currentMode
                 ? 'bg-first-700 border-first-700 text-white'
-                : 'bg-gray-50 hover:bg-first-700 hover:text-white focus-visible:bg-first-700 focus-visible:text-white'
+                : 'bg-gray-50 hover:bg-first-700 hover:text-white focus-visible:bg-first-700 focus-visible:text-white',
             )}
           >
             {mode}
@@ -139,29 +138,14 @@ export default function Generator({palettes, about, stars}: GeneratorProps) {
       <section className="grid grid-cols-1 p-4 gap-y-12 container mx-auto">
         {palettesState.map((palette: PaletteConfig, index: number) => (
           <React.Fragment key={palette.id}>
-            <Transition
-              appear
-              show
-              enter="transition-opacity duration-1000"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="transition-opacity duration-1000"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Palette
-                palette={palette}
-                updateGlobal={(updatedPalette: PaletteConfig) =>
-                  handleUpdate(updatedPalette, index)
-                }
-                deleteGlobal={
-                  palettesState.length <= 1
-                    ? undefined
-                    : () => handleDelete(palette.id, palette.name)
-                }
-                currentMode={currentMode}
-              />
-            </Transition>
+            <Palette
+              palette={palette}
+              updateGlobal={(updatedPalette: PaletteConfig) => handleUpdate(updatedPalette, index)}
+              deleteGlobal={
+                palettesState.length <= 1 ? undefined : () => handleDelete(palette.id, palette.name)
+              }
+              currentMode={currentMode}
+            />
             <div className="border-t border-gray-200" />
           </React.Fragment>
         ))}

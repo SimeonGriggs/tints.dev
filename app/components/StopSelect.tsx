@@ -1,4 +1,4 @@
-import {Listbox} from '@headlessui/react'
+import {Listbox, ListboxButton, ListboxOption, ListboxOptions} from '@headlessui/react'
 import {ChevronDownIcon} from '@heroicons/react/24/solid'
 import clsx from 'clsx'
 
@@ -16,32 +16,32 @@ export default function StopSelect(props: StopSelectProps) {
 
   return (
     <Listbox value={value} onChange={onChange} as="div" className="relative">
-      <Listbox.Button
+      <ListboxButton
         className={clsx(inputClasses, `font-mono tabular-nums flex items-center gap-2`)}
       >
         {value}
         <ChevronDownIcon className="w-5" />
-      </Listbox.Button>
-      <Listbox.Options
+      </ListboxButton>
+      <ListboxOptions
         className={clsx(
-          'border border-gray-200 font-mono tabular-nums absolute z-50 w-full bg-white shadow-lg divide-y divide-gray-200 translate-y-1 focus:outline-none'
+          'border border-gray-200 font-mono tabular-nums absolute z-50 w-full bg-white shadow-lg divide-y divide-gray-200 translate-y-1 focus:outline-none',
         )}
       >
         {DEFAULT_STOPS.filter((stop) => stop !== 0 && stop !== 1000).map((stop) => (
-          <Listbox.Option
+          <ListboxOption
             key={stop}
             value={stop}
             className={clsx(
               value === String(stop) ? `text-first-950 bg-first-100` : ``,
               `p-2 hover:bg-first-800 hover:text-white cursor-pointer
               data-[headlessui-state=active]:bg-first-800 data-[headlessui-state=active]:text-white transition-colors duration-100
-              `
+              `,
             )}
           >
             {stop}
-          </Listbox.Option>
+          </ListboxOption>
         ))}
-      </Listbox.Options>
+      </ListboxOptions>
     </Listbox>
   )
 }

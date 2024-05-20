@@ -2,12 +2,11 @@ import {Popover} from '@headlessui/react'
 import {SwatchIcon, XMarkIcon} from '@heroicons/react/24/solid'
 import React, {useCallback, useEffect, useState} from 'react'
 import {HexColorPicker} from 'react-colorful'
-import {useDebounce} from 'usehooks-ts'
+import {useDebounceValue} from 'usehooks-ts'
 
-import {HSLToHex, hexToHSL, round} from '~/lib/helpers'
-
-import Button from './Button'
-import {inputClasses, labelClasses} from './Palette'
+import Button from '~/components/Button'
+import {inputClasses, labelClasses} from '~/components/Palette'
+import {hexToHSL, HSLToHex, round} from '~/lib/helpers'
 
 export default function ColorPicker({
   color,
@@ -19,7 +18,7 @@ export default function ColorPicker({
   ringStyle: React.CSSProperties
 }) {
   const [value, setValue] = useState<string>(color)
-  const debouncedValue = useDebounce<string>(value, 500)
+  const debouncedValue = useDebounceValue(value, 500)
 
   // Update local `value` on form change
   useEffect(() => {
@@ -46,7 +45,7 @@ export default function ColorPicker({
       const newValue = HSLToHex(h, s, newLightness)
       setValue(newValue)
     },
-    [h, s]
+    [h, s],
   )
 
   return (

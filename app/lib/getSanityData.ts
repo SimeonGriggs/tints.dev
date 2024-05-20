@@ -10,7 +10,7 @@ export async function getSanityData() {
 
   const query = `*[_id == "tailwind"][0].content`
   const about = await fetch(
-    `https://${projectId}.apicdn.sanity.io/${apiVersion}/data/query/${dataset}?query=${query}`
+    `https://${projectId}.apicdn.sanity.io/${apiVersion}/data/query/${dataset}?query=${query}`,
   )
     .then((res) => res.json())
     .catch(() => null)

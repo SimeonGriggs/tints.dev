@@ -1,8 +1,8 @@
 import {DEFAULT_PALETTE_CONFIG} from '~/lib/constants'
 import {
-  HSLToHex,
   clamp,
   hexToHSL,
+  HSLToHex,
   lightnessFromHSLum,
   luminanceFromHex,
   unsignedModulo,
