@@ -1,13 +1,12 @@
-import {Popover} from '@headlessui/react'
+import {Popover, PopoverButton, PopoverPanel} from '@headlessui/react'
 import {SwatchIcon, XMarkIcon} from '@heroicons/react/24/solid'
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import {HexColorPicker} from 'react-colorful'
-import {useDebounce} from 'usehooks-ts'
+import {useDebounceValue} from 'usehooks-ts'
 
-import {HSLToHex, hexToHSL, round} from '~/lib/helpers'
-
-import Button from './Button'
-import {inputClasses, labelClasses} from './Palette'
+import Button from '~/components/Button'
+import {inputClasses, labelClasses} from '~/components/Palette'
+import {hexToHSL, HSLToHex, round} from '~/lib/helpers'
 
 export default function ColorPicker({
   color,
@@ -18,13 +17,12 @@ export default function ColorPicker({
   onChange: Function
   ringStyle: React.CSSProperties
 }) {
-  const [value, setValue] = useState<string>(color)
-  const debouncedValue = useDebounce<string>(value, 500)
+  const [value, setValue] = useDebounceValue(color, 500)
 
   // Update local `value` on form change
   useEffect(() => {
     setValue(color)
-  }, [color])
+  }, [color, setValue])
 
   // Update global `value` on picker change
   useEffect(() => {
@@ -32,7 +30,7 @@ export default function ColorPicker({
       onChange(value.toUpperCase())
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedValue])
+  }, [value])
 
   const {h, s, l: lightness} = hexToHSL(value)
   const handleLightnessChange = useCallback(
@@ -46,20 +44,20 @@ export default function ColorPicker({
       const newValue = HSLToHex(h, s, newLightness)
       setValue(newValue)
     },
-    [h, s]
+    [h, s, setValue],
   )
 
   return (
     <Popover className="relative">
-      <Popover.Button
+      <PopoverButton
         style={ringStyle}
         className="w-full p-2 border border-gray-200 bg-gray-50 focus:outline-none focus:ring focus:bg-gray-100 focus:border-gray-300 text-gray-500 focus:text-gray-900"
       >
         <SwatchIcon className="w-6 h-auto" />
         <span className="sr-only">Open Color Picker</span>
-      </Popover.Button>
+      </PopoverButton>
 
-      <Popover.Panel className="absolute right-0 z-50 bg-white rounded-lg shadow p-1 pb-2 translate-y-1">
+      <PopoverPanel className="absolute right-0 z-50 bg-white rounded-lg shadow p-1 pb-2 translate-y-1">
         {({close}) => (
           <div className="flex flex-col items-justify-center gap-4">
             <HexColorPicker
@@ -90,7 +88,7 @@ export default function ColorPicker({
             </div>
           </div>
         )}
-      </Popover.Panel>
+      </PopoverPanel>
     </Popover>
   )
 }

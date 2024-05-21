@@ -185,11 +185,13 @@ export function arrayObjectDiff(before: PaletteConfig[], current: PaletteConfig[
   const changedKeys: (string | null)[] = defaultKeys
     .map((key: string) => {
       const beforeValues = before
+        // @ts-expect-error
         .map((p) => p[key])
         .sort()
         .join()
 
       const currentValues = current
+        // @ts-expect-error
         .map((p) => p[key])
         .sort()
         .join()

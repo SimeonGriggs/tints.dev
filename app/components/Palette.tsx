@@ -70,8 +70,8 @@ export const labelClasses = `transition-color duration-200 text-xs font-bold`
 
 type PaletteProps = {
   palette: PaletteConfig
-  updateGlobal: Function
-  deleteGlobal: Function | undefined
+  updateGlobal: (updatedPalette: PaletteConfig) => void
+  deleteGlobal?: () => void
   currentMode: Mode
 }
 

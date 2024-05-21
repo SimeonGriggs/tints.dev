@@ -1,18 +1,21 @@
 {
-  "extends": ["@remix-run/eslint-config", "@remix-run/eslint-config/node", "prettier"],
+  "extends": [
+    "@remix-run/eslint-config",
+    "@remix-run/eslint-config/node",
+    "prettier"
+  ],
   "ignorePatterns": ["node_modules", "build", ".cache"],
-  "plugins": ["prettier"],
+  "plugins": ["simple-import-sort", "prettier"],
   "rules": {
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
     "prettier/prettier": [
       "error",
       {
         "semi": false,
         "printWidth": 100,
         "bracketSpacing": false,
-        "singleQuote": true,
-        "importOrder": ["^~/(.*)$", "^[./]"],
-        "importOrderSeparation": true,
-        "importOrderSortSpecifiers": true
+        "singleQuote": true
       }
     ]
   }

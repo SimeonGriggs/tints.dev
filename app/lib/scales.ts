@@ -40,7 +40,7 @@ export function createDistributionValues(
   min: number = 0,
   max: number = 100,
   lightness: number,
-  stop: number = DEFAULT_STOP
+  stop: number = DEFAULT_STOP,
 ) {
   const stops = DEFAULT_STOPS
 

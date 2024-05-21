@@ -1,4 +1,3 @@
-import type {ReactNode} from 'react'
 import React from 'react'
 import {usePopperTooltip} from 'react-popper-tooltip'
 
@@ -29,10 +28,10 @@ export default function ButtonIcon({
   tabIndex = -1,
 }: {
   title: string
-  icon: ReactNode | React.ForwardRefExoticComponent<React.SVGProps<SVGSVGElement>>
+  icon: React.ForwardRefExoticComponent<React.SVGProps<SVGSVGElement>> | JSX.Element
   href?: string
   testId?: string
-  onClick?: Function | undefined
+  onClick?: () => void
   disabled?: boolean
   selected?: boolean
   tone?: 'danger' | 'success'
@@ -77,7 +76,6 @@ export default function ButtonIcon({
         onClick={onClick}
         disabled={disabled}
         tabIndex={tabIndex}
-        // title={title}
       >
         {icon ? React.createElement(icon, {className: `w-5 h-auto`}) : null}
         <span className="sr-only">{title}</span>

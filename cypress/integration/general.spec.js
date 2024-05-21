@@ -96,7 +96,7 @@ describe('general tests', () => {
     cy.get('.react-colorful__saturation').should(
       'have.attr',
       'style',
-      'background-color: rgb(255, 0, 0);'
+      'background-color: rgb(255, 0, 0);',
     )
   })
 

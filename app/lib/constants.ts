@@ -4,6 +4,7 @@ export const DEFAULT_STOP = 500
 export const DEFAULT_STOPS = [0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 1000]
 
 export const MODES: Mode[] = [`hex`, `p-3`, 'oklch']
+export const DEFAULT_MODE = MODES[0]
 
 export const DEFAULT_PALETTE_CONFIG: PaletteConfig = {
   id: ``,
@@ -50,3 +51,10 @@ export const META = {
 
 export const OG_IMAGE_WIDTH = 1200
 export const OG_IMAGE_HEIGHT = 630
+
+export const FONTS = [
+  `/fonts/JetBrainsMono-Regular.woff2`,
+  `/fonts/Inter-Regular.woff2`,
+  `/fonts/Inter-Medium.woff2`,
+  `/fonts/Inter-Bold.woff2`,
+]

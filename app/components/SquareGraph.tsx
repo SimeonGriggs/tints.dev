@@ -54,8 +54,8 @@ export default function SquareGraph(props: SquareGraphProps) {
           {palettes.length > 1
             ? `Lightness/Luminance`
             : palettes[0]?.useLightness || DEFAULT_PALETTE_CONFIG.useLightness
-            ? `Lightness`
-            : `Luminance`}
+              ? `Lightness`
+              : `Luminance`}
         </div>
 
         <div className="absolute flex justify-center items-center h-full w-6 font-bold text-xs text-gray-400">

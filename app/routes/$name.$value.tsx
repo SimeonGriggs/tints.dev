@@ -1,5 +1,5 @@
+import type {LoaderFunctionArgs, MetaFunction} from '@remix-run/node'
 import {json} from '@remix-run/node'
-import type {LoaderArgs, MetaFunction} from '@remix-run/node'
 import {useLoaderData} from '@remix-run/react'
 
 import Generator from '~/components/Generator'
@@ -15,7 +15,7 @@ import {
 
 export const meta: MetaFunction = ({data}: {data: any}) => {
   if (!data) {
-    return {}
+    return []
   }
 
   const {palettes} = data
@@ -23,15 +23,15 @@ export const meta: MetaFunction = ({data}: {data: any}) => {
   const {url, width, height} = createPaletteMetaImageUrl(palettes[0])
   const canonicalUrl = createCanonicalUrl(palettes)
 
-  return {
-    'og:url': canonicalUrl,
-    'og:image:width': String(width),
-    'og:image:height': String(height),
-    'og:image': url,
-  }
+  return [
+    {name: 'og:url', content: canonicalUrl},
+    {name: 'og:image:width', content: String(width)},
+    {name: 'og:image:height', content: String(height)},
+    {name: 'og:image', content: url},
+  ]
 }
 
-export const loader = async ({request, params}: LoaderArgs) => {
+export const loader = async ({request, params}: LoaderFunctionArgs) => {
   if (!params?.name) {
     throw new Response(`No Color Name`, {
       status: 404,
