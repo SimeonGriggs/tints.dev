@@ -1,5 +1,15 @@
 import type {LinksFunction, MetaFunction, SerializeFrom} from '@remix-run/node'
-import {Links, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData} from '@remix-run/react'
+import {
+  isRouteErrorResponse,
+  Link,
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  useLoaderData,
+  useRouteError,
+} from '@remix-run/react'
 import {Analytics} from '@vercel/analytics/react'
 
 import {FONTS, META} from '~/lib/constants'
@@ -81,21 +91,31 @@ export default function App() {
   )
 }
 
-{
-  /* <div className="w-screen min-h-screen flex items-center justify-center">
-          <article className="prose prose-lg prose-blue w-full max-w-lg">
+export function CatchBoundary() {
+  const error = useRouteError()
+
+  return (
+    <div className="w-screen min-h-screen flex items-center justify-center">
+      <article className="prose prose-lg prose-blue w-full max-w-lg">
+        {isRouteErrorResponse(error) ? (
+          <>
             <h1>
-              <span className="font-mono text-blue-500 pr-5">{caught.status}</span>
-              <br /> {caught.data}
+              <span className="font-mono text-blue-500 pr-5">{error.status}</span>
+              <br /> {error.data}
             </h1>
-            {caught?.statusText ? <p>{caught.statusText}</p> : null}
-            <hr />
-            <p>
-              Report a broken link to <a href="mailto:simeon@hey.com">simeon@hey.com</a>
-            </p>
-            <p>
-              <Link to="/">Start fresh</Link>
-            </p>
-          </article>
-        </div> */
+            {error?.statusText ? <p>{error.statusText}</p> : null}
+          </>
+        ) : (
+          <h1>Unknown error</h1>
+        )}
+        <hr />
+        <p>
+          Report a broken link to <a href="mailto:simeon@hey.com">simeon@hey.com</a>
+        </p>
+        <p>
+          <Link to="/">Start fresh</Link>
+        </p>
+      </article>
+    </div>
+  )
 }
