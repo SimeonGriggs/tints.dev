@@ -1,13 +1,14 @@
+import {DEFAULT_MODE} from '~/lib/constants'
 import {createDisplayColor} from '~/lib/createDisplayColor'
 import type {Mode, SwatchValue} from '~/types'
 
 type SwatchProps = {
   swatch: SwatchValue
-  mode: Mode
+  mode?: Mode
 }
 
 export default function Swatch(props: SwatchProps) {
-  const {swatch, mode} = props
+  const {swatch, mode = DEFAULT_MODE} = props
 
   let display = createDisplayColor(swatch.hex, mode)
 

@@ -5,7 +5,7 @@ import type {PaletteConfig} from '~/types'
 
 import Button from './Button'
 
-export default function Demo({close, palettes}: {close: Function; palettes: PaletteConfig[]}) {
+export default function Demo({close, palettes}: {close: () => void; palettes: PaletteConfig[]}) {
   const [darkMode, setDarkMode] = useState(false)
 
   return (

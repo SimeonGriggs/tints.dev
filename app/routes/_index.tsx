@@ -29,7 +29,7 @@ export const meta: MetaFunction = ({data}: {data: any}) => {
   ]
 }
 
-export const loader = async ({request}: LoaderFunctionArgs) => {
+export const loader = async ({request, params}: LoaderFunctionArgs) => {
   const palettes = requestToPalettes(request.url)
   const [about, github] = await Promise.all([getSanityData(), getGitHubData()])
 
@@ -42,7 +42,6 @@ export const loader = async ({request}: LoaderFunctionArgs) => {
 
 export default function Index() {
   const {palettes, about, stars} = useLoaderData<typeof loader>()
-  console.log({palettes, about, stars})
 
   return palettes?.length ? <Generator palettes={palettes} about={about} stars={stars} /> : null
 }
