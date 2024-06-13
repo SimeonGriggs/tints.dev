@@ -157,11 +157,6 @@ export default function Generator({palettes, about, stars}: GeneratorProps) {
             {about.length ? <Prose blocks={about} /> : null}
           </div>
           <div className="row-start-1 md:col-span-2 flex flex-col gap-4">
-            <div className="prose text-center">
-              <p>
-                Paste this into your <code>tailwind.config.js</code>
-              </p>
-            </div>
             <Output palettes={palettesState} mode={currentMode} />
           </div>
         </div>

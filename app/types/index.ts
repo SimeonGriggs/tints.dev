@@ -23,3 +23,5 @@ export interface PaletteConfig {
   lMax: number
   mode: Mode
 }
+
+export type Version = '3' | '4'
