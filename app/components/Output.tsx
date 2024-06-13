@@ -42,12 +42,11 @@ export default function Output({palettes, mode}: OutputProps) {
           <p>
             Paste this into your <code>tailwind.config.js</code> file
           </p>
-        ) : null}
-        {currentVersion === '4' ? (
+        ) : (
           <p>
             Paste this into the <code>css</code> file with your Tailwind config
           </p>
-        ) : null}
+        )}
       </div>
       <section
         id="output"
@@ -77,7 +76,10 @@ function createVersion4Config(colors: Record<string, string>) {
     `@theme {`,
     ...Object.entries(colors).map(([colorName]) =>
       Object.entries(colors[colorName])
-        .map(([shade, value]) => `  --color-${colorName}-${shade}: ${value.toLocaleLowerCase()};`)
+        .map(
+          ([shade, value]) =>
+            `  --color-${colorName}-${shade}: ${value.toLocaleLowerCase().replace(' / <alpha-value>', '')};`,
+        )
         .join('\n'),
     ),
     `}`,
