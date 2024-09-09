@@ -1,4 +1,4 @@
-import {DEFAULT_PALETTE_CONFIG} from '~/lib/constants'
+import { DEFAULT_PALETTE_CONFIG } from '~/lib/constants'
 import {
   clamp,
   hexToHSL,
@@ -7,8 +7,8 @@ import {
   luminanceFromHex,
   unsignedModulo,
 } from '~/lib/helpers'
-import {createDistributionValues, createHueScale, createSaturationScale} from '~/lib/scales'
-import type {PaletteConfig} from '~/types'
+import { createDistributionValues, createHueScale, createSaturationScale } from '~/lib/scales'
+import type { PaletteConfig } from '~/types'
 
 export function createSwatches(palette: PaletteConfig) {
   const {value, valueStop} = palette
@@ -34,9 +34,10 @@ export function createSwatches(palette: PaletteConfig) {
   const swatches = hueScale.map(({stop}, stopIndex) => {
     const newH = unsignedModulo(valueH + hueScale[stopIndex].tweak, 360)
     const newS = clamp(valueS + saturationScale[stopIndex].tweak, 0, 100)
-    const newL = useLightness
+    let newL = useLightness
       ? distributionScale[stopIndex].tweak
       : lightnessFromHSLum(newH, newS, distributionScale[stopIndex].tweak)
+    newL = clamp(newL, 0, 100)
 
     const newHex = HSLToHex(newH, newS, newL)
 

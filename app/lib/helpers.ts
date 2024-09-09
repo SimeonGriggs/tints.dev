@@ -1,5 +1,5 @@
-import {DEFAULT_PALETTE_CONFIG} from '~/lib/constants'
-import type {PaletteConfig} from '~/types'
+import { DEFAULT_PALETTE_CONFIG } from '~/lib/constants'
+import type { PaletteConfig } from '~/types'
 
 export function luminanceFromRGB(r: number, g: number, b: number) {
   // Formula from WCAG 2.0
@@ -92,8 +92,8 @@ export function hexToHSL(H: string) {
 }
 
 export function HSLtoRGB(h: number, s: number, l: number) {
-  s /= 100
-  l /= 100
+  s = clamp(s, 0, 100) / 100
+  l = clamp(l, 0, 100) / 100
 
   const c = (1 - Math.abs(2 * l - 1)) * s
   const x = c * (1 - Math.abs(((h / 60) % 2) - 1))
