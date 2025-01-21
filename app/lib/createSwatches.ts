@@ -1,4 +1,4 @@
-import { DEFAULT_PALETTE_CONFIG } from '~/lib/constants'
+import {DEFAULT_PALETTE_CONFIG} from '~/lib/constants'
 import {
   clamp,
   hexToHSL,
@@ -7,8 +7,8 @@ import {
   luminanceFromHex,
   unsignedModulo,
 } from '~/lib/helpers'
-import { createDistributionValues, createHueScale, createSaturationScale } from '~/lib/scales'
-import type { PaletteConfig } from '~/types'
+import {createDistributionValues, createHueScale, createSaturationScale} from '~/lib/scales'
+import type {PaletteConfig} from '~/types'
 
 export function createSwatches(palette: PaletteConfig) {
   const {value, valueStop} = palette

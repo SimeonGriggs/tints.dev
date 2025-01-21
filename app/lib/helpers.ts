@@ -1,5 +1,5 @@
-import { DEFAULT_PALETTE_CONFIG } from '~/lib/constants'
-import type { PaletteConfig } from '~/types'
+import {DEFAULT_PALETTE_CONFIG} from '~/lib/constants'
+import type {PaletteConfig} from '~/types'
 
 export function luminanceFromRGB(r: number, g: number, b: number) {
   // Formula from WCAG 2.0
