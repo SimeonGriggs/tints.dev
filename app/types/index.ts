@@ -8,7 +8,7 @@ export interface SwatchValue {
   l: number
 }
 
-export type Mode = `hex` | `p-3` | `oklch`
+export type Mode = `hex` | `p-3` | `oklch` | `hsl`
 
 export interface PaletteConfig {
   id: string
