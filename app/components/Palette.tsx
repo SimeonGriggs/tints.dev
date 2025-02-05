@@ -6,7 +6,7 @@ import {
   LinkIcon,
   TrashIcon,
 } from "@heroicons/react/24/solid";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useCopyToClipboard } from "usehooks-ts";
 
 import Graphs from "~/components/Graphs";
@@ -44,7 +44,7 @@ const tweakInputs = [
       useLightness ? `Lightness Minimum` : `Luminance Minimum`,
     value: DEFAULT_PALETTE_CONFIG.lMin,
   },
-];
+] as const;
 
 const paletteInputs = [
   {
@@ -211,11 +211,10 @@ export default function Palette(props: PaletteProps) {
     });
   };
 
-  const handleCopyURL = () => {
+  const handleCopyURL = useCallback(() => {
     const shareUrl = createCanonicalUrl([paletteState]);
-
     copy(shareUrl);
-  };
+  }, [paletteState, copy]);
 
   const handleOpenAPI = () => {
     if (typeof document !== "undefined") {

@@ -7,10 +7,6 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 installGlobals();
 
-const ReactCompilerConfig = {
-  target: "19",
-};
-
 export default defineConfig({
   server: {
     port: 3000,
@@ -23,7 +19,7 @@ export default defineConfig({
       filter: /\.tsx?$/,
       babelConfig: {
         presets: ["@babel/preset-typescript"],
-        plugins: [["babel-plugin-react-compiler", ReactCompilerConfig]],
+        plugins: [["babel-plugin-react-compiler"]],
       },
     }),
     tsconfigPaths(),
