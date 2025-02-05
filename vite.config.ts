@@ -1,11 +1,11 @@
-import { vitePlugin as remix } from "@remix-run/dev";
-import { installGlobals } from "@remix-run/node";
-import { vercelPreset } from "@vercel/remix/vite";
-import { defineConfig } from "vite";
-import babel from "vite-plugin-babel";
-import tsconfigPaths from "vite-tsconfig-paths";
+import {vitePlugin as remix} from '@remix-run/dev'
+import {installGlobals} from '@remix-run/node'
+import {vercelPreset} from '@vercel/remix/vite'
+import {defineConfig} from 'vite'
+import babel from 'vite-plugin-babel'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
-installGlobals();
+installGlobals()
 
 export default defineConfig({
   server: {
@@ -18,10 +18,10 @@ export default defineConfig({
     babel({
       filter: /\.tsx?$/,
       babelConfig: {
-        presets: ["@babel/preset-typescript"],
-        plugins: [["babel-plugin-react-compiler"]],
+        presets: ['@babel/preset-typescript'],
+        plugins: [['babel-plugin-react-compiler']],
       },
     }),
     tsconfigPaths(),
   ],
-});
+})

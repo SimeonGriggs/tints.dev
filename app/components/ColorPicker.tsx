@@ -1,40 +1,40 @@
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import { SwatchIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import React, { useCallback, useState } from "react";
-import { HexColorPicker } from "react-colorful";
-import { useDebounceCallback } from "usehooks-ts";
+import {Popover, PopoverButton, PopoverPanel} from '@headlessui/react'
+import {SwatchIcon, XMarkIcon} from '@heroicons/react/24/solid'
+import React, {useCallback, useState} from 'react'
+import {HexColorPicker} from 'react-colorful'
+import {useDebounceCallback} from 'usehooks-ts'
 
-import Button from "~/components/Button";
-import { inputClasses, labelClasses } from "~/components/Palette";
-import { hexToHSL, HSLToHex, round } from "~/lib/helpers";
+import Button from '~/components/Button'
+import {inputClasses, labelClasses} from '~/components/Palette'
+import {hexToHSL, HSLToHex, round} from '~/lib/helpers'
 
 export default function ColorPicker({
   color,
   onChange,
   ringStyle,
 }: {
-  color: string;
-  onChange: (value: string) => void;
-  ringStyle: React.CSSProperties;
+  color: string
+  onChange: (value: string) => void
+  ringStyle: React.CSSProperties
 }) {
-  const [value, setValue] = useState(color);
-  const debounceOnChange = useDebounceCallback(onChange, 500);
-  const { h, s, l: lightness } = hexToHSL(value);
+  const [value, setValue] = useState(color)
+  const debounceOnChange = useDebounceCallback(onChange, 500)
+  const {h, s, l: lightness} = hexToHSL(value)
 
   const handleLightnessChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newLightness = Number(e.target.value);
+      const newLightness = Number(e.target.value)
 
       if (newLightness < 0 || newLightness > 100) {
-        return;
+        return
       }
 
-      const newValue = HSLToHex(h, s, newLightness);
-      setValue(newValue);
-      debounceOnChange(newValue);
+      const newValue = HSLToHex(h, s, newLightness)
+      setValue(newValue)
+      debounceOnChange(newValue)
     },
-    [h, s, setValue, debounceOnChange]
-  );
+    [h, s, setValue, debounceOnChange],
+  )
 
   return (
     <Popover className="relative">
@@ -47,13 +47,13 @@ export default function ColorPicker({
       </PopoverButton>
 
       <PopoverPanel className="absolute right-0 z-50 bg-white rounded-lg shadow p-1 pb-2 translate-y-1">
-        {({ close }) => (
+        {({close}) => (
           <div className="flex flex-col items-justify-center gap-4">
             <HexColorPicker
               color={value.startsWith(`#`) ? value : `#${value}`}
               onChange={(value) => {
-                setValue(value);
-                debounceOnChange(value);
+                setValue(value)
+                debounceOnChange(value)
               }}
             />
 
@@ -82,5 +82,5 @@ export default function ColorPicker({
         )}
       </PopoverPanel>
     </Popover>
-  );
+  )
 }
