@@ -1,15 +1,14 @@
-import babel from "vite-plugin-babel";
-
 import { vitePlugin as remix } from "@remix-run/dev";
 import { installGlobals } from "@remix-run/node";
 import { vercelPreset } from "@vercel/remix/vite";
 import { defineConfig } from "vite";
+import babel from "vite-plugin-babel";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 installGlobals();
 
 const ReactCompilerConfig = {
-  target: "18", // '17' | '18' | '19'
+  target: "19",
 };
 
 export default defineConfig({
