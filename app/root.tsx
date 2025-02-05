@@ -1,4 +1,8 @@
-import type {LinksFunction, MetaFunction, SerializeFrom} from '@remix-run/node'
+import type {
+  LinksFunction,
+  MetaFunction,
+  SerializeFrom,
+} from "@remix-run/node";
 import {
   isRouteErrorResponse,
   Link,
@@ -9,70 +13,90 @@ import {
   ScrollRestoration,
   useLoaderData,
   useRouteError,
-} from '@remix-run/react'
-import {Analytics} from '@vercel/analytics/react'
+} from "@remix-run/react";
+import { Analytics } from "@vercel/analytics/react";
+import { useEffect } from "react";
 
-import {FONTS, META} from '~/lib/constants'
-import styles from '~/styles/app.css?url'
+import { FONTS, META } from "~/lib/constants";
+import styles from "~/styles/app.css?url";
 
 export const meta: MetaFunction = () => {
-  const title = META.title
-  const description = META.description
+  const title = META.title;
+  const description = META.description;
 
   return [
-    {title},
-    {name: 'description', content: description},
-    {type: 'website'},
-    {'theme-color': '#2522fc'},
-    {'color-scheme': 'light'},
-    {'twitter:card': 'summary_large_image'},
-    {'twitter:creator': `@simeonGriggs`},
-    {'twitter:title': title},
-    {'twitter:description': description},
-    {'og:title': title},
-    {'og:url': META.origin},
-    {'og:type': 'website'},
-  ]
-}
+    { title },
+    { name: "description", content: description },
+    { type: "website" },
+    { "theme-color": "#2522fc" },
+    { "color-scheme": "light" },
+    { "twitter:card": "summary_large_image" },
+    { "twitter:creator": `@simeonGriggs` },
+    { "twitter:title": title },
+    { "twitter:description": description },
+    { "og:title": title },
+    { "og:url": META.origin },
+    { "og:type": "website" },
+  ];
+};
 
 export const links: LinksFunction = () => {
   return [
     ...FONTS.map((href: string) => ({
-      rel: 'preload',
-      as: 'font',
+      rel: "preload",
+      as: "font",
       href,
-      type: 'font/woff2',
-      crossOrigin: 'anonymous' as const,
+      type: "font/woff2",
+      crossOrigin: "anonymous" as const,
     })),
-    {rel: 'canonical', href: META.origin},
-    {rel: 'preload', href: styles, as: 'style'},
-    {rel: 'stylesheet', href: styles},
-  ]
-}
+    { rel: "canonical", href: META.origin },
+    { rel: "preload", href: styles, as: "style" },
+    { rel: "stylesheet", href: styles },
+    {
+      rel: "prefetch",
+      href: "//unpkg.com/react-scan/dist/auto.global.js",
+      as: "script",
+      crossOrigin: "anonymous",
+    },
+  ];
+};
 
 export const loader = async () => {
   return {
     ENV: {
       VERCEL_ANALYTICS_ID: process.env.VERCEL_ANALYTICS_ID,
     },
-  }
-}
+  };
+};
 
 declare global {
   interface Window {
-    ENV: SerializeFrom<typeof loader>['ENV']
+    ENV: SerializeFrom<typeof loader>["ENV"];
   }
 }
 
 export default function App() {
-  const {ENV} = useLoaderData<typeof loader>()
+  const { ENV } = useLoaderData<typeof loader>();
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    import("react-scan").then(({ scan }) => {
+      scan({
+        log: true,
+      });
+    });
+  }, []);
 
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <link rel="icon" href="https://fav.farm/🎨" />
-        <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,viewport-fit=cover"
+        />
         <Meta />
         <Links />
       </head>
@@ -85,14 +109,16 @@ export default function App() {
           }}
         />
         <Scripts />
-        {process.env.NODE_ENV !== 'development' ? <Analytics debug={false} /> : null}
+        {process.env.NODE_ENV !== "development" ? (
+          <Analytics debug={false} />
+        ) : null}
       </body>
     </html>
-  )
+  );
 }
 
 export function CatchBoundary() {
-  const error = useRouteError()
+  const error = useRouteError();
 
   return (
     <div className="w-screen min-h-screen flex items-center justify-center">
@@ -100,7 +126,9 @@ export function CatchBoundary() {
         {isRouteErrorResponse(error) ? (
           <>
             <h1>
-              <span className="font-mono text-blue-500 pr-5">{error.status}</span>
+              <span className="font-mono text-blue-500 pr-5">
+                {error.status}
+              </span>
               <br /> {error.data}
             </h1>
             {error?.statusText ? <p>{error.statusText}</p> : null}
@@ -110,12 +138,13 @@ export function CatchBoundary() {
         )}
         <hr />
         <p>
-          Report a broken link to <a href="mailto:simeon@hey.com">simeon@hey.com</a>
+          Report a broken link to{" "}
+          <a href="mailto:simeon@hey.com">simeon@hey.com</a>
         </p>
         <p>
           <Link to="/">Start fresh</Link>
         </p>
       </article>
     </div>
-  )
+  );
 }
