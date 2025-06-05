@@ -1,6 +1,6 @@
 import {CodeBracketIcon, LinkIcon, PlusIcon, SparklesIcon} from '@heroicons/react/24/outline'
 import {StarIcon} from '@heroicons/react/24/solid'
-import {Link} from '@remix-run/react'
+import { Link } from 'react-router';
 import {useCopyToClipboard} from 'usehooks-ts'
 
 import ButtonIcon from '~/components/ButtonIcon'

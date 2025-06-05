@@ -1,22 +1,13 @@
 {
-  "extends": [
-    "@remix-run/eslint-config",
-    "@remix-run/eslint-config/node",
-    "prettier"
-  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": "latest",
+  },
   "ignorePatterns": ["node_modules", "build", ".cache"],
-  "plugins": ["simple-import-sort", "prettier"],
+  "plugins": ["simple-import-sort"],
   "rules": {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
-    "prettier/prettier": [
-      "error",
-      {
-        "semi": false,
-        "printWidth": 100,
-        "bracketSpacing": false,
-        "singleQuote": true
-      }
-    ]
-  }
+  },
 }

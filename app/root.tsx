@@ -1,4 +1,4 @@
-import type {LinksFunction, MetaFunction, SerializeFrom} from '@remix-run/node'
+import type { LinksFunction, MetaFunction, SerializeFrom } from 'react-router';
 import {
   isRouteErrorResponse,
   Link,
@@ -9,7 +9,7 @@ import {
   ScrollRestoration,
   useLoaderData,
   useRouteError,
-} from '@remix-run/react'
+} from 'react-router';
 import {Analytics} from '@vercel/analytics/react'
 
 import {FONTS, META} from '~/lib/constants'
