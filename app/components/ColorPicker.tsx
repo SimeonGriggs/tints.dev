@@ -1,8 +1,8 @@
 import {Popover, PopoverButton, PopoverPanel} from '@headlessui/react'
 import {SwatchIcon, XMarkIcon} from '@heroicons/react/24/solid'
-import React, {useCallback, useEffect} from 'react'
+import React, {useCallback, useState} from 'react'
 import {HexColorPicker} from 'react-colorful'
-import {useDebounceValue} from 'usehooks-ts'
+import {useDebounceCallback} from 'usehooks-ts'
 
 import Button from '~/components/Button'
 import {inputClasses, labelClasses} from '~/components/Palette'
@@ -14,25 +14,13 @@ export default function ColorPicker({
   ringStyle,
 }: {
   color: string
-  onChange: Function
+  onChange: (value: string) => void
   ringStyle: React.CSSProperties
 }) {
-  const [value, setValue] = useDebounceValue(color, 500)
-
-  // Update local `value` on form change
-  useEffect(() => {
-    setValue(color)
-  }, [color, setValue])
-
-  // Update global `value` on picker change
-  useEffect(() => {
-    if (value) {
-      onChange(value.toUpperCase())
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value])
-
+  const [value, setValue] = useState(color)
+  const debounceOnChange = useDebounceCallback(onChange, 500)
   const {h, s, l: lightness} = hexToHSL(value)
+
   const handleLightnessChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const newLightness = Number(e.target.value)
@@ -43,8 +31,9 @@ export default function ColorPicker({
 
       const newValue = HSLToHex(h, s, newLightness)
       setValue(newValue)
+      debounceOnChange(newValue)
     },
-    [h, s, setValue],
+    [h, s, setValue, debounceOnChange],
   )
 
   return (
@@ -62,7 +51,10 @@ export default function ColorPicker({
           <div className="flex flex-col items-justify-center gap-4">
             <HexColorPicker
               color={value.startsWith(`#`) ? value : `#${value}`}
-              onChange={setValue}
+              onChange={(value) => {
+                setValue(value)
+                debounceOnChange(value)
+              }}
             />
 
             <div className="flex flex-col gap-2 px-2">

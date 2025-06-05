@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React, {useEffect, useMemo, useState} from 'react'
+import React, {useEffect, useMemo, useRef, useState} from 'react'
 import isEqual from 'react-fast-compare'
 
 import Demo from '~/components/Demo'
@@ -29,6 +29,7 @@ export default function Generator({palettes, about, stars}: GeneratorProps) {
   const [showDemo, setShowDemo] = useState(false)
   const [currentMode, setCurrentMode] = useState<Mode>(MODES[0])
   const previousPalettes: undefined | PaletteConfig[] = usePrevious(palettesState)
+  const paletteRefs = useRef<HTMLDivElement[]>([])
 
   // Maybe update document meta on each state change
   // Initially it seemed like a good idea to handle this globally as a side-effect
@@ -47,21 +48,13 @@ export default function Generator({palettes, about, stars}: GeneratorProps) {
   }, [palettesState, previousPalettes])
 
   const handleNew = () => {
-    const currentValues = palettesState.map((p) => p.value)
-    const randomPalette = createRandomPalette(currentValues)
-    const newPalettes = [...palettesState, randomPalette]
-    setPalettesState(newPalettes)
+    setPalettesState((prev) => {
+      const currentValues = prev.map((p) => p.value)
+      const randomPalette = createRandomPalette(currentValues)
+      return [...prev, randomPalette]
+    })
 
-    // Scroll new ID into view
-    if (typeof document !== 'undefined') {
-      setTimeout(() => {
-        const newElement = document.getElementById(`s-${randomPalette.value.toUpperCase()}`)
-
-        if (newElement) {
-          newElement.scrollIntoView({behavior: 'smooth'})
-        }
-      }, 50)
-    }
+    paletteRefs.current.at(-1)?.scrollIntoView({behavior: 'smooth'})
   }
 
   const handleDemo = () => setShowDemo(!showDemo)
@@ -139,6 +132,7 @@ export default function Generator({palettes, about, stars}: GeneratorProps) {
         {palettesState.map((palette: PaletteConfig, index: number) => (
           <React.Fragment key={palette.id}>
             <Palette
+              paletteRef={(el) => (paletteRefs.current[index] = el)}
               palette={palette}
               updateGlobal={(updatedPalette: PaletteConfig) => handleUpdate(updatedPalette, index)}
               deleteGlobal={

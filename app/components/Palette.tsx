@@ -6,7 +6,7 @@ import {
   LinkIcon,
   TrashIcon,
 } from '@heroicons/react/24/solid'
-import React, {useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {useCopyToClipboard} from 'usehooks-ts'
 
 import Graphs from '~/components/Graphs'
@@ -42,7 +42,7 @@ const tweakInputs = [
     title: (useLightness: boolean) => (useLightness ? `Lightness Minimum` : `Luminance Minimum`),
     value: DEFAULT_PALETTE_CONFIG.lMin,
   },
-]
+] as const
 
 const paletteInputs = [
   {
@@ -73,10 +73,11 @@ type PaletteProps = {
   updateGlobal: (updatedPalette: PaletteConfig) => void
   deleteGlobal?: () => void
   currentMode: Mode
+  paletteRef: (el: HTMLDivElement) => void
 }
 
 export default function Palette(props: PaletteProps) {
-  const {palette, updateGlobal, deleteGlobal, currentMode} = props
+  const {palette, updateGlobal, deleteGlobal, currentMode, paletteRef} = props
 
   const [paletteState, setPaletteState] = useState({
     ...DEFAULT_PALETTE_CONFIG,
@@ -196,11 +197,10 @@ export default function Palette(props: PaletteProps) {
     })
   }
 
-  const handleCopyURL = () => {
+  const handleCopyURL = useCallback(() => {
     const shareUrl = createCanonicalUrl([paletteState])
-
     copy(shareUrl)
-  }
+  }, [paletteState, copy])
 
   const handleOpenAPI = () => {
     if (typeof document !== 'undefined') {
@@ -223,7 +223,11 @@ export default function Palette(props: PaletteProps) {
   } as React.CSSProperties
 
   return (
-    <article id={`s-${palette.value}`} className="grid grid-cols-1 gap-4 text-gray-500">
+    <article
+      ref={paletteRef}
+      id={`s-${palette.value}`}
+      className="grid grid-cols-1 gap-4 text-gray-500"
+    >
       <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
         {paletteInputs.map((input) => (
           <div
@@ -360,7 +364,6 @@ export default function Palette(props: PaletteProps) {
           </span>
         </div>
       </div>
-
       <div className="grid gap-1 grid-cols-11 sm:grid-cols-4 lg:grid-cols-11 sm:gap-2 text-2xs sm:text-xs">
         {paletteState.swatches
           .filter((swatch) => ![0, 1000].includes(swatch.stop))
@@ -368,8 +371,7 @@ export default function Palette(props: PaletteProps) {
             <Swatch key={swatch.stop} swatch={swatch} mode={currentMode} />
           ))}
       </div>
-
-      {showGraphs && <Graphs palettes={[paletteState]} />}
+      {showGraphs && <Graphs palettes={[paletteState]} mode={currentMode} />}
     </article>
   )
 }
