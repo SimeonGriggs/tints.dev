@@ -65,7 +65,7 @@ const paletteInputs = [
   },
 ]
 
-export const inputClasses = `w-full p-2 border border-gray-200 bg-gray-50 text-gray-800 focus:outline-none focus:ring focus:bg-gray-100 focus:border-gray-300 invalid:focus:border-dashed invalid:focus:border-red-500 invalid:focus:bg-red-100 invalid:border-red-500 invalid:bg-red-100`
+export const inputClasses = `w-full p-2 border border-gray-200 bg-gray-50 text-gray-800 focus:outline-hidden focus:ring-3 focus:bg-gray-100 focus:border-gray-300 invalid:focus:border-dashed invalid:focus:border-red-500 invalid:focus:bg-red-100 invalid:border-red-500 invalid:bg-red-100`
 export const labelClasses = `transition-color duration-200 text-xs font-bold`
 
 type PaletteProps = {
@@ -345,7 +345,7 @@ export default function Palette(props: PaletteProps) {
                 ? paletteState.swatches.find((swatch) => swatch.stop === 800)?.hex
                 : paletteState.swatches.find((swatch) => swatch.stop === 300)?.hex,
             }}
-            className="relative inline-flex items-center h-6 rounded-full w-11 bg-gray-200 flex-shrink-0"
+            className="relative inline-flex items-center h-6 rounded-full w-11 bg-gray-200 shrink-0"
           >
             <span className="sr-only">Toggle Lightness or Luminance</span>
             <span

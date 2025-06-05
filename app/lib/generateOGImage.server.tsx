@@ -115,7 +115,7 @@ export async function generateOGImage(
                   height: 64,
                   width: `100%`,
                 }}
-                className="h-12 xl:h-16 w-full rounded shadow-inner flex flex-col items-center justify-center transition-colors duration-500"
+                className="h-12 xl:h-16 w-full rounded-sm shadow-inner flex flex-col items-center justify-center transition-colors duration-500"
               />
               <div
                 style={{

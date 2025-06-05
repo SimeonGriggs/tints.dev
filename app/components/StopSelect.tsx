@@ -24,7 +24,7 @@ export default function StopSelect(props: StopSelectProps) {
       </ListboxButton>
       <ListboxOptions
         className={clsx(
-          'border border-gray-200 font-mono tabular-nums absolute z-50 w-full bg-white shadow-lg divide-y divide-gray-200 translate-y-1 focus:outline-none',
+          'border border-gray-200 font-mono tabular-nums absolute z-50 w-full bg-white shadow-lg divide-y divide-gray-200 translate-y-1 focus:outline-hidden',
         )}
       >
         {DEFAULT_STOPS.filter((stop) => stop !== 0 && stop !== 1000).map((stop) => (

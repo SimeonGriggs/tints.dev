@@ -19,12 +19,12 @@ export default function Demo({close, palettes}: {close: () => void; palettes: Pa
       </div>
 
       {/* Background 'screen */}
-      <div className="absolute inset-0 top-auto from-gray-900/100 via-gray-900/50 to-gray-900/0 bg-gradient-to-t mix-blend-multiply h-[75vh]" />
+      <div className="absolute inset-0 top-auto from-gray-900 via-gray-900/50 to-gray-900/0 bg-linear-to-t mix-blend-multiply h-[75vh]" />
 
       {/* Demo container */}
       <div
         className={[
-          `relative container mx-auto border-gray-800 border-[16px] border-b-0 pb-0 rounded-t-3xl overflow-hidden grid grid-cols-1 md:grid-cols-3 md:min-h-[50vh] pointer-events-auto bg-gradient-to-b`,
+          `relative container mx-auto border-gray-800 border-16 border-b-0 pb-0 rounded-t-3xl overflow-hidden grid grid-cols-1 md:grid-cols-3 md:min-h-[50vh] pointer-events-auto bg-linear-to-b`,
           darkMode ? `dark from-first-800 to-first-900` : `from-white to-first-100`,
         ].join(` `)}
       >
@@ -63,10 +63,10 @@ export default function Demo({close, palettes}: {close: () => void; palettes: Pa
                 This feature could do with some work. It's currently a placeholder.
               </p>
               <div className="flex items-center justify-start gap-2">
-                <div className="py-3 px-4 leading-none rounded bg-first-500 text-white font-bold text-sm transition-colors duration-200 hover:cursor-pointer hover:bg-first-100 hover:text-first-600">
+                <div className="py-3 px-4 leading-none rounded-sm bg-first-500 text-white font-bold text-sm transition-colors duration-200 hover:cursor-pointer hover:bg-first-100 hover:text-first-600">
                   Explore
                 </div>
-                <div className="py-3 px-4 leading-none rounded bg-white text-first-500 font-bold text-sm transition-colors duration-200 hover:cursor-pointer hover:bg-first-100 hover:text-first-600">
+                <div className="py-3 px-4 leading-none rounded-sm bg-white text-first-500 font-bold text-sm transition-colors duration-200 hover:cursor-pointer hover:bg-first-100 hover:text-first-600">
                   About
                 </div>
               </div>

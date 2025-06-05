@@ -40,13 +40,13 @@ export default function ColorPicker({
     <Popover className="relative">
       <PopoverButton
         style={ringStyle}
-        className="w-full p-2 border border-gray-200 bg-gray-50 focus:outline-none focus:ring focus:bg-gray-100 focus:border-gray-300 text-gray-500 focus:text-gray-900"
+        className="w-full p-2 border border-gray-200 bg-gray-50 focus:outline-hidden focus:ring-3 focus:bg-gray-100 focus:border-gray-300 text-gray-500 focus:text-gray-900"
       >
         <SwatchIcon className="w-6 h-auto" />
         <span className="sr-only">Open Color Picker</span>
       </PopoverButton>
 
-      <PopoverPanel className="absolute right-0 z-50 bg-white rounded-lg shadow p-1 pb-2 translate-y-1">
+      <PopoverPanel className="absolute right-0 z-50 bg-white rounded-lg shadow-sm p-1 pb-2 translate-y-1">
         {({close}) => (
           <div className="flex flex-col items-justify-center gap-4">
             <HexColorPicker

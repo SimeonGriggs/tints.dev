@@ -21,7 +21,7 @@ export default function SquareGraph(props: SquareGraphProps) {
 
   return (
     <section className="grid grid-cols-1 gap-2">
-      <div className="relative rounded bg-gray-50 border border-gray-200 flex justify-between h-40 w-full">
+      <div className="relative rounded-sm bg-gray-50 border border-gray-200 flex justify-between h-40 w-full">
         {palettes.map((palette) => (
           <React.Fragment key={palette.value}>
             {palette.swatches

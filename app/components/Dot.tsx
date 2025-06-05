@@ -5,7 +5,7 @@ import {createDisplayColor} from '~/lib/createDisplayColor'
 import type {Mode, PaletteConfig, SwatchValue} from '~/types'
 
 const dotClasses = {
-  common: `transition duration-500 absolute z-10 border-2 border-white shadow transform -translate-y-1/2 -translate-x-1/2`,
+  common: `transition duration-500 absolute z-10 border-2 border-white shadow-sm transform -translate-y-1/2 -translate-x-1/2`,
   default: `rounded-full w-4 h-4`,
   'value-stop': `rotate-45 w-5 h-5`,
   ends: `w-1 h-6`,
@@ -50,7 +50,7 @@ export default function Dot(props: DotProps) {
         <div
           ref={setTooltipRef}
           {...getTooltipProps({
-            className: `w-20 text-center z-50 bg-white p-2 rounded shadow text-xs md:text-sm font-mono`,
+            className: `w-20 text-center z-50 bg-white p-2 rounded-sm shadow-sm text-xs md:text-sm font-mono`,
           })}
         >
           <div

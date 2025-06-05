@@ -1,7 +1,7 @@
 import React from 'react'
 import {usePopperTooltip} from 'react-popper-tooltip'
 
-const classNames = `border p-1 transition-colors duration-200 rounded`
+const classNames = `border p-1 transition-colors duration-200 rounded-sm`
 const disabledClassNames = `bg-gray-100 border-gray-200 text-gray-200 cursor-not-allowed pointer-events-none`
 const toneClassNames = {
   danger: `border-gray-200 text-gray-400 hover:text-red-500 hover:border-red-500 hover:bg-red-100`,
@@ -84,7 +84,7 @@ export default function ButtonIcon({
         <div
           ref={setTooltipRef}
           {...getTooltipProps({
-            className: `w-32 text-center z-50 bg-white p-2 rounded shadow text-xs font-medium ${toneTooltipClassNames[tone]}`,
+            className: `w-32 text-center z-50 bg-white p-2 rounded-sm shadow-sm text-xs font-medium ${toneTooltipClassNames[tone]}`,
           })}
         >
           <div

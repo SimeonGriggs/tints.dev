@@ -21,7 +21,7 @@ export default function DistributionGraph(props: DistributionGraphProps) {
 
       <div
         style={{minHeight: graphHeight, height: graphHeight * palettes.length}}
-        className="relative rounded bg-gray-800 flex justify-between h-full"
+        className="relative rounded-sm bg-gray-800 flex justify-between h-full"
       >
         {palettes.map((palette, index) => (
           <React.Fragment key={palette.value}>
