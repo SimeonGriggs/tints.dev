@@ -1,6 +1,6 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { SwatchIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import { useDebounceCallback } from "usehooks-ts";
 
@@ -33,7 +33,7 @@ export default function ColorPicker({
       setValue(newValue);
       debounceOnChange(newValue);
     },
-    [h, s, setValue, debounceOnChange],
+    [h, s, setValue, debounceOnChange]
   );
 
   return (

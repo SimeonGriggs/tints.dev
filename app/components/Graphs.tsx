@@ -1,5 +1,5 @@
 import { Switch } from "@headlessui/react";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import DistributionGraph from "~/components/DistributionGraph";
 import SquareGraph from "~/components/SquareGraph";

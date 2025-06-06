@@ -6,7 +6,7 @@ import {
   LinkIcon,
   TrashIcon,
 } from "@heroicons/react/24/solid";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useCopyToClipboard } from "usehooks-ts";
 
 import Graphs from "~/components/Graphs";
@@ -149,7 +149,7 @@ export default function Palette(props: PaletteProps) {
 
   // Handle changes to name or value of palette
   const handlePaletteChange = (
-    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     if (e.currentTarget.name === "name") {
       const newName = e.currentTarget.value ?? ``;
