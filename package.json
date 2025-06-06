@@ -10,26 +10,17 @@
     "build": "react-router build",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
-    "lint": "eslint . --fix",
-    "postinstall": "husky install"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint && npm run typecheck"
-    }
+    "lint": "eslint . --fix"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
     "@heroicons/react": "^2.2.0",
-    "@mapbox/react-colorpickr": "^10.3.0",
     "@portabletext/react": "^3.2.1",
     "@react-router/node": "^7.6.2",
     "@react-router/serve": "^7.6.2",
     "@resvg/resvg-js": "^2.6.2",
-    "@sanity/block-content-to-react": "^3.0.0",
     "@vercel/analytics": "^1.5.0",
     "@vercel/react-router": "latest",
-    "babel-plugin-react-compiler": "19.0.0-beta-714736e-20250131",
     "chroma-js": "^3.1.2",
     "clsx": "^2.1.1",
     "isbot": "^5.1.9",
@@ -45,18 +36,17 @@
   },
   "devDependencies": {
     "@react-router/dev": "^7.6.2",
-    "@tailwindcss/postcss": "^4.1.8",
     "@tailwindcss/typography": "^0.5.16",
     "@tailwindcss/vite": "^4.1.8",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.6",
     "autoprefixer": "^10.4.19",
+    "babel-plugin-react-compiler": "19.0.0-beta-714736e-20250131",
     "esbuild": "^0.25.5",
-    "globals": "^16.2.0",
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.6.12",
-    "tailwindcss": "^4.1.8",
-    "typescript": "^5.4.5",
+    "tailwindcss": "^4.1.4",
+    "typescript": "^5.8.3",
     "vite": "^6.3.3",
     "vite-plugin-babel": "^1.3.0",
     "vite-tsconfig-paths": "^5.1.4"
