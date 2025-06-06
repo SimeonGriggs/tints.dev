@@ -6,7 +6,7 @@ node_modules
 /build
 /public/build
 /app/styles/output.css
+/.react-router/
 
 worker.js
-
-cypress/videos
+.vercel

@@ -9,5 +9,3 @@ Read the [2.0.0 launch blog post](https://www.simeongriggs.dev/using-the-tailwin
 ## Credits
 
 Created by [Simeon Griggs](https://simeongriggs.dev/)
-
-Contributions by [kevnk](https://truefrontierapps.com/)

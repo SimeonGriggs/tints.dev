@@ -1,16 +1,18 @@
-import type {LoaderFunction} from '@remix-run/node'
+import { data } from "react-router";
 
-import {output, requestToPalettes} from '~/lib/responses'
+import { output, requestToPalettes } from "~/lib/responses";
 
-export const loader: LoaderFunction = ({request}) => {
-  const palettes = requestToPalettes(request.url)
-  const responseString = JSON.stringify(output(palettes))
+import type { Route } from "./+types/api._index";
 
-  return new Response(responseString, {
+export const loader = ({ request }: Route.LoaderArgs) => {
+  const palettes = requestToPalettes(request.url);
+  const responseString = JSON.stringify(output(palettes));
+
+  return data(responseString, {
     headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      'x-content-type-options': 'nosniff',
-      'Cache-Control': 'max-age=604800, s-maxage=604800',
+      "Content-Type": "application/json; charset=utf-8",
+      "x-content-type-options": "nosniff",
+      "Cache-Control": "max-age=604800, s-maxage=604800",
     },
-  })
-}
+  });
+};

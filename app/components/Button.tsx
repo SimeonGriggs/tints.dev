@@ -1,5 +1,4 @@
-import clsx from 'clsx'
-import React from 'react'
+import clsx from "clsx";
 
 export default function Button({
   id,
@@ -7,10 +6,10 @@ export default function Button({
   children,
   square,
 }: {
-  id: string
-  onClick: () => void
-  children: React.ReactNode
-  square?: boolean
+  id: string;
+  onClick: () => void;
+  children: React.ReactNode;
+  square?: boolean;
 }) {
   return (
     <button
@@ -24,5 +23,5 @@ export default function Button({
     >
       {children}
     </button>
-  )
+  );
 }

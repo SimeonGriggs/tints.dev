@@ -1,28 +1,28 @@
-import {Switch} from '@headlessui/react'
-import React, {useState} from 'react'
+import { Switch } from "@headlessui/react";
+import { useState } from "react";
 
-import DistributionGraph from '~/components/DistributionGraph'
-import SquareGraph from '~/components/SquareGraph'
-import type {Mode, PaletteConfig} from '~/types'
+import DistributionGraph from "~/components/DistributionGraph";
+import SquareGraph from "~/components/SquareGraph";
+import type { Mode, PaletteConfig } from "~/types";
 
-type GraphsProps = {palettes: PaletteConfig[]; mode: Mode}
+type GraphsProps = { palettes: PaletteConfig[]; mode: Mode };
 
 export default function Graphs(props: GraphsProps) {
-  const {palettes, mode} = props
-  const [hiddenValues, setHiddenValues] = useState<string[]>([])
+  const { palettes, mode } = props;
+  const [hiddenValues, setHiddenValues] = useState<string[]>([]);
 
   const handleShowHide = (value: string) => {
     if (hiddenValues.includes(value)) {
-      setHiddenValues(hiddenValues.filter((v) => v !== value))
+      setHiddenValues(hiddenValues.filter((v) => v !== value));
     } else {
-      setHiddenValues([...hiddenValues, value])
+      setHiddenValues([...hiddenValues, value]);
     }
-  }
+  };
 
   const displayPalettes =
     palettes.length === 1
       ? palettes
-      : palettes.filter((palette) => !hiddenValues.includes(palette.value))
+      : palettes.filter((palette) => !hiddenValues.includes(palette.value));
 
   return (
     <div className="grid grid-cols-1 gap-4">
@@ -34,23 +34,30 @@ export default function Graphs(props: GraphsProps) {
                 style={{
                   backgroundColor: hiddenValues.includes(palette.value)
                     ? undefined
-                    : palette.swatches.find((swatch) => swatch.stop === 800)?.hex,
+                    : palette.swatches.find((swatch) => swatch.stop === 800)
+                        ?.hex,
                 }}
                 className="relative inline-flex items-center h-6 rounded-full w-11 bg-gray-200"
                 checked={!hiddenValues.includes(palette.value)}
                 onChange={() => handleShowHide(palette.value)}
               >
                 <span className="sr-only">
-                  {hiddenValues.length && hiddenValues.includes(palette.value) ? `Show` : `Hide`}{' '}
+                  {hiddenValues.length && hiddenValues.includes(palette.value)
+                    ? `Show`
+                    : `Hide`}{" "}
                   {palette.name}
                 </span>
                 <span
                   className={`${
-                    hiddenValues.includes(palette.value) ? 'translate-x-1' : 'translate-x-6'
+                    hiddenValues.includes(palette.value)
+                      ? "translate-x-1"
+                      : "translate-x-6"
                   } transition-transform duration-200 inline-block w-4 h-4 transform bg-white rounded-full`}
                 />
               </Switch>
-              <span className="text-xs text-gray-600 font-bold">{palette.name}</span>
+              <span className="text-xs text-gray-600 font-bold">
+                {palette.name}
+              </span>
             </div>
           ))}
         </div>
@@ -61,5 +68,5 @@ export default function Graphs(props: GraphsProps) {
         <SquareGraph palettes={displayPalettes} graph="s" mode={mode} />
       </div>
     </div>
-  )
+  );
 }

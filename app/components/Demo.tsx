@@ -1,12 +1,24 @@
-import {MoonIcon, SparklesIcon, StarIcon, SunIcon, XMarkIcon} from '@heroicons/react/24/solid'
-import {useState} from 'react'
+import {
+  MoonIcon,
+  SparklesIcon,
+  StarIcon,
+  SunIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/solid";
+import { useState } from "react";
 
-import type {PaletteConfig} from '~/types'
+import type { PaletteConfig } from "~/types";
 
-import Button from './Button'
+import Button from "./Button";
 
-export default function Demo({close, palettes}: {close: () => void; palettes: PaletteConfig[]}) {
-  const [darkMode, setDarkMode] = useState(false)
+export default function Demo({
+  close,
+  palettes,
+}: {
+  close: () => void;
+  palettes: PaletteConfig[];
+}) {
+  const [darkMode, setDarkMode] = useState(false);
 
   return (
     <section className="fixed inset-0 pointer-events-none w-screen h-screen z-50 flex flex-col justify-end items-center px-2 md:px-0">
@@ -19,13 +31,15 @@ export default function Demo({close, palettes}: {close: () => void; palettes: Pa
       </div>
 
       {/* Background 'screen */}
-      <div className="absolute inset-0 top-auto from-gray-900/100 via-gray-900/50 to-gray-900/0 bg-gradient-to-t mix-blend-multiply h-[75vh]" />
+      <div className="absolute inset-0 top-auto from-gray-900 via-gray-900/50 to-gray-900/0 bg-linear-to-t mix-blend-multiply h-[75vh]" />
 
       {/* Demo container */}
       <div
         className={[
-          `relative container mx-auto border-gray-800 border-[16px] border-b-0 pb-0 rounded-t-3xl overflow-hidden grid grid-cols-1 md:grid-cols-3 md:min-h-[50vh] pointer-events-auto bg-gradient-to-b`,
-          darkMode ? `dark from-first-800 to-first-900` : `from-white to-first-100`,
+          `relative container mx-auto border-gray-800 border-16 border-b-0 pb-0 rounded-t-3xl overflow-hidden grid grid-cols-1 md:grid-cols-3 md:min-h-[50vh] pointer-events-auto bg-linear-to-b`,
+          darkMode
+            ? `dark from-first-800 to-first-900`
+            : `from-white to-first-100`,
         ].join(` `)}
       >
         <div className="absolute z-10 p-4 md:p-12">
@@ -34,12 +48,16 @@ export default function Demo({close, palettes}: {close: () => void; palettes: Pa
             type="button"
             onClick={() => setDarkMode(!darkMode)}
           >
-            {darkMode ? <SunIcon className="w-5 h-auto" /> : <MoonIcon className="w-5 h-auto" />}
+            {darkMode ? (
+              <SunIcon className="w-5 h-auto" />
+            ) : (
+              <MoonIcon className="w-5 h-auto" />
+            )}
           </button>
         </div>
         <img
           loading="lazy"
-          style={{clipPath: `polygon(0 0, 100% 0%, 75% 100%, 0% 100%)`}}
+          style={{ clipPath: `polygon(0 0, 100% 0%, 75% 100%, 0% 100%)` }}
           className="bg-first-100 md:absolute top-0 md:bottom-0 w-11/12 md:w-1/3 h-24 md:h-full object-cover"
           src={`//picsum.photos/seed/${palettes[0].value}/400/800/`}
           width="400"
@@ -60,13 +78,14 @@ export default function Demo({close, palettes}: {close: () => void; palettes: Pa
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
             <div className="flex flex-col md:col-span-1 lg:col-span-2">
               <p className="text-gray-600 dark:text-first-50 md:text-lg max-w-sm mb-4">
-                This feature could do with some work. It's currently a placeholder.
+                This feature could do with some work. It's currently a
+                placeholder.
               </p>
               <div className="flex items-center justify-start gap-2">
-                <div className="py-3 px-4 leading-none rounded bg-first-500 text-white font-bold text-sm transition-colors duration-200 hover:cursor-pointer hover:bg-first-100 hover:text-first-600">
+                <div className="py-3 px-4 leading-none rounded-sm bg-first-500 text-white font-bold text-sm transition-colors duration-200 hover:cursor-pointer hover:bg-first-100 hover:text-first-600">
                   Explore
                 </div>
-                <div className="py-3 px-4 leading-none rounded bg-white text-first-500 font-bold text-sm transition-colors duration-200 hover:cursor-pointer hover:bg-first-100 hover:text-first-600">
+                <div className="py-3 px-4 leading-none rounded-sm bg-white text-first-500 font-bold text-sm transition-colors duration-200 hover:cursor-pointer hover:bg-first-100 hover:text-first-600">
                   About
                 </div>
               </div>
@@ -76,16 +95,28 @@ export default function Demo({close, palettes}: {close: () => void; palettes: Pa
               <div className="grid grid-cols-1 gap-2 rounded-xl bg-first-500 text-white p-2 shadow-first-200 dark:shadow-first-900 shadow-lg">
                 <div className="flex gap-4">
                   <div className="flex-1 flex flex-col gap-1 p-2">
-                    <span className="text-3xl tracking-tight leading-none">99.99%</span>
-                    <span className="text-xs font-bold text-first-100">Uptime</span>
+                    <span className="text-3xl tracking-tight leading-none">
+                      99.99%
+                    </span>
+                    <span className="text-xs font-bold text-first-100">
+                      Uptime
+                    </span>
                   </div>
                   <div className="flex-1 flex flex-col gap-1 p-2">
-                    <span className="text-3xl tracking-tight leading-none">$159m</span>
-                    <span className="text-xs font-bold text-first-100">Funding</span>
+                    <span className="text-3xl tracking-tight leading-none">
+                      $159m
+                    </span>
+                    <span className="text-xs font-bold text-first-100">
+                      Funding
+                    </span>
                   </div>
                   <div className="flex-1 hidden lg:flex flex-col gap-1 p-2">
-                    <span className="text-3xl tracking-tight leading-none">5,000</span>
-                    <span className="text-xs font-bold text-first-100">Features</span>
+                    <span className="text-3xl tracking-tight leading-none">
+                      5,000
+                    </span>
+                    <span className="text-xs font-bold text-first-100">
+                      Features
+                    </span>
                   </div>
                 </div>
                 <div className="bg-first-700 p-2 rounded-lg">
@@ -97,7 +128,9 @@ export default function Demo({close, palettes}: {close: () => void; palettes: Pa
                       <StarIcon className="w-4 h-auto" />
                       <StarIcon className="w-4 h-auto" />
                     </div>
-                    <span className="text-3xl tracking-tight leading-none">Rated 5 Stars</span>
+                    <span className="text-3xl tracking-tight leading-none">
+                      Rated 5 Stars
+                    </span>
                     <span className="text-xs font-bold text-first-100">
                       By trusted research company
                     </span>
@@ -109,5 +142,5 @@ export default function Demo({close, palettes}: {close: () => void; palettes: Pa
         </div>
       </div>
     </section>
-  )
+  );
 }
