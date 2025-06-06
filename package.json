@@ -17,6 +17,7 @@
     "@headlessui/react": "^2.2.4",
     "@heroicons/react": "^2.2.0",
     "@portabletext/react": "^3.2.1",
+    "@react-router/fs-routes": "^7.6.2",
     "@react-router/node": "^7.6.2",
     "@react-router/serve": "^7.6.2",
     "@resvg/resvg-js": "^2.6.2",
