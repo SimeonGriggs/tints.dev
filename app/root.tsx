@@ -1,7 +1,7 @@
 import "~/styles/app.css";
 
 import { Analytics } from "@vercel/analytics/react";
-import type { LinksFunction, MetaFunction } from "react-router";
+import type { LinksFunction } from "react-router";
 import {
   isRouteErrorResponse,
   Link,
@@ -16,26 +16,6 @@ import {
 
 import { META } from "~/lib/constants";
 
-export const meta: MetaFunction = () => {
-  const title = META.title;
-  const description = META.description;
-
-  return [
-    { title },
-    { name: "description", content: description },
-    { type: "website" },
-    { "theme-color": "#2522fc" },
-    { "color-scheme": "light" },
-    { "twitter:card": "summary_large_image" },
-    { "twitter:creator": `@simeonGriggs` },
-    { "twitter:title": title },
-    { "twitter:description": description },
-    { "og:title": title },
-    { "og:url": META.origin },
-    { "og:type": "website" },
-  ];
-};
-
 export const links: LinksFunction = () => {
   return [
     { rel: "canonical", href: META.origin },
@@ -45,10 +25,10 @@ export const links: LinksFunction = () => {
       href: "https://fonts.gstatic.com",
       crossOrigin: "anonymous",
     },
-    // {
-    //   rel: "stylesheet",
-    //   href: "https://fonts.googleapis.com/css2?family=Inter:ital,wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap",
-    // },
+    {
+      rel: "stylesheet",
+      href: "https://fonts.googleapis.com/css2?family=Inter:ital,wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap",
+    },
   ];
 };
 
@@ -72,7 +52,19 @@ export default function App() {
           name="viewport"
           content="width=device-width,initial-scale=1,viewport-fit=cover"
         />
-        <Meta />
+
+        <title>{META.title}</title>
+        <meta name="description" content={META.description} />
+        <meta name="type" content="website" />
+        <meta name="theme-color" content="#2522fc" />
+        <meta name="color-scheme" content="light" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:creator" content="@simeonGriggs" />
+        <meta name="twitter:title" content={META.title} />
+        <meta name="twitter:description" content={META.description} />
+        <meta name="og:title" content={META.title} />
+        <meta name="og:type" content="website" />
+
         <Links />
       </head>
       <body className="bg-white text-gray-900">

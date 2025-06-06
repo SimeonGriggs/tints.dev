@@ -182,7 +182,7 @@ export function titleCase(s: string) {
 
 export function arrayObjectDiff(
   before: PaletteConfig[],
-  current: PaletteConfig[]
+  current: PaletteConfig[],
 ) {
   const defaultKeys = Object.keys(DEFAULT_PALETTE_CONFIG);
 
@@ -256,7 +256,7 @@ export function generateTints(baseColor: string, count: number = 10): string[] {
 
 export function generateShades(
   baseColor: string,
-  count: number = 10
+  count: number = 10,
 ): string[] {
   const rgb = hexToRgb(baseColor);
   const shades: string[] = [];
