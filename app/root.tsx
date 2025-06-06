@@ -14,7 +14,7 @@ import {
   useRouteError,
 } from "react-router";
 
-import { FONTS, META } from "~/lib/constants";
+import { META } from "~/lib/constants";
 
 export const meta: MetaFunction = () => {
   const title = META.title;
@@ -38,14 +38,17 @@ export const meta: MetaFunction = () => {
 
 export const links: LinksFunction = () => {
   return [
-    ...FONTS.map((href: string) => ({
-      rel: "preload",
-      as: "font",
-      href,
-      type: "font/woff2",
-      crossOrigin: "anonymous" as const,
-    })),
     { rel: "canonical", href: META.origin },
+    { rel: "preconnect", href: "https://fonts.googleapis.com" },
+    {
+      rel: "preconnect",
+      href: "https://fonts.gstatic.com",
+      crossOrigin: "anonymous",
+    },
+    {
+      rel: "stylesheet",
+      href: "https://fonts.googleapis.com/css2?family=Inter:ital,wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap",
+    },
   ];
 };
 

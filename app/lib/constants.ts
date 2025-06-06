@@ -54,11 +54,4 @@ export const META = {
 export const OG_IMAGE_WIDTH = 1200;
 export const OG_IMAGE_HEIGHT = 630;
 
-export const FONTS = [
-  `/fonts/JetBrainsMono-Regular.woff2`,
-  `/fonts/Inter-Regular.woff2`,
-  `/fonts/Inter-Medium.woff2`,
-  `/fonts/Inter-Bold.woff2`,
-];
-
-export const VERSIONS: Version[] = ["3", "4"];
+export const VERSIONS: Version[] = ["4", "3"];

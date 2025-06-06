@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import isEqual from "react-fast-compare";
 
 import Demo from "~/components/Demo";
@@ -16,7 +16,7 @@ import { usePrevious } from "~/lib/hooks";
 import { handleMeta } from "~/lib/meta";
 import type { Mode, PaletteConfig } from "~/types";
 
-import Header from "./Header";
+import Header from "~/components/Header";
 
 type GeneratorProps = {
   palettes: PaletteConfig[];

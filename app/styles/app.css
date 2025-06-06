@@ -7,10 +7,10 @@
 @theme {
   --font-*: initial;
   --font-mono:
-    JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
   --font-sans:
-    Inter, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
   --color-brand: #2522fc;
@@ -56,64 +56,5 @@
     -webkit-text-size-adjust: 100%;
     -ms-font-feature-settings: "kern" 1;
     font-feature-settings: "kern";
-  }
-
-  @font-face {
-    font-family: "JetBrains Mono";
-    font-weight: var(--font-weight-normal);
-    font-display: swap;
-    src: url("/fonts/JetBrainsMono-Regular.woff2");
-  }
-
-  @font-face {
-    font-family: "JetBrains Mono";
-    font-weight: var(--font-weight-bold);
-    font-display: swap;
-    src: url("/fonts/JetBrainsMono-Bold.woff2");
-  }
-
-  @font-face {
-    font-family: "Inter";
-    font-weight: var(--font-weight-normal);
-    font-display: swap;
-    src: url("/fonts/Inter-Regular.woff2");
-  }
-
-  @font-face {
-    font-family: "Inter";
-    font-weight: var(--font-weight-normal);
-    font-style: italic;
-    font-display: swap;
-    src: url("/fonts/Inter-Italic.woff2");
-  }
-
-  @font-face {
-    font-family: "Inter";
-    font-weight: var(--font-weight-medium);
-    font-display: swap;
-    src: url("/fonts/Inter-Medium.woff2");
-  }
-
-  @font-face {
-    font-family: "Inter";
-    font-weight: var(--font-weight-medium);
-    font-style: italic;
-    font-display: swap;
-    src: url("/fonts/Inter-MediumItalic.woff2");
-  }
-
-  @font-face {
-    font-family: "Inter";
-    font-weight: var(--font-weight-bold);
-    font-display: swap;
-    src: url("/fonts/Inter-Bold.woff2");
-  }
-
-  @font-face {
-    font-family: "Inter";
-    font-weight: var(--font-weight-bold);
-    font-style: italic;
-    font-display: swap;
-    src: url("/fonts/Inter-BoldItalic.woff2");
   }
 }

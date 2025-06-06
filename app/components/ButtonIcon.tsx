@@ -1,3 +1,4 @@
+import React from "react";
 import { usePopperTooltip } from "react-popper-tooltip";
 
 const classNames = `border p-1 transition-colors duration-200 rounded-sm`;

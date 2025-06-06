@@ -1,3 +1,5 @@
+import React from "react";
+
 import type { Mode, PaletteConfig } from "~/types";
 
 import Dot from "./Dot";

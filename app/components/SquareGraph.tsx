@@ -1,3 +1,5 @@
+import React from "react";
+
 import { DEFAULT_PALETTE_CONFIG } from "~/lib/constants";
 import type { Mode, PaletteConfig } from "~/types";
 
