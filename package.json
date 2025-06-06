@@ -1,7 +1,7 @@
 {
   "name": "tints.dev",
   "type": "module",
-  "description": "A 10-swatch palette generator primarily for Tailwind CSS",
+  "description": "An 11-swatch palette generator primarily for Tailwind CSS",
   "license": "MIT",
   "version": "2.0.0",
   "author": "Simeon Griggs",
