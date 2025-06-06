@@ -33,7 +33,7 @@ export default function ColorPicker({
       setValue(newValue);
       debounceOnChange(newValue);
     },
-    [h, s, setValue, debounceOnChange]
+    [h, s, setValue, debounceOnChange],
   );
 
   return (

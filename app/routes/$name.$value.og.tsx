@@ -27,7 +27,7 @@ export const loader = async ({ params, request }: Route.LoaderArgs) => {
   }
 
   const canonical = removeTrailingSlash(
-    [origin, params.name, params.value.toUpperCase()].join("/")
+    [origin, params.name, params.value.toUpperCase()].join("/"),
   );
 
   const png = await generateOGImage([palette], origin, canonical);

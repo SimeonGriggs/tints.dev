@@ -34,7 +34,7 @@ export default function Output({ palettes, mode }: OutputProps) {
               "py-2 px-4 border transition-colors duration-100 font-mono",
               v === currentVersion
                 ? "bg-first-700 border-first-700 text-white"
-                : "bg-gray-50 border-gray-200 hover:bg-first-700 hover:text-white focus-visible:bg-first-700 focus-visible:text-white"
+                : "bg-gray-50 border-gray-200 hover:bg-first-700 hover:text-white focus-visible:bg-first-700 focus-visible:text-white",
             )}
           >
             {v}
@@ -74,7 +74,7 @@ function createVersion3Config(colors: Record<string, string>) {
     /"+[0-9]+"/g,
     function (m) {
       return m.replace(/"/g, "");
-    }
+    },
   );
 }
 
@@ -85,9 +85,9 @@ function createVersion4Config(colors: Record<string, string>) {
       Object.entries(colors[colorName])
         .map(
           ([shade, value]) =>
-            `  --color-${colorName}-${shade}: ${value.toLocaleLowerCase().replace(" / <alpha-value>", "")};`
+            `  --color-${colorName}-${shade}: ${value.toLocaleLowerCase().replace(" / <alpha-value>", "")};`,
         )
-        .join("\n")
+        .join("\n"),
     ),
     `}`,
   ].join("\n");

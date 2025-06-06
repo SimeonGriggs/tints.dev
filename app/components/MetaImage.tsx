@@ -1,17 +1,21 @@
-import Swatch from '~/components/Swatch'
-import {META} from '~/lib/constants'
-import type {PaletteConfig} from '~/types'
+import Swatch from "~/components/Swatch";
+import { META } from "~/lib/constants";
+import type { PaletteConfig } from "~/types";
 
 export default function MetaImage({
   palettes,
   canonical,
 }: {
-  palettes: PaletteConfig[]
-  canonical: string
+  palettes: PaletteConfig[];
+  canonical: string;
 }) {
-  const darkColor = palettes[0].swatches.find((swatch) => swatch.stop === 800)?.hex
-  const lightColor = palettes[0].swatches.find((swatch) => swatch.stop === 300)?.hex
-  const url = (canonical ? canonical : META.origin).replace(`https://`, ``)
+  const darkColor = palettes[0].swatches.find(
+    (swatch) => swatch.stop === 800,
+  )?.hex;
+  const lightColor = palettes[0].swatches.find(
+    (swatch) => swatch.stop === 300,
+  )?.hex;
+  const url = (canonical ? canonical : META.origin).replace(`https://`, ``);
 
   return (
     <article
@@ -25,12 +29,12 @@ export default function MetaImage({
       {palettes.map((palette: PaletteConfig) => (
         <div key={palette.value} className="w-full p-12 grid grid-cols-1 gap-6">
           <div className="flex gap-6 justify-start items-end">
-            <span className="text-7xl font-mono" style={{color: darkColor}}>
+            <span className="text-7xl font-mono" style={{ color: darkColor }}>
               {palette.name}
-            </span>{' '}
+            </span>{" "}
             <span
               className="text-5xl font-bold transform -translate-y-1"
-              style={{color: lightColor}}
+              style={{ color: lightColor }}
             >
               #{palette.value.toUpperCase()}
             </span>
@@ -53,10 +57,13 @@ export default function MetaImage({
         className="pt-20 p-12 text-white flex flex-col gap-3"
       >
         <span className="text-5xl whitespace-nowrap">{url}</span>
-        <span style={{color: lightColor}} className="text-2xl font-bold whitespace-nowrap">
+        <span
+          style={{ color: lightColor }}
+          className="text-2xl font-bold whitespace-nowrap"
+        >
           {META.title}
         </span>
       </div>
     </article>
-  )
+  );
 }

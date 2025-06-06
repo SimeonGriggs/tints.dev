@@ -1,7 +1,9 @@
 export async function getGitHubData() {
-  const github = await fetch(`https://api.github.com/repos/simeonGriggs/tints.dev`)
+  const github = await fetch(
+    `https://api.github.com/repos/simeonGriggs/tints.dev`,
+  )
     .then((res) => res.json())
-    .catch(() => null)
+    .catch(() => null);
 
-  return github
+  return github;
 }

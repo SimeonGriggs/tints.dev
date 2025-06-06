@@ -9,3 +9,4 @@ node_modules
 /.react-router/
 
 worker.js
+.vercel
