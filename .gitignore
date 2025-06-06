@@ -7,6 +7,5 @@ node_modules
 /public/build
 /app/styles/output.css
 /.react-router/
-/build/
 
 worker.js

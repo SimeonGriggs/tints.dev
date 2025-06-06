@@ -1,3 +1,5 @@
+import { data } from "react-router";
+
 import { output, requestToPalettes } from "~/lib/responses";
 
 import type { Route } from "./+types/api._index";
@@ -6,7 +8,7 @@ export const loader = ({ request }: Route.LoaderArgs) => {
   const palettes = requestToPalettes(request.url);
   const responseString = JSON.stringify(output(palettes));
 
-  return new Response(responseString, {
+  return data(responseString, {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       "x-content-type-options": "nosniff",

@@ -1,5 +1,7 @@
+import "~/styles/app.css";
+
 import { Analytics } from "@vercel/analytics/react";
-import type { LinksFunction, MetaFunction, SerializeFrom } from "react-router";
+import type { LinksFunction, MetaFunction } from "react-router";
 import {
   isRouteErrorResponse,
   Link,
@@ -13,7 +15,6 @@ import {
 } from "react-router";
 
 import { FONTS, META } from "~/lib/constants";
-import styles from "~/styles/app.css";
 
 export const meta: MetaFunction = () => {
   const title = META.title;
@@ -45,8 +46,6 @@ export const links: LinksFunction = () => {
       crossOrigin: "anonymous" as const,
     })),
     { rel: "canonical", href: META.origin },
-    { rel: "preload", href: styles, as: "style" },
-    { rel: "stylesheet", href: styles },
   ];
 };
 
@@ -57,12 +56,6 @@ export const loader = async () => {
     },
   };
 };
-
-declare global {
-  interface Window {
-    ENV: SerializeFrom<typeof loader>["ENV"];
-  }
-}
 
 export default function App() {
   const { ENV } = useLoaderData<typeof loader>();
