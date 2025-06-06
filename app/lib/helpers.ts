@@ -1,6 +1,8 @@
 import { DEFAULT_PALETTE_CONFIG } from "~/lib/constants";
 import type { PaletteConfig } from "~/types";
 
+type RGB = { r: number; g: number; b: number };
+
 export function luminanceFromRGB(r: number, g: number, b: number) {
   // Formula from WCAG 2.0
   const [R, G, B] = [r, g, b].map(function (c) {
@@ -11,47 +13,48 @@ export function luminanceFromRGB(r: number, g: number, b: number) {
 }
 
 export function luminanceFromHex(H: string) {
-  return round(luminanceFromRGB(...Object.values(hexToRGB(H))), 2);
+  const rgb = hexToRGB(H);
+  return round(luminanceFromRGB(rgb.r, rgb.g, rgb.b), 2);
 }
 
 // TODO: Even out this function, luminance values aren't linear/good
 export function lightnessFromHSLum(H: number, S: number, Lum: number) {
-  const vals = {};
+  const vals: Record<number, number> = {};
   for (let L = 99; L >= 0; L--) {
-    vals[L] = Math.abs(
-      Lum - luminanceFromRGB(...Object.values(HSLtoRGB(H, S, L))),
-    );
+    const rgb = HSLtoRGB(H, S, L);
+    vals[L] = Math.abs(Lum - luminanceFromRGB(rgb.r, rgb.g, rgb.b));
   }
 
   // Run through all these and find the closest to 0
   let lowestDiff = 100;
   let newL = 100;
   for (let i = Object.keys(vals).length - 1; i >= 0; i--) {
-    if (vals[i] < lowestDiff) {
-      newL = i;
-      lowestDiff = vals[i];
+    const key = parseInt(Object.keys(vals)[i]);
+    if (vals[key] < lowestDiff) {
+      newL = key;
+      lowestDiff = vals[key];
     }
   }
 
   return newL;
 }
 
-export function hexToRGB(H: string) {
+export function hexToRGB(H: string): RGB {
   if (H.length === 6 && !H.startsWith(`#`)) {
     H = `#${H}`;
   }
 
-  let r = `0`;
-  let g = `0`;
-  let b = `0`;
+  let r = 0;
+  let g = 0;
+  let b = 0;
   if (H.length === 4) {
-    r = `0x${H[1]}${H[1]}`;
-    g = `0x${H[2]}${H[2]}`;
-    b = `0x${H[3]}${H[3]}`;
+    r = parseInt(`${H[1]}${H[1]}`, 16);
+    g = parseInt(`${H[2]}${H[2]}`, 16);
+    b = parseInt(`${H[3]}${H[3]}`, 16);
   } else if (H.length === 7) {
-    r = `0x${H[1]}${H[2]}`;
-    g = `0x${H[3]}${H[4]}`;
-    b = `0x${H[5]}${H[6]}`;
+    r = parseInt(`${H[1]}${H[2]}`, 16);
+    g = parseInt(`${H[3]}${H[4]}`, 16);
+    b = parseInt(`${H[5]}${H[6]}`, 16);
   }
 
   return { r, g, b };
@@ -137,20 +140,16 @@ export function HSLtoRGB(h: number, s: number, l: number) {
   };
 }
 
-export function HSLToHex(h, s, l) {
+export function HSLToHex(h: number, s: number, l: number) {
   let { r, g, b } = HSLtoRGB(h, s, l);
 
   // Having obtained RGB, convert channels to hex
-  r = r.toString(16);
-  g = g.toString(16);
-  b = b.toString(16);
+  const rHex = Math.round(r).toString(16) ?? "0";
+  const gHex = Math.round(g).toString(16) ?? "0";
+  const bHex = Math.round(b).toString(16) ?? "0";
 
   // Prepend 0s, if necessary
-  if (r.length === 1) r = `0${r}`;
-  if (g.length === 1) g = `0${g}`;
-  if (b.length === 1) b = `0${b}`;
-
-  return `#${r}${g}${b}`;
+  return `#${rHex.padStart(2, "0")}${gHex.padStart(2, "0")}${bHex.padStart(2, "0")}`;
 }
 
 export function isHex(value: string) {
@@ -183,22 +182,19 @@ export function titleCase(s: string) {
 
 export function arrayObjectDiff(
   before: PaletteConfig[],
-  current: PaletteConfig[],
+  current: PaletteConfig[]
 ) {
   const defaultKeys = Object.keys(DEFAULT_PALETTE_CONFIG);
 
-  // TODO: Fix this TS string-key-nonsense
   const changedKeys: (string | null)[] = defaultKeys
     .map((key: string) => {
       const beforeValues = before
-        // @ts-expect-error
-        .map((p) => p[key])
+        .map((p) => p[key as keyof PaletteConfig])
         .sort()
         .join();
 
       const currentValues = current
-        // @ts-expect-error
-        .map((p) => p[key])
+        .map((p) => p[key as keyof PaletteConfig])
         .sort()
         .join();
 
@@ -215,4 +211,66 @@ export function unsignedModulo(x: number, n: number) {
 
 export function clamp(x: number, min: number, max: number) {
   return Math.min(Math.max(x, min), max);
+}
+
+export function hexToRgb(hex: string): RGB {
+  // Remove the hash if it exists
+  hex = hex.replace(/^#/, "");
+
+  // Parse the hex values
+  const bigint = parseInt(hex, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+
+  return { r, g, b };
+}
+
+export function rgbToHex(rgb: RGB): string {
+  // Having obtained RGB, convert channels to hex
+  const rHex = Math.round(rgb.r).toString(16) ?? "0";
+  const gHex = Math.round(rgb.g).toString(16) ?? "0";
+  const bHex = Math.round(rgb.b).toString(16) ?? "0";
+
+  // Prepend 0s, if necessary
+  return `#${rHex.padStart(2, "0")}${gHex.padStart(2, "0")}${bHex.padStart(2, "0")}`;
+}
+
+export function generateTints(baseColor: string, count: number = 10): string[] {
+  const rgb = hexToRgb(baseColor);
+  const tints: string[] = [];
+
+  // Generate tints
+  for (let i = 0; i < count; i++) {
+    const factor = 1 - i / count;
+    const tint: RGB = {
+      r: Math.round(rgb.r + (255 - rgb.r) * factor),
+      g: Math.round(rgb.g + (255 - rgb.g) * factor),
+      b: Math.round(rgb.b + (255 - rgb.b) * factor),
+    };
+    tints.push(rgbToHex(tint));
+  }
+
+  return tints;
+}
+
+export function generateShades(
+  baseColor: string,
+  count: number = 10
+): string[] {
+  const rgb = hexToRgb(baseColor);
+  const shades: string[] = [];
+
+  // Generate shades
+  for (let i = 0; i < count; i++) {
+    const factor = i / count;
+    const shade: RGB = {
+      r: Math.round(rgb.r * (1 - factor)),
+      g: Math.round(rgb.g * (1 - factor)),
+      b: Math.round(rgb.b * (1 - factor)),
+    };
+    shades.push(rgbToHex(shade));
+  }
+
+  return shades;
 }

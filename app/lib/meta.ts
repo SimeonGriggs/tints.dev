@@ -49,7 +49,6 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
   // Generate a nice title for the colors
   // [blue, green, orange] => "Blue, Green & Orange"
   const paletteNames = palettes.map(({ name }) => titleCase(name));
-  // @ts-expect-error
   const paletteTitle = new Intl.ListFormat("en").format(paletteNames);
 
   const documentTitle = [
@@ -74,7 +73,7 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
 
     const themeColorTag = document.querySelector(`meta[name="theme-color"]`);
     const themeColorValue = palettes[0].swatches.find(
-      (swatch) => swatch.stop === 500,
+      (swatch) => swatch.stop === 500
     )?.hex;
 
     if (themeColorTag && themeColorValue) {

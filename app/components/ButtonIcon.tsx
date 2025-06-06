@@ -28,9 +28,7 @@ export default function ButtonIcon({
   tabIndex = -1,
 }: {
   title: string;
-  icon:
-    | React.ForwardRefExoticComponent<React.SVGProps<SVGSVGElement>>
-    | JSX.Element;
+  icon: React.ComponentType<{ className?: string }>;
   href?: string;
   testId?: string;
   onClick?: () => void;
@@ -55,6 +53,8 @@ export default function ButtonIcon({
     visible,
   } = usePopperTooltip();
 
+  const Icon = icon;
+
   if (href) {
     return (
       <a
@@ -67,7 +67,7 @@ export default function ButtonIcon({
         rel="noopener noreferrer"
       >
         <>
-          {icon ? React.createElement(icon, { className: `w-5 h-auto` }) : null}
+          <Icon className="w-5 h-auto" />
           <span className="sr-only">{title}</span>
         </>
       </a>
@@ -85,7 +85,7 @@ export default function ButtonIcon({
         disabled={disabled}
         tabIndex={tabIndex}
       >
-        {icon ? React.createElement(icon, { className: `w-5 h-auto` }) : null}
+        <Icon className="w-5 h-auto" />
         <span className="sr-only">{title}</span>
       </button>
       {visible && (
