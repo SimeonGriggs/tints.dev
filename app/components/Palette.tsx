@@ -163,7 +163,7 @@ export default function Palette(props: PaletteProps) {
 
   // Handle changes to name or value of palette
   const handlePaletteChange = (
-    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     let newTargetValue = e.currentTarget.value ?? ``;
     const inputConfig =
@@ -315,7 +315,7 @@ export default function Palette(props: PaletteProps) {
                 ) : null}
               </div>
             </div>
-          )
+          ),
         )}
         <div className="col-span-4 sm:col-span-1 p-2 border border-dashed border-gray-200 flex flex-wrap lg:flex-nowrap items-center justify-center gap-2">
           <ButtonIcon
