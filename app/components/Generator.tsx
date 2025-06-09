@@ -133,7 +133,7 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="https://twitter.com/simeongriggs"
+              href="https://x.com/simeongriggs"
             >
               🤙 Sponsor tints.dev
             </a>
