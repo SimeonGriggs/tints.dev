@@ -62,7 +62,7 @@ const paletteInputs: Record<string, PaletteInput> = {
     value: ``,
     min: 3,
     max: 24,
-    pattern: `[A-Za-z]{3,24}`,
+    pattern: `[A-Za-z\-]{3,24}`,
     classes: ``,
     transform: (value: string) => value,
   },
