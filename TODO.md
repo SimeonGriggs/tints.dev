@@ -7,7 +7,7 @@
   - [x] Update Palette state management to handle swatch clicks (update valueStop and value)
   - [x] Integrate ColorPicker with swatch click handlers (existing ColorPicker works with clicked swatch)
   - [x] Add proper accessibility features (ARIA labels, keyboard navigation)
+  - [x] Fix palette generation instability using chroma-js for better color precision
   - [ ] Test and polish mobile/touch interaction
-  - [ ] **Fix palette generation instability using chroma-js for better color precision**
 - Write the current state of the palette to a KV storage so it's shareable
 - Click between swatches to add a new one in between
