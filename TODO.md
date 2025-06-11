@@ -6,6 +6,7 @@
   - [x] Add visual indication of which swatch is currently selected/active (user added `selected` prop)
   - [x] Update Palette state management to handle swatch clicks (update valueStop and value)
   - [x] Integrate ColorPicker with swatch click handlers (existing ColorPicker works with clicked swatch)
+  - [x] Auto-open ColorPicker when swatch is clicked (clicking swatch now both selects it AND opens color picker)
   - [x] Add proper accessibility features (ARIA labels, keyboard navigation)
   - [x] Fix palette generation instability using chroma-js for better color precision
   - [ ] Test and polish mobile/touch interaction

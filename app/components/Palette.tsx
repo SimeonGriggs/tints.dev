@@ -102,6 +102,7 @@ export default function Palette(props: PaletteProps) {
     swatches: palette.swatches ?? createSwatches(palette),
   });
   const [showGraphs, setShowGraphs] = useState(false);
+  const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const [, copy] = useCopyToClipboard();
 
   // Update global list every time local palette changes
@@ -274,6 +275,9 @@ export default function Palette(props: PaletteProps) {
       ...newPalette,
       swatches: newSwatches,
     });
+
+    // Open the color picker when a swatch is clicked
+    setColorPickerOpen(true);
   };
 
   const ringStyle = {
@@ -325,6 +329,8 @@ export default function Palette(props: PaletteProps) {
                       color={paletteState.value}
                       onChange={handleColorPickerChange}
                       ringStyle={ringStyle}
+                      isOpen={colorPickerOpen}
+                      onOpenChange={setColorPickerOpen}
                     />
                     <StopSelect
                       value={paletteState.valueStop.toString()}

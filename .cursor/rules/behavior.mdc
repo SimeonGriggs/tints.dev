@@ -1,0 +1,16 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- Use PNPM, never NPM
+
+## AFTER DOING WORK
+- Work in a new branch per feature request
+- Commit after significant milestones
+- Suggest cleaning up unused files, dependencies, and functions
+
+## BEFORE STARTING WORK
+- Push back and ask questions if you do not understand what a successful outcome looks like
+- Keep TODO.MD up to date with what you intend to do, or know needs to be done in future
+- Do not proceed with any work unless you are confident you have broken a request down to micro tasks which can be completed in sequence
