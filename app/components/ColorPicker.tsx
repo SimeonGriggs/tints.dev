@@ -33,7 +33,7 @@ export default function ColorPicker({
       setValue(newValue);
       debounceOnChange(newValue);
     },
-    [h, s, setValue, debounceOnChange],
+    [h, s, setValue, debounceOnChange]
   );
 
   return (
@@ -46,7 +46,7 @@ export default function ColorPicker({
         <span className="sr-only">Open Color Picker</span>
       </PopoverButton>
 
-      <PopoverPanel className="absolute right-0 z-50 bg-white rounded-lg shadow-sm p-1 pb-2 translate-y-1">
+      <PopoverPanel className="absolute right-0 z-50 bg-white rounded-lg p-1 pb-2 translate-y-1">
         {({ close }) => (
           <div className="flex flex-col items-justify-center gap-4">
             <HexColorPicker
