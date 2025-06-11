@@ -4,6 +4,38 @@ import { DEFAULT_PALETTE_CONFIG } from "~/lib/constants";
 import type { PaletteConfig } from "~/types";
 
 /**
+ * Finds HSL lightness that produces the closest luminance to target
+ * Equivalent to legacy lightnessFromHSLum function
+ */
+function lightnessFromLuminance(
+  h: number,
+  s: number,
+  targetLuminance: number
+): number {
+  let bestL = 50;
+  let smallestDiff = Infinity;
+
+  // Search through lightness values to find closest luminance match
+  for (let l = 0; l <= 100; l++) {
+    try {
+      const testColor = chroma.hsl(h, s / 100, l / 100);
+      const testLuminance = testColor.luminance();
+      const diff = Math.abs(targetLuminance - testLuminance);
+
+      if (diff < smallestDiff) {
+        smallestDiff = diff;
+        bestL = l;
+      }
+    } catch {
+      // Skip invalid color combinations
+      continue;
+    }
+  }
+
+  return bestL;
+}
+
+/**
  * Chroma-js based implementation for stable palette generation
  * Uses perceptually uniform color spaces and higher precision
  * Self-contained to avoid infinite loop issues
@@ -118,13 +150,26 @@ export function createSwatches(palette: PaletteConfig) {
     const [baseH, baseS, baseL] = baseColor.hsl();
 
     const newH = (baseH + hTweak) % 360;
-    const newS = Math.max(0, Math.min(1, (baseS * 100 + sTweak) / 100));
-    const newL = Math.max(0, Math.min(1, lTweak / 100));
+    const newS = Math.max(0, Math.min(100, baseS * 100 + sTweak));
+
+    let newL: number;
+    if (useLightness) {
+      // Direct lightness approach
+      newL = Math.max(0, Math.min(100, lTweak));
+    } else {
+      // Luminance-based approach: find lightness that produces target luminance
+      const targetLuminance = lTweak / 100; // Convert to 0-1 range
+      newL = lightnessFromLuminance(
+        isNaN(newH) ? baseH : newH,
+        isNaN(newS) ? baseS * 100 : newS,
+        targetLuminance
+      );
+    }
 
     const newColor = chroma.hsl(
       isNaN(newH) ? baseH : newH,
-      isNaN(newS) ? baseS : newS,
-      isNaN(newL) ? baseL : newL
+      isNaN(newS) ? baseS : newS / 100,
+      newL / 100
     );
 
     const [finalH, finalS, finalL] = newColor.hsl();
