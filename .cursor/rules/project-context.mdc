@@ -1,0 +1,127 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# tints.dev - Tailwind CSS Palette Generator
+
+## Project Overview
+
+**tints.dev** is a sophisticated web application that solves a critical problem in modern web development: **generating complete, harmonious 11-swatch Tailwind CSS color palettes from just a single hex color input**.
+
+### Core Value Proposition
+
+- **Input**: One hex color (e.g., `#3B82F6`)
+- **Output**: Complete 11-swatch palette (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950)
+- **Result**: Professional, mathematically consistent color system ready for Tailwind CSS
+
+This eliminates the tedious process of manually creating 11 related colors and ensures visual harmony across the entire palette.
+
+## Key Features
+
+### 1. Single-Input Palette Generation
+
+- Generate entire palettes from one color
+- Mathematically calculated shade distribution
+- Visually consistent lightness/darkness progression
+- Automatic handling of edge cases (very light/dark inputs)
+
+### 2. Advanced Fine-Tuning Controls
+
+- **Hue Shifting**: Make saturated colors more interesting
+- **Saturation Adjustment**: Enhance muted base colors
+- **Lightness/Luminance Range**: Control extremes (white/black)
+- **Base Stop Selection**: Start from any stop (50-950), not just 500
+
+### 3. Multiple Export Formats
+
+- CSS Custom Properties
+- Tailwind CSS configuration
+- JSON API response
+- Visual swatches for design tools
+
+### 4. RESTful API
+
+- Endpoint: `/api/{palette-name}/{hex-value}`
+- Programmatic palette generation
+- JSON response format
+- Cacheable responses
+
+## Technical Architecture
+
+### Stack
+
+- **Frontend**: React 19 + React Router v7
+- **Styling**: Tailwind CSS v4
+- **Color Engine**: chroma-js for color manipulation
+- **Hosting**: Vercel with SSR
+- **Language**: TypeScript
+
+### Key Dependencies
+
+- `chroma-js`: Core color manipulation and palette generation
+- `react-colorful`: Interactive color picker component
+- `@headlessui/react`: Accessible UI components
+- `satori`: Social media image generation
+
+## Development Guidelines
+
+### Core Principles
+
+1. **Simplicity First**: The primary interface should remain "single input → full palette"
+2. **Color Theory**: All algorithms should follow established color theory principles
+3. **Performance**: Color calculations should be optimized for real-time updates
+
+### Key Files to Understand
+
+- `app/components/Palette.tsx` (433 lines): Contains the core palette generation and manipulation logic
+- `app/lib/createPalette.js`: Mathematical algorithms for generating color swatches
+- `app/routes/api.$name.$value.tsx`: API endpoint implementation
+
+### When Making Changes
+
+- **Color Algorithm Changes**: Test with edge cases (very light, very dark, desaturated colors)
+- **UI Changes**: Maintain the simplicity of single-input workflow
+- **API Changes**: Ensure backward compatibility for existing integrations
+- **Performance**: Color calculations happen in real-time, optimize accordingly
+
+## User Workflows
+
+### Primary Workflow (90% of users)
+
+1. Visit tints.dev
+2. Input a single hex color
+3. Get instant 11-swatch palette
+4. Copy CSS/Tailwind output
+5. Use in project
+
+### Advanced Workflow (10% of users)
+
+1. Generate base palette
+2. Fine-tune with HSL controls
+3. Add multiple palettes
+4. Compare distributions via graphs
+5. Export customized results
+
+### API Workflow (Programmatic)
+
+1. Make GET request to `/api/{name}/{hex}`
+2. Receive JSON with complete palette
+3. Integrate into design tools/workflows
+
+## Success Metrics
+
+- **Speed**: < 100ms for palette generation
+- **Accuracy**: Visually pleasing results for 95%+ of inputs
+- **Simplicity**: New users can generate palette in < 30 seconds
+- **Reliability**: API uptime > 99.9%
+
+## Content Management
+
+- About content managed via Sanity.io CMS
+- GitHub integration shows live star count
+- Social media images auto-generated via Satori
+
+---
+
+_This application exists to eliminate the tedious manual process of creating color palettes and provide developers with professional, consistent color systems in seconds._

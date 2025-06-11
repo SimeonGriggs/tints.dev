@@ -15,7 +15,7 @@ import { DEFAULT_PALETTE_CONFIG, DEFAULT_STOPS } from "~/lib/constants";
 import { createSwatches } from "~/lib/createSwatches";
 import { isHex, isValidName } from "~/lib/helpers";
 import { createCanonicalUrl } from "~/lib/responses";
-import type { Mode, PaletteConfig } from "~/types";
+import type { Mode, PaletteConfig, SwatchValue } from "~/types";
 
 import ButtonIcon from "./ButtonIcon";
 import ColorPicker from "./ColorPicker";
@@ -163,7 +163,7 @@ export default function Palette(props: PaletteProps) {
 
   // Handle changes to name or value of palette
   const handlePaletteChange = (
-    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     let newTargetValue = e.currentTarget.value ?? ``;
     const inputConfig =
@@ -257,6 +257,25 @@ export default function Palette(props: PaletteProps) {
     }
   };
 
+  // Handle swatch click - update both value and valueStop to match clicked swatch
+  const handleSwatchClick = (swatch: SwatchValue) => {
+    const hexWithoutHash = swatch.hex.replace(`#`, ``).toUpperCase();
+
+    // Update both value and valueStop in a single operation to avoid dependency issues
+    const newPalette = {
+      ...paletteState,
+      value: hexWithoutHash,
+      valueStop: swatch.stop,
+    };
+
+    const newSwatches = createSwatches(newPalette);
+
+    setPaletteState({
+      ...newPalette,
+      swatches: newSwatches,
+    });
+  };
+
   const ringStyle = {
     "--tw-ring-color": palette.swatches[1].hex,
   } as React.CSSProperties;
@@ -315,9 +334,9 @@ export default function Palette(props: PaletteProps) {
                 ) : null}
               </div>
             </div>
-          ),
+          )
         )}
-        <div className="col-span-4 sm:col-span-1 p-2 border border-dashed border-gray-200 flex flex-wrap lg:flex-nowrap items-center justify-center gap-2">
+        <div className="col-span-4 sm:col-span-1 flex justify-between items-end  gap-2">
           <ButtonIcon
             testId="paletteCopy"
             title="Copy this Palette's URL to clipboard"
@@ -423,7 +442,13 @@ export default function Palette(props: PaletteProps) {
         {paletteState.swatches
           .filter((swatch) => ![0, 1000].includes(swatch.stop))
           .map((swatch) => (
-            <Swatch key={swatch.stop} swatch={swatch} mode={currentMode} />
+            <Swatch
+              selected={swatch.stop === paletteState.valueStop}
+              key={swatch.stop}
+              swatch={swatch}
+              mode={currentMode}
+              onClick={handleSwatchClick}
+            />
           ))}
       </div>
       {showGraphs && <Graphs palettes={[paletteState]} mode={currentMode} />}
