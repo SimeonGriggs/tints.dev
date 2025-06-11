@@ -98,11 +98,11 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
       [
         `:root {`,
         ...palettesState[0].swatches.map(
-          (swatch) => `--first-${swatch.stop}: ${swatch.hex};`,
+          (swatch) => `--first-${swatch.stop}: ${swatch.hex};`
         ),
         `}`,
       ].join(`\n`),
-    [palettesState],
+    [palettesState]
   );
 
   return (
@@ -122,7 +122,7 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
               "py-2 px-4 border border-gray-200 transition-colors duration-100 font-mono",
               mode === currentMode
                 ? "bg-first-700 border-first-700 text-white"
-                : "bg-gray-50 hover:bg-first-700 hover:text-white focus-visible:bg-first-700 focus-visible:text-white",
+                : "bg-gray-50 hover:bg-first-700 hover:text-white focus-visible:bg-first-700 focus-visible:text-white"
             )}
           >
             {mode}
