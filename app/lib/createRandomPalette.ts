@@ -9,7 +9,7 @@ export function createRandomPalette(currentValues: string[] = []) {
       ? !currentValues
           .map((v) => v.toUpperCase())
           .includes(p.value.toUpperCase())
-      : true,
+      : true
   );
 
   const defaults = {

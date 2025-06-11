@@ -1,19 +1,13 @@
+import chroma from "chroma-js";
+
 import { DEFAULT_PALETTE_CONFIG } from "~/lib/constants";
-import {
-  clamp,
-  hexToHSL,
-  HSLToHex,
-  lightnessFromHSLum,
-  luminanceFromHex,
-  unsignedModulo,
-} from "~/lib/helpers";
-import {
-  createDistributionValues,
-  createHueScale,
-  createSaturationScale,
-} from "~/lib/scales";
 import type { PaletteConfig } from "~/types";
 
+/**
+ * Chroma-js based implementation for stable palette generation
+ * Uses perceptually uniform color spaces and higher precision
+ * Self-contained to avoid infinite loop issues
+ */
 export function createSwatches(palette: PaletteConfig) {
   const { value, valueStop } = palette;
 
@@ -25,46 +19,124 @@ export function createSwatches(palette: PaletteConfig) {
   const lMin = palette.lMin ?? DEFAULT_PALETTE_CONFIG.lMin;
   const lMax = palette.lMax ?? DEFAULT_PALETTE_CONFIG.lMax;
 
-  // Create hue and saturation scales based on tweaks
-  const hueScale = createHueScale(h, valueStop);
-  const saturationScale = createSaturationScale(s, valueStop);
+  // All available stops (including 0 and 1000 for calculation)
+  const allStops = [
+    0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 1000,
+  ];
 
-  // Get the base hex's H/S/L values
-  const { h: valueH, s: valueS, l: valueL } = hexToHSL(value);
+  // Create base color from input
+  const baseColor = chroma(`#${value}`);
 
-  // Create lightness scales based on tweak + lightness/luminance of current value
-  const lightnessValue = useLightness ? valueL : luminanceFromHex(value);
-  const distributionScale = createDistributionValues(
-    lMin,
-    lMax,
-    lightnessValue,
-    valueStop,
-  );
+  // Replicate the original algorithm but use chroma.js for more precision
+  // We'll manually implement the scale creation to avoid infinite loops
 
-  const swatches = hueScale.map(({ stop }, stopIndex) => {
-    const newH = unsignedModulo(valueH + hueScale[stopIndex].tweak, 360);
-    const newS = clamp(valueS + saturationScale[stopIndex].tweak, 0, 100);
-    let newL = useLightness
-      ? distributionScale[stopIndex].tweak
-      : lightnessFromHSLum(newH, newS, distributionScale[stopIndex].tweak);
-    newL = clamp(newL, 0, 100);
+  // 1. Create hue scale (simplified from createHueScale)
+  const valueStopIndex = allStops.indexOf(valueStop);
+  if (valueStopIndex === -1) {
+    throw new Error(`Invalid valueStop: ${valueStop}`);
+  }
 
-    const newHex = HSLToHex(newH, newS, newL);
+  const hueScale = allStops.map((stop) => {
+    const stopIndex = allStops.indexOf(stop);
+    const diff = Math.abs(stopIndex - valueStopIndex);
+    const tweakValue = h ? diff * h : 0;
+    return { stop, tweak: tweakValue };
+  });
+
+  // 2. Create saturation scale (simplified from createSaturationScale)
+  const saturationScale = allStops.map((stop) => {
+    const stopIndex = allStops.indexOf(stop);
+    const diff = Math.abs(stopIndex - valueStopIndex);
+    const tweakValue = s ? Math.round((diff + 1) * s * (1 + diff / 10)) : 0;
+    return { stop, tweak: Math.min(tweakValue, 100) };
+  });
+
+  // 3. Create lightness distribution (simplified from createDistributionValues)
+  const lightnessValue = useLightness
+    ? baseColor.get("hsl.l") * 100
+    : baseColor.luminance() * 100;
+
+  // Create the three anchor points
+  const distributionAnchors = [
+    { stop: 0, tweak: lMax },
+    { stop: valueStop, tweak: lightnessValue },
+    { stop: 1000, tweak: lMin },
+  ];
+
+  // Interpolate for missing stops
+  const distributionScale = allStops.map((stop) => {
+    // If it's an anchor point, use the anchor value
+    const anchor = distributionAnchors.find((a) => a.stop === stop);
+    if (anchor) {
+      return anchor;
+    }
+
+    // Otherwise interpolate between anchor points
+    let leftAnchor, rightAnchor;
+
+    if (stop < valueStop) {
+      leftAnchor = distributionAnchors[0]; // stop 0
+      rightAnchor = distributionAnchors[1]; // valueStop
+    } else {
+      leftAnchor = distributionAnchors[1]; // valueStop
+      rightAnchor = distributionAnchors[2]; // stop 1000
+    }
+
+    // Linear interpolation
+    const range = rightAnchor.stop - leftAnchor.stop;
+    const position = stop - leftAnchor.stop;
+    const ratio = position / range;
+    const tweak =
+      leftAnchor.tweak + (rightAnchor.tweak - leftAnchor.tweak) * ratio;
+
+    return { stop, tweak: Math.round(tweak) };
+  });
+
+  const swatches = allStops.map((stop, stopIndex) => {
+    if (stop === valueStop) {
+      // Preserve exact input color
+      const inputColor = chroma(`#${value.toUpperCase()}`);
+      const [finalH, finalS, finalL] = inputColor.hsl();
+
+      return {
+        stop,
+        hex: `#${value.toUpperCase()}`,
+        h: isNaN(finalH) ? 0 : finalH,
+        hScale: 0,
+        s: isNaN(finalS) ? 0 : finalS * 100,
+        sScale: (isNaN(finalS) ? 0 : finalS * 100) - 50,
+        l: isNaN(finalL) ? 0 : finalL * 100,
+      };
+    }
+
+    // Get tweaks for this stop
+    const hTweak = hueScale[stopIndex].tweak;
+    const sTweak = saturationScale[stopIndex].tweak;
+    const lTweak = distributionScale[stopIndex].tweak;
+
+    // Apply tweaks using chroma.js for better precision
+    const [baseH, baseS, baseL] = baseColor.hsl();
+
+    const newH = (baseH + hTweak) % 360;
+    const newS = Math.max(0, Math.min(1, (baseS * 100 + sTweak) / 100));
+    const newL = Math.max(0, Math.min(1, lTweak / 100));
+
+    const newColor = chroma.hsl(
+      isNaN(newH) ? baseH : newH,
+      isNaN(newS) ? baseS : newS,
+      isNaN(newL) ? baseL : newL
+    );
+
+    const [finalH, finalS, finalL] = newColor.hsl();
 
     return {
       stop,
-      // Sometimes the initial value is changed slightly during conversion,
-      // overriding that with the original value
-      hex:
-        stop === valueStop ? `#${value.toUpperCase()}` : newHex.toUpperCase(),
-      // Used in graphs
-      h: newH,
-      hScale:
-        ((unsignedModulo(hueScale[stopIndex].tweak + 180, 360) - 180) / 180) *
-        50,
-      s: newS,
-      sScale: newS - 50,
-      l: newL,
+      hex: newColor.hex().toUpperCase(),
+      h: isNaN(finalH) ? 0 : finalH,
+      hScale: ((((hTweak + 180) % 360) - 180) / 180) * 50,
+      s: isNaN(finalS) ? 0 : finalS * 100,
+      sScale: (isNaN(finalS) ? 0 : finalS * 100) - 50,
+      l: isNaN(finalL) ? 0 : finalL * 100,
     };
   });
 

@@ -4,39 +4,11 @@ import type { PaletteConfig } from "~/types";
 type RGB = { r: number; g: number; b: number };
 
 export function luminanceFromRGB(r: number, g: number, b: number) {
-  // Formula from WCAG 2.0
-  const [R, G, B] = [r, g, b].map(function (c) {
-    c /= 255; // to 0-1 range
+  const [R, G, B] = [r, g, b].map((c) => {
+    c = c / 255; // sRGB
     return c < 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
   });
   return 21.26 * R + 71.52 * G + 7.22 * B;
-}
-
-export function luminanceFromHex(H: string) {
-  const rgb = hexToRGB(H);
-  return round(luminanceFromRGB(rgb.r, rgb.g, rgb.b), 2);
-}
-
-// TODO: Even out this function, luminance values aren't linear/good
-export function lightnessFromHSLum(H: number, S: number, Lum: number) {
-  const vals: Record<number, number> = {};
-  for (let L = 99; L >= 0; L--) {
-    const rgb = HSLtoRGB(H, S, L);
-    vals[L] = Math.abs(Lum - luminanceFromRGB(rgb.r, rgb.g, rgb.b));
-  }
-
-  // Run through all these and find the closest to 0
-  let lowestDiff = 100;
-  let newL = 100;
-  for (let i = Object.keys(vals).length - 1; i >= 0; i--) {
-    const key = parseInt(Object.keys(vals)[i]);
-    if (vals[key] < lowestDiff) {
-      newL = key;
-      lowestDiff = vals[key];
-    }
-  }
-
-  return newL;
 }
 
 export function hexToRGB(H: string): RGB {
@@ -182,7 +154,7 @@ export function titleCase(s: string) {
 
 export function arrayObjectDiff(
   before: PaletteConfig[],
-  current: PaletteConfig[],
+  current: PaletteConfig[]
 ) {
   const defaultKeys = Object.keys(DEFAULT_PALETTE_CONFIG);
 
@@ -256,7 +228,7 @@ export function generateTints(baseColor: string, count: number = 10): string[] {
 
 export function generateShades(
   baseColor: string,
-  count: number = 10,
+  count: number = 10
 ): string[] {
   const rgb = hexToRgb(baseColor);
   const shades: string[] = [];
