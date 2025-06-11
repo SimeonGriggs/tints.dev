@@ -62,7 +62,7 @@ const paletteInputs: Record<string, PaletteInput> = {
     value: ``,
     min: 3,
     max: 24,
-    pattern: `[A-Za-z\-]{3,24}`,
+    pattern: `[A-Za-z\\-]{3,24}`,
     classes: ``,
     transform: (value: string) => value,
   },
@@ -73,11 +73,10 @@ const paletteInputs: Record<string, PaletteInput> = {
     max: 6,
     pattern: `[0-9A-Fa-f]{6}`,
     classes: `pl-7`,
-    transform: (value: string) =>
-      value
-        .replace(/[^0-9A-Fa-f]/g, "")
-        .slice(0, 6)
-        .toUpperCase(),
+    transform: (value: string) => value,
+    // .replace(/[^0-9A-Fa-f]/g, "")
+    // .slice(0, 6)
+    // .toUpperCase(),
   },
 } as const;
 
@@ -102,7 +101,6 @@ export default function Palette(props: PaletteProps) {
     swatches: palette.swatches ?? createSwatches(palette),
   });
   const [showGraphs, setShowGraphs] = useState(false);
-  const [colorPickerOpen, setColorPickerOpen] = useState(false);
   const [, copy] = useCopyToClipboard();
 
   // Update global list every time local palette changes
@@ -136,7 +134,9 @@ export default function Palette(props: PaletteProps) {
       value,
     };
 
-    const newSwatches = createSwatches(newPalette);
+    const newSwatches = isHex(value)
+      ? createSwatches(newPalette)
+      : paletteState.swatches;
 
     setPaletteState({
       ...newPalette,
@@ -167,16 +167,14 @@ export default function Palette(props: PaletteProps) {
     e: React.FormEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     let newTargetValue = e.currentTarget.value ?? ``;
+
     const inputConfig =
       paletteInputs[e.currentTarget.name as keyof typeof paletteInputs];
 
     if (!inputConfig) return;
 
     // Apply the input's transformation
-    newTargetValue = inputConfig.transform(newTargetValue);
-
-    // Update the input value directly to prevent invalid characters
-    e.currentTarget.value = newTargetValue;
+    // newTargetValue = inputConfig.transform(newTargetValue);
 
     // Validate against the pattern
     if (!newTargetValue.match(inputConfig.pattern)) {
@@ -275,9 +273,29 @@ export default function Palette(props: PaletteProps) {
       ...newPalette,
       swatches: newSwatches,
     });
+  };
 
-    // Open the color picker when a swatch is clicked
-    setColorPickerOpen(true);
+  // Handle color change from individual swatch color pickers
+  const handleSwatchColorChange = (stop: number, newColor: string) => {
+    if (!newColor || !isHex(newColor)) {
+      return;
+    }
+
+    const hexWithoutHash = newColor.replace(`#`, ``).toUpperCase();
+
+    // Update both value and valueStop to match the changed swatch
+    const newPalette = {
+      ...paletteState,
+      value: hexWithoutHash,
+      valueStop: stop,
+    };
+
+    const newSwatches = createSwatches(newPalette);
+
+    setPaletteState({
+      ...newPalette,
+      swatches: newSwatches,
+    });
   };
 
   const ringStyle = {
@@ -329,8 +347,6 @@ export default function Palette(props: PaletteProps) {
                       color={paletteState.value}
                       onChange={handleColorPickerChange}
                       ringStyle={ringStyle}
-                      isOpen={colorPickerOpen}
-                      onOpenChange={setColorPickerOpen}
                     />
                     <StopSelect
                       value={paletteState.valueStop.toString()}
@@ -454,6 +470,7 @@ export default function Palette(props: PaletteProps) {
               swatch={swatch}
               mode={currentMode}
               onClick={handleSwatchClick}
+              onColorChange={handleSwatchColorChange}
             />
           ))}
       </div>
