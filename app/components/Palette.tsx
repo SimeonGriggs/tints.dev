@@ -137,7 +137,7 @@ export default function Palette(props: PaletteProps) {
 
   // Handle changes to name or value of palette
   const handlePaletteChange = (
-    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     let newTargetValue = e.currentTarget.value ?? ``;
 
@@ -162,7 +162,7 @@ export default function Palette(props: PaletteProps) {
       if (isHex(newTargetValue)) {
         const newStop = calculateStopFromColor(
           newTargetValue,
-          paletteState.colorMode,
+          paletteState.colorMode
         );
         const newPalette = {
           ...paletteState,
@@ -236,7 +236,7 @@ export default function Palette(props: PaletteProps) {
       const hexWithoutHash = newColor.replace("#", "").toUpperCase();
       const newStop = calculateStopFromColor(
         hexWithoutHash,
-        paletteState.colorMode,
+        paletteState.colorMode
       );
       const newPalette = {
         ...paletteState,
@@ -305,7 +305,7 @@ export default function Palette(props: PaletteProps) {
                 ) : null}
               </div>
             </div>
-          ),
+          )
         )}
         <div className="col-span-4 sm:col-span-1 flex justify-between items-end  gap-2">
           <ButtonIcon
