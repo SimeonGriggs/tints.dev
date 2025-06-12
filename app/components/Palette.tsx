@@ -50,7 +50,6 @@ type PaletteInput = {
   max: number;
   pattern: string;
   classes: string;
-  transform: (value: string) => string;
 };
 
 const paletteInputs: Record<string, PaletteInput> = {
@@ -129,24 +128,6 @@ export default function Palette(props: PaletteProps) {
     const newSwatches = isHex(value)
       ? createSwatches(newPalette)
       : paletteState.swatches;
-
-    setPaletteState({
-      ...newPalette,
-      swatches: newSwatches,
-    });
-  };
-
-  const updateValueStop = (valueStop: number) => {
-    if (!DEFAULT_STOPS.includes(valueStop)) {
-      return;
-    }
-
-    const newPalette = {
-      ...paletteState,
-      valueStop,
-    };
-
-    const newSwatches = createSwatches(newPalette);
 
     setPaletteState({
       ...newPalette,
@@ -268,56 +249,6 @@ export default function Palette(props: PaletteProps) {
         swatches: newSwatches,
       });
     }
-  };
-
-  // Handle swatch click - update both value and valueStop to match clicked swatch
-  const handleSwatchClick = (swatch: SwatchValue) => {
-    const hexWithoutHash = swatch.hex.replace(`#`, ``).toUpperCase();
-    const newStop = calculateStopFromColor(
-      hexWithoutHash,
-      paletteState.colorMode
-    );
-
-    // Update both value and valueStop in a single operation to avoid dependency issues
-    const newPalette = {
-      ...paletteState,
-      value: hexWithoutHash,
-      valueStop: newStop,
-    };
-
-    const newSwatches = createSwatches(newPalette);
-
-    setPaletteState({
-      ...newPalette,
-      swatches: newSwatches,
-    });
-  };
-
-  // Handle color change from individual swatch color pickers
-  const handleSwatchColorChange = (stop: number, newColor: string) => {
-    if (!newColor || !isHex(newColor)) {
-      return;
-    }
-
-    const hexWithoutHash = newColor.replace(`#`, ``).toUpperCase();
-    const newStop = calculateStopFromColor(
-      hexWithoutHash,
-      paletteState.colorMode
-    );
-
-    // Update both value and valueStop to match the changed swatch
-    const newPalette = {
-      ...paletteState,
-      value: hexWithoutHash,
-      valueStop: newStop,
-    };
-
-    const newSwatches = createSwatches(newPalette);
-
-    setPaletteState({
-      ...newPalette,
-      swatches: newSwatches,
-    });
   };
 
   const ringStyle = {
