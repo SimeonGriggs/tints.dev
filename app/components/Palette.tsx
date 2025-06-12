@@ -187,6 +187,7 @@ export default function Palette(props: PaletteProps) {
     if (e.currentTarget.name === "name") {
       updateName(newTargetValue);
     } else if (e.currentTarget.name === "value") {
+      newTargetValue = newTargetValue.replace("#", ""); // Remove eventual hashes
       updateValue(newTargetValue);
     }
   };
