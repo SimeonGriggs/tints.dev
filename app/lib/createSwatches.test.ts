@@ -1,7 +1,8 @@
 import { describe, it, expect } from "vitest";
 import chroma from "chroma-js";
 import { createSwatches } from "./createSwatches";
-import { DEFAULT_PALETTE_CONFIG } from "./constants";
+import { DEFAULT_PALETTE_CONFIG } from "~/lib/constants";
+import type { ColorMode, PaletteConfig } from "~/types";
 
 // Helper function to check if two colors are perceptually similar
 // DeltaE values: 0 = identical, 1-2 = imperceptible, 2-10 = perceptible but acceptable
@@ -53,12 +54,12 @@ const BASELINE_LUMINANCE_PALETTE_1E70F6_STOP500 = [
 ];
 
 describe("createSwatches", () => {
-  it("should produce perceptually similar colors to expected baseline (lightness mode)", () => {
-    const input = {
+  it("should produce perceptually similar colors to expected baseline (linear mode)", () => {
+    const input: PaletteConfig = {
       ...DEFAULT_PALETTE_CONFIG,
       value: "1E70F6",
       valueStop: 500,
-      useLightness: true, // Explicitly test lightness mode
+      colorMode: "linear" as ColorMode, // Explicitly test linear mode
     };
 
     const result = createSwatches(input);
@@ -91,7 +92,7 @@ describe("createSwatches", () => {
       if (!isSimilar) {
         const deltaE = chroma.deltaE(expectedSwatch.hex, actualSwatch!.hex);
         console.log(
-          `Lightness Mode - Stop ${expectedSwatch.stop}: Expected ${expectedSwatch.hex} vs Actual ${actualSwatch!.hex} (ΔE: ${deltaE.toFixed(2)})`,
+          `Linear Mode - Stop ${expectedSwatch.stop}: Expected ${expectedSwatch.hex} vs Actual ${actualSwatch!.hex} (ΔE: ${deltaE.toFixed(2)})`,
         );
       }
       expect(isSimilar).toBe(true);
@@ -104,12 +105,12 @@ describe("createSwatches", () => {
     });
   });
 
-  it("should produce perceptually similar colors to expected baseline (luminance mode)", () => {
-    const input = {
+  it("should produce perceptually similar colors to expected baseline (perceived mode)", () => {
+    const input: PaletteConfig = {
       ...DEFAULT_PALETTE_CONFIG,
       value: "1E70F6",
       valueStop: 500,
-      useLightness: false, // Explicitly test luminance mode
+      colorMode: "perceived" as ColorMode, // Explicitly test perceived mode
     };
 
     const result = createSwatches(input);
@@ -142,7 +143,7 @@ describe("createSwatches", () => {
       if (!isSimilar) {
         const deltaE = chroma.deltaE(expectedSwatch.hex, actualSwatch!.hex);
         console.log(
-          `Luminance Mode - Stop ${expectedSwatch.stop}: Expected ${expectedSwatch.hex} vs Actual ${actualSwatch!.hex} (ΔE: ${deltaE.toFixed(2)})`,
+          `Perceived Mode - Stop ${expectedSwatch.stop}: Expected ${expectedSwatch.hex} vs Actual ${actualSwatch!.hex} (ΔE: ${deltaE.toFixed(2)})`,
         );
       }
       expect(isSimilar).toBe(true);

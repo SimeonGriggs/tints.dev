@@ -44,8 +44,7 @@ export function createSwatches(palette: PaletteConfig) {
   const { value, valueStop } = palette;
 
   // Tweaks may be passed in, otherwise use defaults
-  const useLightness =
-    palette.useLightness ?? DEFAULT_PALETTE_CONFIG.useLightness;
+  const colorMode = palette.colorMode ?? DEFAULT_PALETTE_CONFIG.colorMode;
   const h = palette.h ?? DEFAULT_PALETTE_CONFIG.h;
   const s = palette.s ?? DEFAULT_PALETTE_CONFIG.s;
   const lMin = palette.lMin ?? DEFAULT_PALETTE_CONFIG.lMin;
@@ -84,9 +83,10 @@ export function createSwatches(palette: PaletteConfig) {
   });
 
   // 3. Create lightness distribution (simplified from createDistributionValues)
-  const lightnessValue = useLightness
-    ? baseColor.get("hsl.l") * 100
-    : baseColor.luminance() * 100;
+  const lightnessValue =
+    colorMode === "linear"
+      ? baseColor.get("hsl.l") * 100
+      : baseColor.luminance() * 100;
 
   // Create the three anchor points
   const distributionAnchors = [
@@ -153,11 +153,11 @@ export function createSwatches(palette: PaletteConfig) {
     const newS = Math.max(0, Math.min(100, baseS * 100 + sTweak));
 
     let newL: number;
-    if (useLightness) {
+    if (colorMode === "linear") {
       // Direct lightness approach
       newL = Math.max(0, Math.min(100, lTweak));
     } else {
-      // Luminance-based approach: find lightness that produces target luminance
+      // Perceived brightness approach: find lightness that produces target luminance
       const targetLuminance = lTweak / 100; // Convert to 0-1 range
       newL = lightnessFromLuminance(
         isNaN(newH) ? baseH : newH,

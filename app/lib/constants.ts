@@ -18,7 +18,7 @@ export const DEFAULT_PALETTE_CONFIG: PaletteConfig = {
   s: 0,
   lMin: 0,
   lMax: 100,
-  useLightness: true,
+  colorMode: "perceived",
   mode: MODES[0],
 };
 

@@ -10,13 +10,15 @@ export interface SwatchValue {
 
 export type Mode = `hex` | `p-3` | `oklch` | `hsl`;
 
+export type ColorMode = "linear" | "perceived";
+
 export interface PaletteConfig {
   id: string;
   name: string;
   value: string;
   valueStop: number;
   swatches: SwatchValue[];
-  useLightness: boolean;
+  colorMode: ColorMode;
   h: number;
   s: number;
   lMin: number;

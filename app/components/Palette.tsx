@@ -15,7 +15,7 @@ import { DEFAULT_PALETTE_CONFIG, DEFAULT_STOPS } from "~/lib/constants";
 import { createSwatches } from "~/lib/createSwatches";
 import { isHex, isValidName } from "~/lib/helpers";
 import { createCanonicalUrl } from "~/lib/responses";
-import type { Mode, PaletteConfig, SwatchValue } from "~/types";
+import type { ColorMode, Mode, PaletteConfig, SwatchValue } from "~/types";
 
 import ButtonIcon from "./ButtonIcon";
 import ColorPicker from "./ColorPicker";
@@ -34,14 +34,12 @@ const tweakInputs = [
   },
   {
     name: `lMax`,
-    title: (useLightness: boolean) =>
-      useLightness ? `Lightness Maximum` : `Luminance Maximum`,
+    title: `Lightness Maximum`,
     value: DEFAULT_PALETTE_CONFIG.lMax,
   },
   {
     name: `lMin`,
-    title: (useLightness: boolean) =>
-      useLightness ? `Lightness Minimum` : `Luminance Minimum`,
+    title: `Lightness Minimum`,
     value: DEFAULT_PALETTE_CONFIG.lMin,
   },
 ] as const;
@@ -223,11 +221,13 @@ export default function Palette(props: PaletteProps) {
     });
   };
 
-  // Handle toggle between lightness and luminance
-  const handleUseLightnessChange = () => {
-    const newPalette = {
+  // Handle toggle between linear and perceived modes
+  const handleColorModeChange = () => {
+    const newColorMode: ColorMode =
+      paletteState.colorMode === "linear" ? "perceived" : "linear";
+    const newPalette: PaletteConfig = {
       ...paletteState,
-      useLightness: !paletteState.useLightness,
+      colorMode: newColorMode,
     };
 
     setPaletteState({
@@ -401,9 +401,7 @@ export default function Palette(props: PaletteProps) {
             className="flex flex-col gap-1 justify-between focus-within:text-gray-900"
           >
             <label className={labelClasses} htmlFor={input.name}>
-              {typeof input.title === "string"
-                ? input.title
-                : input.title(paletteState.useLightness)}
+              {input.title}
             </label>
             <input
               id={input.name}
@@ -421,43 +419,48 @@ export default function Palette(props: PaletteProps) {
           <span
             className={[
               labelClasses,
-              paletteState.useLightness ? `` : `text-gray-900`,
+              paletteState.colorMode === "perceived" ? `` : `text-gray-900`,
             ]
               .filter(Boolean)
               .join(" ")}
           >
-            <span className="inline lg:hidden">Lu</span>
-            <span className="hidden lg:inline">Luminance</span>
+            <span className="inline lg:hidden">Pe</span>
+            <span className="hidden lg:inline">Perceived</span>
           </span>
           <Switch
-            checked={paletteState.useLightness}
-            onChange={handleUseLightnessChange}
+            checked={paletteState.colorMode === "linear"}
+            onChange={handleColorModeChange}
             style={{
-              backgroundColor: paletteState.useLightness
-                ? paletteState.swatches.find((swatch) => swatch.stop === 800)
-                    ?.hex
-                : paletteState.swatches.find((swatch) => swatch.stop === 300)
-                    ?.hex,
+              backgroundColor:
+                paletteState.colorMode === "linear"
+                  ? paletteState.swatches.find((swatch) => swatch.stop === 800)
+                      ?.hex
+                  : paletteState.swatches.find((swatch) => swatch.stop === 300)
+                      ?.hex,
             }}
             className="relative inline-flex items-center h-6 rounded-full w-11 bg-gray-200 shrink-0"
           >
-            <span className="sr-only">Toggle Lightness or Luminance</span>
+            <span className="sr-only">
+              Toggle between Linear and Perceived modes
+            </span>
             <span
               className={`${
-                paletteState.useLightness ? "translate-x-6" : "translate-x-1"
+                paletteState.colorMode === "linear"
+                  ? "translate-x-6"
+                  : "translate-x-1"
               } transition-transform duration-200 inline-block w-4 h-4 transform bg-white rounded-full`}
             />
           </Switch>
           <span
             className={[
               labelClasses,
-              paletteState.useLightness ? `text-gray-900` : ``,
+              paletteState.colorMode === "linear" ? `text-gray-900` : ``,
             ]
               .filter(Boolean)
               .join(" ")}
           >
             <span className="inline lg:hidden">Li</span>
-            <span className="hidden lg:inline">Lightness</span>
+            <span className="hidden lg:inline">Linear</span>
           </span>
         </div>
       </div>

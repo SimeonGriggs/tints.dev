@@ -1,6 +1,5 @@
 import React from "react";
 
-import { DEFAULT_PALETTE_CONFIG } from "~/lib/constants";
 import type { Mode, PaletteConfig } from "~/types";
 
 import Dot from "./Dot";
@@ -54,11 +53,7 @@ export default function SquareGraph(props: SquareGraphProps) {
           -
         </div>
         <div className="absolute p-2 bottom-0 left-0 right-0 text-center font-bold text-xs text-gray-400">
-          {palettes.length > 1
-            ? `Lightness/Luminance`
-            : palettes[0]?.useLightness || DEFAULT_PALETTE_CONFIG.useLightness
-              ? `Lightness`
-              : `Luminance`}
+          Lightness
         </div>
 
         <div className="absolute flex justify-center items-center h-full w-6 font-bold text-xs text-gray-400">
