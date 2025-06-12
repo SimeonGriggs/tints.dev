@@ -11,9 +11,10 @@
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "format": "prettier --write .",
-    "lint": "eslint . --fix",
+    "lint": "pnpm dlx oxlint@latest",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "prepare": "husky"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.4",
@@ -49,6 +50,7 @@
     "autoprefixer": "^10.4.19",
     "babel-plugin-react-compiler": "19.0.0-beta-714736e-20250131",
     "esbuild": "^0.25.5",
+    "husky": "^9.1.7",
     "prettier": "^3.3.2",
     "prettier-plugin-tailwindcss": "^0.6.12",
     "tailwindcss": "^4.1.4",
