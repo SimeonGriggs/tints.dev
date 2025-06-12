@@ -34,7 +34,7 @@ export function createDisplayColor(
     display = `oklch(${[
       round(l * 100, 2) + `%`,
       round(c, 3),
-      round(h, 2),
+      ...(isNaN(h) ? [] : [round(h, 2)]),
       `/`,
       alphaPlaceholder ? `<alpha-value>` : 1,
     ].join(` `)})`;
