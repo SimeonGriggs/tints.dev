@@ -34,14 +34,12 @@ const tweakInputs = [
   },
   {
     name: `lMax`,
-    title: (colorMode: ColorMode) =>
-      colorMode === "linear" ? `Linear Maximum` : `Perceived Maximum`,
+    title: `Lightness Maximum`,
     value: DEFAULT_PALETTE_CONFIG.lMax,
   },
   {
     name: `lMin`,
-    title: (colorMode: ColorMode) =>
-      colorMode === "linear" ? `Linear Minimum` : `Perceived Minimum`,
+    title: `Lightness Minimum`,
     value: DEFAULT_PALETTE_CONFIG.lMin,
   },
 ] as const;
@@ -164,7 +162,7 @@ export default function Palette(props: PaletteProps) {
 
   // Handle changes to name or value of palette
   const handlePaletteChange = (
-    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     let newTargetValue = e.currentTarget.value ?? ``;
 
@@ -359,7 +357,7 @@ export default function Palette(props: PaletteProps) {
                 ) : null}
               </div>
             </div>
-          ),
+          )
         )}
         <div className="col-span-4 sm:col-span-1 flex justify-between items-end  gap-2">
           <ButtonIcon
@@ -403,9 +401,7 @@ export default function Palette(props: PaletteProps) {
             className="flex flex-col gap-1 justify-between focus-within:text-gray-900"
           >
             <label className={labelClasses} htmlFor={input.name}>
-              {typeof input.title === "string"
-                ? input.title
-                : input.title(paletteState.colorMode)}
+              {input.title}
             </label>
             <input
               id={input.name}
