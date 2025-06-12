@@ -36,7 +36,7 @@ export function ColorPickerContent({
       setValue(newValue);
       debounceOnChange(newValue);
     },
-    [h, s, setValue, debounceOnChange]
+    [h, s, setValue, debounceOnChange],
   );
 
   return (

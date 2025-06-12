@@ -1,0 +1,3 @@
+pnpm test
+pnpm format
+pnpm lint
