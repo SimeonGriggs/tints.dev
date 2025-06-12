@@ -8,13 +8,13 @@ import {
 describe("calculateStopFromColor", () => {
   it("should calculate correct stop in linear mode", () => {
     const stop50 = BASELINE_LINEAR_PALETTE_1E70F6_STOP500.find(
-      (s) => s.stop === 50
+      (s) => s.stop === 50,
     );
     const stop500 = BASELINE_LINEAR_PALETTE_1E70F6_STOP500.find(
-      (s) => s.stop === 500
+      (s) => s.stop === 500,
     );
     const stop950 = BASELINE_LINEAR_PALETTE_1E70F6_STOP500.find(
-      (s) => s.stop === 950
+      (s) => s.stop === 950,
     );
 
     if (!stop50 || !stop500 || !stop950) {
@@ -28,10 +28,10 @@ describe("calculateStopFromColor", () => {
 
     // Test with intermediate colors
     const stop300 = BASELINE_LINEAR_PALETTE_1E70F6_STOP500.find(
-      (s) => s.stop === 300
+      (s) => s.stop === 300,
     );
     const stop700 = BASELINE_LINEAR_PALETTE_1E70F6_STOP500.find(
-      (s) => s.stop === 700
+      (s) => s.stop === 700,
     );
     if (!stop300 || !stop700) {
       throw new Error("Stop not found");
@@ -42,13 +42,13 @@ describe("calculateStopFromColor", () => {
 
   it("should calculate correct stop in perceived mode", () => {
     const stop50 = BASELINE_PERCEIVED_PALETTE_1E70F6_STOP500.find(
-      (s) => s.stop === 50
+      (s) => s.stop === 50,
     );
     const stop500 = BASELINE_PERCEIVED_PALETTE_1E70F6_STOP500.find(
-      (s) => s.stop === 500
+      (s) => s.stop === 500,
     );
     const stop950 = BASELINE_PERCEIVED_PALETTE_1E70F6_STOP500.find(
-      (s) => s.stop === 950
+      (s) => s.stop === 950,
     );
 
     if (!stop50 || !stop500 || !stop950) {
@@ -62,10 +62,10 @@ describe("calculateStopFromColor", () => {
 
     // Test with intermediate colors
     const stop300 = BASELINE_PERCEIVED_PALETTE_1E70F6_STOP500.find(
-      (s) => s.stop === 300
+      (s) => s.stop === 300,
     );
     const stop700 = BASELINE_PERCEIVED_PALETTE_1E70F6_STOP500.find(
-      (s) => s.stop === 700
+      (s) => s.stop === 700,
     );
     if (!stop300 || !stop700) {
       throw new Error("Stop not found");
@@ -76,10 +76,10 @@ describe("calculateStopFromColor", () => {
 
   it("should handle colors with or without # prefix", () => {
     expect(calculateStopFromColor("#FFFFFF", "linear")).toBe(
-      calculateStopFromColor("FFFFFF", "linear")
+      calculateStopFromColor("FFFFFF", "linear"),
     );
     expect(calculateStopFromColor("#000000", "perceived")).toBe(
-      calculateStopFromColor("000000", "perceived")
+      calculateStopFromColor("000000", "perceived"),
     );
   });
 
