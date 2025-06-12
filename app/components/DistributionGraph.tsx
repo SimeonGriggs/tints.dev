@@ -16,7 +16,7 @@ export default function DistributionGraph(props: DistributionGraphProps) {
   return (
     <section className="grid grid-cols-1 gap-2">
       <div className="text-lg font-medium text-center">
-        <h2>Lightness/Luminance Distribution 0-100</h2>
+        <h2>Lightness Distribution 0-100</h2>
       </div>
 
       <div
