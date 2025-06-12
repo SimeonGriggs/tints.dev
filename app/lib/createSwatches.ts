@@ -10,7 +10,7 @@ import type { PaletteConfig } from "~/types";
 function lightnessFromLuminance(
   h: number,
   s: number,
-  targetLuminance: number
+  targetLuminance: number,
 ): number {
   let bestL = 50;
   let smallestDiff = Infinity;
@@ -162,14 +162,14 @@ export function createSwatches(palette: PaletteConfig) {
       newL = lightnessFromLuminance(
         isNaN(newH) ? baseH : newH,
         isNaN(newS) ? baseS * 100 : newS,
-        targetLuminance
+        targetLuminance,
       );
     }
 
     const newColor = chroma.hsl(
       isNaN(newH) ? baseH : newH,
       isNaN(newS) ? baseS : newS / 100,
-      newL / 100
+      newL / 100,
     );
 
     const [finalH, finalS, finalL] = newColor.hsl();
