@@ -11,11 +11,11 @@ import { useCopyToClipboard } from "usehooks-ts";
 
 import Graphs from "~/components/Graphs";
 import Swatch from "~/components/Swatch";
-import { DEFAULT_PALETTE_CONFIG, DEFAULT_STOPS } from "~/lib/constants";
+import { DEFAULT_PALETTE_CONFIG } from "~/lib/constants";
 import { createSwatches } from "~/lib/createSwatches";
 import { isHex, isValidName, calculateStopFromColor } from "~/lib/helpers";
 import { createCanonicalUrl } from "~/lib/responses";
-import type { ColorMode, Mode, PaletteConfig, SwatchValue } from "~/types";
+import type { ColorMode, Mode, PaletteConfig } from "~/types";
 
 import ButtonIcon from "./ButtonIcon";
 import ColorPicker from "./ColorPicker";
