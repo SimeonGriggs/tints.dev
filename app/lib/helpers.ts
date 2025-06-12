@@ -1,5 +1,10 @@
 import { DEFAULT_PALETTE_CONFIG } from "~/lib/constants";
 import type { PaletteConfig } from "~/types";
+import chroma from "chroma-js";
+import {
+  BASELINE_LINEAR_PALETTE_1E70F6_STOP500,
+  BASELINE_PERCEIVED_PALETTE_1E70F6_STOP500,
+} from "./testHelpers";
 
 type RGB = { r: number; g: number; b: number };
 
@@ -154,7 +159,7 @@ export function titleCase(s: string) {
 
 export function arrayObjectDiff(
   before: PaletteConfig[],
-  current: PaletteConfig[],
+  current: PaletteConfig[]
 ) {
   const defaultKeys = Object.keys(DEFAULT_PALETTE_CONFIG);
 
@@ -228,7 +233,7 @@ export function generateTints(baseColor: string, count: number = 10): string[] {
 
 export function generateShades(
   baseColor: string,
-  count: number = 10,
+  count: number = 10
 ): string[] {
   const rgb = hexToRgb(baseColor);
   const shades: string[] = [];
@@ -245,4 +250,52 @@ export function generateShades(
   }
 
   return shades;
+}
+
+/**
+ * Calculate the appropriate stop value (50-950) based on a color's properties
+ * @param color - The hex color value (with or without #)
+ * @param colorMode - The current color mode ('linear' or 'perceived')
+ * @returns The nearest available stop value (50, 100, 200, etc.)
+ */
+export function calculateStopFromColor(
+  color: string,
+  colorMode: "linear" | "perceived"
+): number {
+  const hexColor = color.startsWith("#") ? color : `#${color}`;
+
+  let value: number;
+  if (colorMode === "linear") {
+    // In linear mode, use HSL lightness (0-100)
+    const [, , l] = chroma(hexColor).hsl();
+    value = l * 100; // Convert to 0-100 range
+  } else {
+    // In perceived mode, use luminance (0-1)
+    value = chroma(hexColor).luminance() * 100; // Convert to 0-100 range
+  }
+
+  // Choose the correct baseline palette
+  const baseline =
+    colorMode === "linear"
+      ? BASELINE_LINEAR_PALETTE_1E70F6_STOP500
+      : BASELINE_PERCEIVED_PALETTE_1E70F6_STOP500;
+
+  // Find the stop whose palette color's value is closest to the input color's value
+  let closestStop = baseline[0].stop;
+  let smallestDiff = Infinity;
+  for (const swatch of baseline) {
+    let swatchValue: number;
+    if (colorMode === "linear") {
+      const [, , l] = chroma(swatch.hex).hsl();
+      swatchValue = l * 100;
+    } else {
+      swatchValue = chroma(swatch.hex).luminance() * 100;
+    }
+    const diff = Math.abs(swatchValue - value);
+    if (diff < smallestDiff) {
+      smallestDiff = diff;
+      closestStop = swatch.stop;
+    }
+  }
+  return closestStop;
 }

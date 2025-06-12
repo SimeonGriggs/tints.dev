@@ -13,13 +13,12 @@ import Graphs from "~/components/Graphs";
 import Swatch from "~/components/Swatch";
 import { DEFAULT_PALETTE_CONFIG, DEFAULT_STOPS } from "~/lib/constants";
 import { createSwatches } from "~/lib/createSwatches";
-import { isHex, isValidName } from "~/lib/helpers";
+import { isHex, isValidName, calculateStopFromColor } from "~/lib/helpers";
 import { createCanonicalUrl } from "~/lib/responses";
 import type { ColorMode, Mode, PaletteConfig, SwatchValue } from "~/types";
 
 import ButtonIcon from "./ButtonIcon";
 import ColorPicker from "./ColorPicker";
-import StopSelect from "./StopSelect";
 
 const tweakInputs = [
   {
@@ -62,7 +61,6 @@ const paletteInputs: Record<string, PaletteInput> = {
     max: 24,
     pattern: `[A-Za-z\\-]{3,24}`,
     classes: ``,
-    transform: (value: string) => value,
   },
   value: {
     title: `Value`,
@@ -71,10 +69,6 @@ const paletteInputs: Record<string, PaletteInput> = {
     max: 6,
     pattern: `[0-9A-Fa-f]{6}`,
     classes: `pl-7`,
-    transform: (value: string) => value,
-    // .replace(/[^0-9A-Fa-f]/g, "")
-    // .slice(0, 6)
-    // .toUpperCase(),
   },
 } as const;
 
@@ -162,7 +156,7 @@ export default function Palette(props: PaletteProps) {
 
   // Handle changes to name or value of palette
   const handlePaletteChange = (
-    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     let newTargetValue = e.currentTarget.value ?? ``;
 
@@ -170,9 +164,6 @@ export default function Palette(props: PaletteProps) {
       paletteInputs[e.currentTarget.name as keyof typeof paletteInputs];
 
     if (!inputConfig) return;
-
-    // Apply the input's transformation
-    // newTargetValue = inputConfig.transform(newTargetValue);
 
     // Validate against the pattern
     if (!newTargetValue.match(inputConfig.pattern)) {
@@ -187,13 +178,22 @@ export default function Palette(props: PaletteProps) {
     } else if (e.currentTarget.name === "value") {
       newTargetValue = newTargetValue.replace("#", ""); // Remove eventual hashes
       updateValue(newTargetValue);
-    }
-  };
-
-  const handleStopChange = (value: string) => {
-    const newValueStop = parseInt(value, 10);
-    if (DEFAULT_STOPS.includes(newValueStop)) {
-      updateValueStop(newValueStop);
+      if (isHex(newTargetValue)) {
+        const newStop = calculateStopFromColor(
+          newTargetValue,
+          paletteState.colorMode
+        );
+        const newPalette = {
+          ...paletteState,
+          value: newTargetValue,
+          valueStop: newStop,
+        };
+        const newSwatches = createSwatches(newPalette);
+        setPaletteState({
+          ...newPalette,
+          swatches: newSwatches,
+        });
+      }
     }
   };
 
@@ -250,22 +250,39 @@ export default function Palette(props: PaletteProps) {
   };
 
   // Handle change from color picker widget (debounced)
-  // Do this by faking an event to handlePaletteChange
   const handleColorPickerChange = (newColor: string) => {
     if (newColor && isHex(newColor)) {
-      updateValue(newColor.replace(`#`, ``).toUpperCase());
+      const hexWithoutHash = newColor.replace("#", "").toUpperCase();
+      const newStop = calculateStopFromColor(
+        hexWithoutHash,
+        paletteState.colorMode
+      );
+      const newPalette = {
+        ...paletteState,
+        value: hexWithoutHash,
+        valueStop: newStop,
+      };
+      const newSwatches = createSwatches(newPalette);
+      setPaletteState({
+        ...newPalette,
+        swatches: newSwatches,
+      });
     }
   };
 
   // Handle swatch click - update both value and valueStop to match clicked swatch
   const handleSwatchClick = (swatch: SwatchValue) => {
     const hexWithoutHash = swatch.hex.replace(`#`, ``).toUpperCase();
+    const newStop = calculateStopFromColor(
+      hexWithoutHash,
+      paletteState.colorMode
+    );
 
     // Update both value and valueStop in a single operation to avoid dependency issues
     const newPalette = {
       ...paletteState,
       value: hexWithoutHash,
-      valueStop: swatch.stop,
+      valueStop: newStop,
     };
 
     const newSwatches = createSwatches(newPalette);
@@ -283,12 +300,16 @@ export default function Palette(props: PaletteProps) {
     }
 
     const hexWithoutHash = newColor.replace(`#`, ``).toUpperCase();
+    const newStop = calculateStopFromColor(
+      hexWithoutHash,
+      paletteState.colorMode
+    );
 
     // Update both value and valueStop to match the changed swatch
     const newPalette = {
       ...paletteState,
       value: hexWithoutHash,
-      valueStop: stop,
+      valueStop: newStop,
     };
 
     const newSwatches = createSwatches(newPalette);
@@ -349,15 +370,11 @@ export default function Palette(props: PaletteProps) {
                       onChange={handleColorPickerChange}
                       ringStyle={ringStyle}
                     />
-                    <StopSelect
-                      value={paletteState.valueStop.toString()}
-                      onChange={handleStopChange}
-                    />
                   </>
                 ) : null}
               </div>
             </div>
-          ),
+          )
         )}
         <div className="col-span-4 sm:col-span-1 flex justify-between items-end  gap-2">
           <ButtonIcon
@@ -469,12 +486,10 @@ export default function Palette(props: PaletteProps) {
           .filter((swatch) => ![0, 1000].includes(swatch.stop))
           .map((swatch) => (
             <Swatch
-              selected={swatch.stop === paletteState.valueStop}
+              active={swatch.stop === paletteState.valueStop}
               key={swatch.stop}
               swatch={swatch}
               mode={currentMode}
-              onClick={handleSwatchClick}
-              onColorChange={handleSwatchColorChange}
             />
           ))}
       </div>
