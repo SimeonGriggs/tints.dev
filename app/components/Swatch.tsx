@@ -1,14 +1,10 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/solid";
-import { useCallback, useState } from "react";
-import { HexColorPicker } from "react-colorful";
+import { useState } from "react";
 import { useDebounceCallback } from "usehooks-ts";
 
-import Button from "~/components/Button";
-import { inputClasses, labelClasses } from "~/components/Palette";
+import { ColorPickerContent } from "~/components/ColorPicker";
 import { DEFAULT_MODE } from "~/lib/constants";
 import { createDisplayColor } from "~/lib/createDisplayColor";
-import { hexToHSL, HSLToHex, round } from "~/lib/helpers";
 import type { Mode, SwatchValue } from "~/types";
 
 type SwatchProps = {
@@ -42,27 +38,12 @@ export default function Swatch(props: SwatchProps) {
     }
   };
 
-  const { h, s, l: lightness } = hexToHSL(colorValue);
-
   const handleColorPickerChange = (newColor: string) => {
     setColorValue(newColor);
     debounceOnColorChange(newColor);
   };
 
-  const handleLightnessChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newLightness = Number(e.target.value);
-
-      if (newLightness < 0 || newLightness > 100) {
-        return;
-      }
-
-      const newValue = HSLToHex(h, s, newLightness);
-      setColorValue(newValue);
-      debounceOnColorChange(newValue);
-    },
-    [h, s, debounceOnColorChange]
-  );
+  const ringStyle = { backgroundColor: display || `transparent` };
 
   return (
     <div className="flex-1 flex flex-col gap-2 sm:gap-1">
@@ -76,7 +57,7 @@ export default function Swatch(props: SwatchProps) {
                   : ""
               }`}
               aria-selected={selected}
-              style={{ backgroundColor: display || `transparent` }}
+              style={ringStyle}
               onClick={handleClick}
               tabIndex={onClick ? 0 : undefined}
               onKeyDown={
@@ -94,43 +75,14 @@ export default function Swatch(props: SwatchProps) {
               }
             />
 
-            <PopoverPanel className="absolute top-full left-1/2 -translate-x-1/2 z-50 bg-white rounded-lg shadow-lg p-1 pb-2 mt-1">
-              <div className="flex flex-col items-center gap-4">
-                <HexColorPicker
-                  color={
-                    colorValue.startsWith(`#`) ? colorValue : `#${colorValue}`
-                  }
+            <PopoverPanel className="absolute top-full left-1/2 -translate-x-1/2 z-50">
+              <div className="bg-white rounded-lg shadow-lg p-1 pb-2 mt-1 text-base">
+                <ColorPickerContent
+                  color={colorValue}
                   onChange={handleColorPickerChange}
+                  onClose={() => close()}
+                  lightnessId={`lightness-${swatch.stop}`}
                 />
-
-                <div className="flex flex-col gap-2 px-2">
-                  <label
-                    className={labelClasses}
-                    htmlFor={`lightness-${swatch.stop}`}
-                  >
-                    Lightness
-                  </label>
-                  <input
-                    id={`lightness-${swatch.stop}`}
-                    className={inputClasses}
-                    value={round(lightness)}
-                    type="number"
-                    min="0"
-                    max="100"
-                    onChange={handleLightnessChange}
-                    name="lightness"
-                  />
-                </div>
-
-                <div className="px-2 pb-2 flex justify-end">
-                  <Button
-                    id={`close-picker-${swatch.stop}`}
-                    onClick={() => close()}
-                  >
-                    <XMarkIcon className="w-4 h-auto" />
-                    Close
-                  </Button>
-                </div>
               </div>
             </PopoverPanel>
           </>

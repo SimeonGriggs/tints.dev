@@ -8,14 +8,17 @@ import Button from "~/components/Button";
 import { inputClasses, labelClasses } from "~/components/Palette";
 import { hexToHSL, HSLToHex, round } from "~/lib/helpers";
 
-export default function ColorPicker({
+// Reusable color picker content component
+export function ColorPickerContent({
   color,
   onChange,
-  ringStyle,
+  onClose,
+  lightnessId = "lightness",
 }: {
   color: string;
-  onChange: (_value: string) => void;
-  ringStyle: React.CSSProperties;
+  onChange: (value: string) => void;
+  onClose?: () => void;
+  lightnessId?: string;
 }) {
   const [value, setValue] = useState(color);
   const debounceOnChange = useDebounceCallback(onChange, 500);
@@ -37,48 +40,89 @@ export default function ColorPicker({
   );
 
   return (
+    <div className="flex flex-col items-justify-center gap-4">
+      <HexColorPicker
+        color={value.startsWith(`#`) ? value : `#${value}`}
+        onChange={(value) => {
+          setValue(value);
+          debounceOnChange(value);
+        }}
+      />
+
+      <div className="flex flex-col gap-2 px-2">
+        <label className={labelClasses} htmlFor={lightnessId}>
+          Lightness
+        </label>
+        <input
+          id={lightnessId}
+          className={inputClasses}
+          value={round(lightness)}
+          type="number"
+          min="0"
+          max="100"
+          onChange={handleLightnessChange}
+          name="lightness"
+        />
+      </div>
+
+      {onClose && (
+        <div className="px-2 pb-2 flex justify-end">
+          <Button id="closePicker" onClick={onClose}>
+            <XMarkIcon className="w-4 h-auto" />
+            Close
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function ColorPicker({
+  color,
+  onChange,
+  ringStyle,
+  buttonContent,
+  buttonClassName,
+  panelClassName = "absolute right-0 z-50 bg-white rounded-lg p-1 pb-2 translate-y-1",
+  children,
+}: {
+  color: string;
+  onChange: (_value: string) => void;
+  ringStyle: React.CSSProperties;
+  buttonContent?: React.ReactNode;
+  buttonClassName?: string;
+  panelClassName?: string;
+  children?: React.ReactNode;
+}) {
+  const defaultButtonContent = (
+    <>
+      <SwatchIcon className="w-6 h-auto" />
+      <span className="sr-only">Open Color Picker</span>
+    </>
+  );
+
+  const defaultButtonClassName =
+    "w-full p-2 border border-gray-200 bg-gray-50 focus:outline-hidden focus:ring-3 focus:bg-gray-100 focus:border-gray-300 text-gray-500 focus:text-gray-900";
+
+  return (
     <Popover className="relative">
       <PopoverButton
         style={ringStyle}
-        className="w-full p-2 border border-gray-200 bg-gray-50 focus:outline-hidden focus:ring-3 focus:bg-gray-100 focus:border-gray-300 text-gray-500 focus:text-gray-900"
+        className={buttonClassName || defaultButtonClassName}
       >
-        <SwatchIcon className="w-6 h-auto" />
-        <span className="sr-only">Open Color Picker</span>
+        {buttonContent || defaultButtonContent}
       </PopoverButton>
 
-      <PopoverPanel className="absolute right-0 z-50 bg-white rounded-lg p-1 pb-2 translate-y-1">
+      <PopoverPanel className={panelClassName}>
         {({ close }) => (
-          <div className="flex flex-col items-justify-center gap-4">
-            <HexColorPicker
-              color={value.startsWith(`#`) ? value : `#${value}`}
-              onChange={(value) => {
-                setValue(value);
-                debounceOnChange(value);
-              }}
+          <>
+            <ColorPickerContent
+              color={color}
+              onChange={onChange}
+              onClose={() => close()}
             />
-
-            <div className="flex flex-col gap-2 px-2">
-              <label className={labelClasses} htmlFor="lightness">
-                Lightness
-              </label>
-              <input
-                className={inputClasses}
-                value={round(lightness)}
-                type="number"
-                min="0"
-                max="100"
-                onChange={handleLightnessChange}
-                name="lightness"
-              />
-            </div>
-
-            <div className="px-2 pb-2 flex justify-end">
-              <Button id="closePicker" onClick={() => close()}>
-                <XMarkIcon className="w-4 h-auto" />
-                Close
-              </Button>
-            </div>
-          </div>
+            {children}
+          </>
         )}
       </PopoverPanel>
     </Popover>
