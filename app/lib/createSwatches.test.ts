@@ -21,7 +21,7 @@ function areColorsSimilar(
 }
 
 // Static baseline data captured from original createSwatches function
-const BASELINE_LIGHTNESS_PALETTE_1E70F6_STOP500 = [
+const BASELINE_LINEAR_PALETTE_1E70F6_STOP500 = [
   { stop: 0, hex: "#FFFFFF" }, // Not used in final output
   { stop: 50, hex: "#E6F0FE" },
   { stop: 100, hex: "#D3E3FD" },
@@ -37,7 +37,7 @@ const BASELINE_LIGHTNESS_PALETTE_1E70F6_STOP500 = [
   { stop: 1000, hex: "#000000" }, // Not used in final output
 ];
 
-const BASELINE_LUMINANCE_PALETTE_1E70F6_STOP500 = [
+const BASELINE_PERCEIVED_PALETTE_1E70F6_STOP500 = [
   { stop: 0, hex: "#FFFFFF" }, // Not used in final output
   { stop: 50, hex: "#F0F6FE" },
   { stop: 100, hex: "#E2ECFE" },
@@ -70,10 +70,9 @@ describe("createSwatches", () => {
 
     // Filter to main stops for comparison (exclude 0 and 1000)
     const mainSwatches = result.filter((s: any) => ![0, 1000].includes(s.stop));
-    const expectedMainSwatches =
-      BASELINE_LIGHTNESS_PALETTE_1E70F6_STOP500.filter(
-        (s) => ![0, 1000].includes(s.stop),
-      );
+    const expectedMainSwatches = BASELINE_LINEAR_PALETTE_1E70F6_STOP500.filter(
+      (s) => ![0, 1000].includes(s.stop),
+    );
 
     expect(mainSwatches.length).toBe(expectedMainSwatches.length);
 
@@ -122,7 +121,7 @@ describe("createSwatches", () => {
     // Filter to main stops for comparison (exclude 0 and 1000)
     const mainSwatches = result.filter((s: any) => ![0, 1000].includes(s.stop));
     const expectedMainSwatches =
-      BASELINE_LUMINANCE_PALETTE_1E70F6_STOP500.filter(
+      BASELINE_PERCEIVED_PALETTE_1E70F6_STOP500.filter(
         (s) => ![0, 1000].includes(s.stop),
       );
 
@@ -157,7 +156,7 @@ describe("createSwatches", () => {
   });
 
   it("should preserve the exact input color at the specified stop", () => {
-    const stop500 = BASELINE_LIGHTNESS_PALETTE_1E70F6_STOP500[5];
+    const stop500 = BASELINE_LINEAR_PALETTE_1E70F6_STOP500[5];
     const input = {
       ...DEFAULT_PALETTE_CONFIG,
       value: stop500.hex.replace("#", ""), // Remove # prefix for value
@@ -171,7 +170,7 @@ describe("createSwatches", () => {
   });
 
   it("should work with different input colors and stops", () => {
-    const stop400 = BASELINE_LIGHTNESS_PALETTE_1E70F6_STOP500[4];
+    const stop400 = BASELINE_LINEAR_PALETTE_1E70F6_STOP500[4];
 
     const input = {
       ...DEFAULT_PALETTE_CONFIG,
