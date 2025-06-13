@@ -4,9 +4,10 @@ import { useCallback, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 import { useDebounceCallback } from "usehooks-ts";
 
-import Button from "~/components/Button";
-import { inputClasses, labelClasses } from "~/components/Palette";
+import { Button } from "~/components/catalyst/button";
+import { labelClasses } from "~/components/Palette";
 import { hexToHSL, HSLToHex, round } from "~/lib/helpers";
+import { Input } from "./catalyst/input";
 
 // Reusable color picker content component
 export function ColorPickerContent({
@@ -53,9 +54,8 @@ export function ColorPickerContent({
         <label className={labelClasses} htmlFor={lightnessId}>
           Lightness
         </label>
-        <input
+        <Input
           id={lightnessId}
-          className={inputClasses}
           value={round(lightness)}
           type="number"
           min="0"
@@ -68,7 +68,7 @@ export function ColorPickerContent({
       {onClose && (
         <div className="px-2 pb-2 flex justify-end">
           <Button id="closePicker" onClick={onClose}>
-            <XMarkIcon className="w-4 h-auto" />
+            <XMarkIcon className="size-4" />
             Close
           </Button>
         </div>
@@ -80,10 +80,8 @@ export function ColorPickerContent({
 export default function ColorPicker({
   color,
   onChange,
-  ringStyle,
   buttonContent,
-  buttonClassName,
-  panelClassName = "absolute right-0 z-50 bg-white rounded-lg p-1 pb-2 translate-y-1",
+  panelClassName = "absolute right-0 z-50 bg-white shadow-lg rounded-lg p-1 pb-2 translate-y-1",
   children,
 }: {
   color: string;
@@ -96,21 +94,15 @@ export default function ColorPicker({
 }) {
   const defaultButtonContent = (
     <>
-      <SwatchIcon className="w-6 h-auto" />
+      <SwatchIcon className="size-6" />
       <span className="sr-only">Open Color Picker</span>
     </>
   );
 
-  const defaultButtonClassName =
-    "w-full p-2 border border-gray-200 bg-gray-50 focus:outline-hidden focus:ring-3 focus:bg-gray-100 focus:border-gray-300 text-gray-500 focus:text-gray-900";
-
   return (
     <Popover className="relative">
-      <PopoverButton
-        style={ringStyle}
-        className={buttonClassName || defaultButtonClassName}
-      >
-        {buttonContent || defaultButtonContent}
+      <PopoverButton>
+        <Button outline>{buttonContent || defaultButtonContent}</Button>
       </PopoverButton>
 
       <PopoverPanel className={panelClassName}>

@@ -1,19 +1,28 @@
 import { ClipboardDocumentIcon } from "@heroicons/react/24/solid";
-import clsx from "clsx";
+import * as Headless from "@headlessui/react";
 import { useState } from "react";
 import { useCopyToClipboard } from "usehooks-ts";
 
-import ButtonIcon from "~/components/ButtonIcon";
-import { VERSIONS } from "~/lib/constants";
+import { Button } from "~/components/catalyst/button";
+import { MODES, VERSIONS } from "~/lib/constants";
 import { output } from "~/lib/responses";
 import type { Mode, PaletteConfig, Version } from "~/types";
+import { Radio } from "~/components/catalyst/radio";
 
-type OutputProps = { palettes: PaletteConfig[]; mode: Mode };
+type OutputProps = {
+  palettes: PaletteConfig[];
+  currentMode: Mode;
+  setCurrentMode: (mode: Mode) => void;
+};
 
-export default function Output({ palettes, mode }: OutputProps) {
+export default function Output({
+  palettes,
+  currentMode,
+  setCurrentMode,
+}: OutputProps) {
   const [currentVersion, setCurrentVersion] = useState<Version>(VERSIONS[0]);
   const [, copy] = useCopyToClipboard();
-  const shaped = output(palettes, mode);
+  const shaped = output(palettes, currentMode);
 
   const displayed: string =
     currentVersion === "3"
@@ -22,25 +31,63 @@ export default function Output({ palettes, mode }: OutputProps) {
 
   return (
     <>
-      <div className="flex items-center gap-2">
-        <span className="py-2 border border-transparent">
-          Tailwind CSS Version:
-        </span>
-        {VERSIONS.map((v) => (
-          <button
-            key={v}
-            onClick={() => setCurrentVersion(v)}
-            className={clsx(
-              "py-2 px-4 border transition-colors duration-100 font-mono",
-              v === currentVersion
-                ? "bg-first-700 border-first-700 text-white"
-                : "bg-gray-50 border-gray-200 hover:bg-first-700 hover:text-white focus-visible:bg-first-700 focus-visible:text-white",
-            )}
+      <div className="flex flex-col gap-2">
+        <Headless.Fieldset className="flex gap-3">
+          <Headless.Legend className="text-base/6 font-medium sm:text-sm/6">
+            Tailwind CSS Version:
+          </Headless.Legend>
+          <Headless.RadioGroup
+            onChange={(v) => setCurrentVersion(v as Version)}
+            name="version"
+            defaultValue={currentVersion}
+            className="flex gap-3"
           >
-            {v}
-          </button>
-        ))}
+            {VERSIONS.map((version) => (
+              <Headless.Field key={version} className="flex items-center gap-2">
+                <Radio value={version} />
+                <Headless.Label className="text-base/6 select-none sm:text-sm/6 font-mono">
+                  {version}
+                </Headless.Label>
+              </Headless.Field>
+            ))}
+          </Headless.RadioGroup>
+        </Headless.Fieldset>
       </div>
+      <div className="flex flex-col gap-2">
+        <Headless.Fieldset className="flex gap-3">
+          <Headless.Legend className="text-base/6 font-medium sm:text-sm/6">
+            Output color mode:
+          </Headless.Legend>
+          <Headless.RadioGroup
+            onChange={(v) => setCurrentMode(v as Mode)}
+            name="mode"
+            defaultValue={currentMode}
+            className="flex gap-3"
+          >
+            {MODES.map((mode) => (
+              <Headless.Field key={mode} className="flex items-center gap-2">
+                <Radio value={mode} />
+                <Headless.Label className="text-base/6 select-none sm:text-sm/6 font-mono">
+                  {mode}
+                </Headless.Label>
+              </Headless.Field>
+            ))}
+          </Headless.RadioGroup>
+        </Headless.Fieldset>
+      </div>
+
+      <section
+        id="output"
+        className="relative w-full p-4 mx-auto bg-gray-50 text-gray-800 text-sm border border-gray-200 rounded-lg overflow-scroll"
+      >
+        <div className="absolute right-4 top-4">
+          <Button outline onClick={() => copy(displayed)}>
+            <ClipboardDocumentIcon className="size-4" />
+            <span className="sr-only">Copy to Clipboard</span>
+          </Button>
+        </div>
+        <pre>{displayed}</pre>
+      </section>
       <div className="prose">
         {currentVersion === "3" ? (
           <p>
@@ -52,19 +99,6 @@ export default function Output({ palettes, mode }: OutputProps) {
           </p>
         )}
       </div>
-      <section
-        id="output"
-        className="relative w-full p-4 mx-auto bg-gray-50 text-gray-800 text-sm border border-gray-200 rounded-lg overflow-scroll"
-      >
-        <div className="absolute right-4 top-4">
-          <ButtonIcon
-            onClick={() => copy(displayed)}
-            title="Copy to Clipboard"
-            icon={ClipboardDocumentIcon}
-          />
-        </div>
-        <pre>{displayed}</pre>
-      </section>
     </>
   );
 }

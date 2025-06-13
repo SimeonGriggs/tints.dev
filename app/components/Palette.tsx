@@ -17,8 +17,10 @@ import { isHex, isValidName, calculateStopFromColor } from "~/lib/helpers";
 import { createCanonicalUrl } from "~/lib/responses";
 import type { ColorMode, Mode, PaletteConfig } from "~/types";
 
-import ButtonIcon from "./ButtonIcon";
 import ColorPicker from "./ColorPicker";
+import { Button } from "./catalyst/button";
+import { Input, InputGroup } from "./catalyst/input";
+import clsx from "clsx";
 
 const tweakInputs = [
   {
@@ -49,7 +51,6 @@ type PaletteInput = {
   min: number;
   max: number;
   pattern: string;
-  classes: string;
 };
 
 const paletteInputs: Record<string, PaletteInput> = {
@@ -59,7 +60,6 @@ const paletteInputs: Record<string, PaletteInput> = {
     min: 3,
     max: 24,
     pattern: `[A-Za-z\\-]{3,24}`,
-    classes: ``,
   },
   value: {
     title: `Value`,
@@ -67,12 +67,10 @@ const paletteInputs: Record<string, PaletteInput> = {
     min: 6,
     max: 6,
     pattern: `[0-9A-Fa-f]{6}`,
-    classes: `pl-7`,
   },
 } as const;
 
-export const inputClasses = `w-full p-2 border border-gray-200 bg-gray-50 text-gray-800 focus:outline-hidden focus:ring-3 focus:bg-gray-100 focus:border-gray-300 invalid:focus:border-dashed invalid:focus:border-red-500 invalid:focus:bg-red-100 invalid:border-red-500 invalid:bg-red-100`;
-export const labelClasses = `transition-color duration-200 text-xs font-bold`;
+export const labelClasses = `transition-color duration-200 text-xs font-bold `;
 
 type PaletteProps = {
   palette: PaletteConfig;
@@ -266,80 +264,75 @@ export default function Palette(props: PaletteProps) {
           ([name, input]: [string, PaletteInput]) => (
             <div
               key={name}
-              className="flex flex-col gap-1 col-span-2 focus-within:text-gray-900"
+              className={clsx(
+                "grid col-span-2 focus-within:text-blue-900 grid-rows-[auto]",
+                name === "value"
+                  ? "grid-cols-[1fr_auto] gap-1"
+                  : "grid-cols-1 gap-y-1",
+              )}
             >
-              <label className={labelClasses} htmlFor={name}>
+              <label
+                className={clsx(labelClasses, "col-span-2")}
+                htmlFor={name}
+              >
                 {input.title}
               </label>
-              <div className="relative flex gap-1 items-center">
-                <input
-                  id={name}
-                  name={name}
-                  className={[inputClasses, input.classes]
-                    .filter(Boolean)
-                    .join(" ")}
-                  value={
-                    name === "name" || name === "value"
-                      ? String(paletteState[name as keyof PaletteConfig])
-                      : ``
-                  }
-                  style={ringStyle}
-                  onChange={handlePaletteChange}
-                  pattern={input.pattern}
-                  min={input.min}
-                  max={input.max}
-                  required
-                />
-
-                {name === "value" ? (
-                  <>
-                    <div className="absolute inset-0 pointer-events-none flex items-center justify-start text-gray-400">
-                      <HashtagIcon className="w-5 ml-2 h-auto" />
-                    </div>
-                    <ColorPicker
-                      color={paletteState.value}
-                      onChange={handleColorPickerChange}
-                      ringStyle={ringStyle}
-                    />
-                  </>
-                ) : null}
+              <div className="relative">
+                <InputGroup>
+                  {name === "value" ? <HashtagIcon className="size-4" /> : null}
+                  <Input
+                    id={name}
+                    name={name}
+                    value={
+                      name === "name" || name === "value"
+                        ? String(paletteState[name as keyof PaletteConfig])
+                        : ``
+                    }
+                    onChange={handlePaletteChange}
+                    pattern={input.pattern}
+                    min={input.min}
+                    max={input.max}
+                    required
+                  />
+                </InputGroup>
               </div>
+              {name === "value" ? (
+                <ColorPicker
+                  color={paletteState.value}
+                  onChange={handleColorPickerChange}
+                  ringStyle={ringStyle}
+                />
+              ) : null}
             </div>
           ),
         )}
         <div className="col-span-4 sm:col-span-1 flex justify-between items-end  gap-2">
-          <ButtonIcon
-            testId="paletteCopy"
-            title="Copy this Palette's URL to clipboard"
-            onClick={handleCopyURL}
-            icon={LinkIcon}
-          />
-          <ButtonIcon
-            testId="paletteApi"
-            title="Open this Palette's API URL"
-            onClick={handleOpenAPI}
-            icon={CodeBracketIcon}
-          />
-          <ButtonIcon
-            testId="paletteGraphs"
-            tone="success"
-            onClick={() => setShowGraphs(!showGraphs)}
-            tabIndex={-1}
-            title={`${showGraphs ? "Hide" : "Show"} Graphs`}
-            selected={showGraphs}
-            icon={AdjustmentsHorizontalIcon}
-          />
-          <ButtonIcon
-            testId="paletteDelete"
-            tone="danger"
+          <Button outline onClick={handleCopyURL}>
+            <LinkIcon className="size-4" />
+            <span className="sr-only">
+              Copy this Palette's URL to clipboard
+            </span>
+          </Button>
+          <Button outline onClick={handleOpenAPI}>
+            <CodeBracketIcon className="size-4" />
+            <span className="sr-only">Open this Palette's API URL</span>
+          </Button>
+          <Button outline onClick={() => setShowGraphs(!showGraphs)}>
+            <AdjustmentsHorizontalIcon className="size-4" />
+            <span className="sr-only">
+              {showGraphs ? "Hide" : "Show"} Graphs
+            </span>
+          </Button>
+          <Button
+            outline
             onClick={
               typeof deleteGlobal === "function" ? deleteGlobal : undefined
             }
             disabled={Boolean(!deleteGlobal)}
-            tabIndex={-1}
-            title={`Delete ${paletteState.name}`}
-            icon={TrashIcon}
-          />
+          >
+            <TrashIcon className="size-4" />
+            <span className="sr-only">Delete {paletteState.name}</span>
+          </Button>
         </div>
       </div>
       <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
@@ -351,10 +344,9 @@ export default function Palette(props: PaletteProps) {
             <label className={labelClasses} htmlFor={input.name}>
               {input.title}
             </label>
-            <input
+            <Input
               id={input.name}
               onChange={handleTweakChange}
-              className={inputClasses}
               name={input.name}
               value={paletteState[input.name] ?? input.value}
               type="number"
