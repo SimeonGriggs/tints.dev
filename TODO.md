@@ -14,6 +14,7 @@
 - Click between swatches to add a new stop in between
 
 - **Automatic Stop Selection**
+
   - [x] Remove manual stop selection UI and functionality
   - [x] Implement automatic stop calculation based on color properties
     - [x] Linear mode: Map HSL lightness (0-100) to stops (0-1000)
@@ -25,3 +26,14 @@
     - [x] Update swatch click behavior with automatic stop selection
   - [x] Add tests for new stop selection logic
   - [x] Update documentation to reflect new behavior
+
+- **Manual Stop Selection Override**
+  - [ ] Add toggle in UI to enable/disable automatic stop selection
+  - [ ] Update state management to handle manual stop selection mode
+  - [ ] Modify color input handling to respect manual mode
+    - [ ] Update color picker behavior
+    - [ ] Update manual color input behavior
+    - [ ] Update swatch click behavior
+  - [ ] Add visual indicators for manual mode
+  - [ ] Add tests for manual stop selection
+  - [ ] Polish mobile/touch interaction for manual mode

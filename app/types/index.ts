@@ -12,6 +12,8 @@ export type Mode = `hex` | `p-3` | `oklch` | `hsl`;
 
 export type ColorMode = "linear" | "perceived";
 
+export type StopSelection = "auto" | "manual";
+
 export interface PaletteConfig {
   id: string;
   name: string;
@@ -24,6 +26,7 @@ export interface PaletteConfig {
   lMin: number;
   lMax: number;
   mode: Mode;
+  stopSelection: StopSelection;
 }
 
 export type Version = "3" | "4";

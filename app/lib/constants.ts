@@ -20,6 +20,7 @@ export const DEFAULT_PALETTE_CONFIG: PaletteConfig = {
   lMax: 100,
   colorMode: "perceived",
   mode: MODES[0],
+  stopSelection: "auto",
 };
 
 export const RANDOM_PALETTES = [
