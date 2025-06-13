@@ -1,6 +1,7 @@
 import { Switch } from "@headlessui/react";
 import {
   AdjustmentsHorizontalIcon,
+  ChevronDownIcon,
   CodeBracketIcon,
   HashtagIcon,
   LinkIcon,
@@ -11,6 +12,7 @@ import { useCopyToClipboard } from "usehooks-ts";
 
 import Graphs from "~/components/Graphs";
 import Swatch from "~/components/Swatch";
+import StopSelector from "~/components/StopSelector";
 import { DEFAULT_PALETTE_CONFIG } from "~/lib/constants";
 import { createSwatches } from "~/lib/createSwatches";
 import { isHex, isValidName, calculateStopFromColor } from "~/lib/helpers";
@@ -21,6 +23,12 @@ import ColorPicker from "./ColorPicker";
 import { Button } from "./catalyst/button";
 import { Input, InputGroup } from "./catalyst/input";
 import clsx from "clsx";
+import {
+  Dropdown,
+  DropdownButton,
+  DropdownItem,
+  DropdownMenu,
+} from "./catalyst/dropdown";
 
 const tweakInputs = [
   {
@@ -88,6 +96,7 @@ export default function Palette(props: PaletteProps) {
     ...DEFAULT_PALETTE_CONFIG,
     ...palette,
     swatches: palette.swatches ?? createSwatches(palette),
+    stopSelection: palette.stopSelection ?? "auto",
   });
   const [showGraphs, setShowGraphs] = useState(false);
   const [, copy] = useCopyToClipboard();
@@ -135,7 +144,7 @@ export default function Palette(props: PaletteProps) {
 
   // Handle changes to name or value of palette
   const handlePaletteChange = (
-    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     let newTargetValue = e.currentTarget.value ?? ``;
 
@@ -158,19 +167,17 @@ export default function Palette(props: PaletteProps) {
       newTargetValue = newTargetValue.replace("#", ""); // Remove eventual hashes
       updateValue(newTargetValue);
       if (isHex(newTargetValue)) {
-        const newStop = calculateStopFromColor(
-          newTargetValue,
-          paletteState.colorMode,
-        );
         const newPalette = {
           ...paletteState,
           value: newTargetValue,
-          valueStop: newStop,
+          valueStop:
+            paletteState.stopSelection === "manual"
+              ? paletteState.valueStop // Keep current stop in manual mode
+              : calculateStopFromColor(newTargetValue, paletteState.colorMode),
         };
-        const newSwatches = createSwatches(newPalette);
         setPaletteState({
           ...newPalette,
-          swatches: newSwatches,
+          swatches: createSwatches(newPalette),
         });
       }
     }
@@ -232,19 +239,17 @@ export default function Palette(props: PaletteProps) {
   const handleColorPickerChange = (newColor: string) => {
     if (newColor && isHex(newColor)) {
       const hexWithoutHash = newColor.replace("#", "").toUpperCase();
-      const newStop = calculateStopFromColor(
-        hexWithoutHash,
-        paletteState.colorMode,
-      );
       const newPalette = {
         ...paletteState,
         value: hexWithoutHash,
-        valueStop: newStop,
+        valueStop:
+          paletteState.stopSelection === "manual"
+            ? paletteState.valueStop // Keep current stop in manual mode
+            : calculateStopFromColor(hexWithoutHash, paletteState.colorMode),
       };
-      const newSwatches = createSwatches(newPalette);
       setPaletteState({
         ...newPalette,
-        swatches: newSwatches,
+        swatches: createSwatches(newPalette),
       });
     }
   };
@@ -268,7 +273,7 @@ export default function Palette(props: PaletteProps) {
                 "grid col-span-2 focus-within:text-blue-900 grid-rows-[auto]",
                 name === "value"
                   ? "grid-cols-[1fr_auto] gap-1"
-                  : "grid-cols-1 gap-y-1",
+                  : "grid-cols-1 gap-y-1"
               )}
             >
               <label
@@ -304,35 +309,39 @@ export default function Palette(props: PaletteProps) {
                 />
               ) : null}
             </div>
-          ),
+          )
         )}
-        <div className="col-span-4 sm:col-span-1 flex justify-between items-end  gap-2">
-          <Button outline onClick={handleCopyURL}>
-            <LinkIcon className="size-4" />
-            <span className="sr-only">
-              Copy this Palette's URL to clipboard
-            </span>
-          </Button>
-          <Button outline onClick={handleOpenAPI}>
-            <CodeBracketIcon className="size-4" />
-            <span className="sr-only">Open this Palette's API URL</span>
-          </Button>
-          <Button outline onClick={() => setShowGraphs(!showGraphs)}>
-            <AdjustmentsHorizontalIcon className="size-4" />
-            <span className="sr-only">
-              {showGraphs ? "Hide" : "Show"} Graphs
-            </span>
-          </Button>
-          <Button
-            outline
-            onClick={
-              typeof deleteGlobal === "function" ? deleteGlobal : undefined
-            }
-            disabled={Boolean(!deleteGlobal)}
-          >
-            <TrashIcon className="size-4" />
-            <span className="sr-only">Delete {paletteState.name}</span>
-          </Button>
+        <div className="col-span-4 sm:col-span-1 flex justify-between items-end gap-2">
+          <StopSelector
+            current={paletteState.valueStop}
+            palette={paletteState}
+            onChange={(updatedPalette) => setPaletteState(updatedPalette)}
+          />
+          <Dropdown>
+            <DropdownButton outline>
+              Options
+              <ChevronDownIcon />
+            </DropdownButton>
+            <DropdownMenu>
+              <DropdownItem onClick={handleCopyURL}>
+                <LinkIcon className="size-4" />
+                Copy URL
+              </DropdownItem>
+              <DropdownItem onClick={handleOpenAPI}>
+                <CodeBracketIcon className="size-4" />
+                Open API
+              </DropdownItem>
+              <DropdownItem onClick={() => setShowGraphs(!showGraphs)}>
+                {" "}
+                <AdjustmentsHorizontalIcon className="size-4" />
+                {showGraphs ? "Hide" : "Show"} Graphs
+              </DropdownItem>
+              <DropdownItem onClick={() => deleteGlobal?.()}>
+                <TrashIcon className="size-4" />
+                Delete Palette
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </div>
       </div>
       <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
