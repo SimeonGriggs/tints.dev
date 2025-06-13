@@ -20,7 +20,6 @@ import { createCanonicalUrl } from "~/lib/responses";
 import type { ColorMode, Mode, PaletteConfig } from "~/types";
 
 import ColorPicker from "./ColorPicker";
-import { Button } from "./catalyst/button";
 import { Input, InputGroup } from "./catalyst/input";
 import clsx from "clsx";
 import {
@@ -144,7 +143,7 @@ export default function Palette(props: PaletteProps) {
 
   // Handle changes to name or value of palette
   const handlePaletteChange = (
-    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     let newTargetValue = e.currentTarget.value ?? ``;
 
@@ -273,7 +272,7 @@ export default function Palette(props: PaletteProps) {
                 "grid col-span-2 focus-within:text-blue-900 grid-rows-[auto]",
                 name === "value"
                   ? "grid-cols-[1fr_auto] gap-1"
-                  : "grid-cols-1 gap-y-1",
+                  : "grid-cols-1 gap-y-1"
               )}
             >
               <label
@@ -309,7 +308,7 @@ export default function Palette(props: PaletteProps) {
                 />
               ) : null}
             </div>
-          ),
+          )
         )}
         <div className="col-span-4 sm:col-span-1 flex justify-between items-end gap-2">
           <StopSelector
