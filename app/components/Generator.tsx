@@ -98,11 +98,11 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
       [
         `:root {`,
         ...palettesState[0].swatches.map(
-          (swatch) => `--first-${swatch.stop}: ${swatch.hex};`,
+          (swatch) => `--first-${swatch.stop}: ${swatch.hex};`
         ),
         `}`,
       ].join(`\n`),
-    [palettesState],
+    [palettesState]
   );
 
   return (
@@ -112,34 +112,6 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
       <Header handleNew={handleNew} handleDemo={handleDemo} stars={stars} />
 
       {showDemo ? <Demo palettes={palettesState} close={handleDemo} /> : null}
-
-      <div className="container p-4 mx-auto flex items-center justify-start gap-2">
-        {MODES.map((mode) => (
-          <button
-            key={mode}
-            onClick={() => setCurrentMode(mode)}
-            className={clsx(
-              "py-2 px-4 border border-gray-200 transition-colors duration-100 font-mono",
-              mode === currentMode
-                ? "bg-first-700 border-first-700 text-white"
-                : "bg-gray-50 hover:bg-first-700 hover:text-white focus-visible:bg-first-700 focus-visible:text-white",
-            )}
-          >
-            {mode}
-          </button>
-        ))}
-        <div className="ml-auto text-right">
-          <div className="px-4 py-2 border-gray-200 border border-dotted text-sm text-first-500 font-bold">
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://x.com/simeongriggs"
-            >
-              🤙 Sponsor tints.dev
-            </a>
-          </div>
-        </div>
-      </div>
 
       <section className="grid grid-cols-1 p-4 gap-y-12 container mx-auto">
         {palettesState.map((palette: PaletteConfig, index: number) => (
@@ -168,7 +140,11 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
             {about.length ? <Prose blocks={about} /> : null}
           </div>
           <div className="row-start-1 md:col-span-2 flex flex-col gap-4">
-            <Output palettes={palettesState} mode={currentMode} />
+            <Output
+              palettes={palettesState}
+              currentMode={currentMode}
+              setCurrentMode={setCurrentMode}
+            />
           </div>
         </div>
       </section>

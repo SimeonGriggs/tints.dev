@@ -8,9 +8,7 @@ import { StarIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router";
 import { useCopyToClipboard } from "usehooks-ts";
 
-import ButtonIcon from "~/components/ButtonIcon";
-
-import Button from "./Button";
+import { Button } from "~/components/catalyst/button";
 import GitHub from "./GitHub";
 import Twitter from "./Twitter";
 
@@ -59,36 +57,32 @@ export default function Header({
         <div className="flex items-center gap-1 sm:gap-2">
           {stars ? (
             <span className="flex items-center gap-1 font-bold text-yellow-600 text-sm">
-              <StarIcon className="w-4 h-auto" />
+              <StarIcon className="size-4" />
               {stars} <span className="sr-only">Stars on GitHub</span>
             </span>
           ) : null}
-          <ButtonIcon
-            title="Open Project on GitHub"
-            icon={GitHub}
-            href="https://github.com/SimeonGriggs/tints.dev"
-          />
-          <ButtonIcon
-            title="Say hello on Twitter"
-            icon={Twitter}
-            href="https://twitter.com/simeonGriggs"
-          />
-          <ButtonIcon
-            title="Copy URL"
-            icon={LinkIcon}
-            onClick={handleCopyURL}
-          />
-          <ButtonIcon
-            title="Open API Link"
-            icon={CodeBracketIcon}
-            onClick={handleOpenAPI}
-          />
-          <Button id="demo-button" onClick={handleDemo} square>
-            <SparklesIcon className="w-4 h-auto" />
+          <Button outline href="https://github.com/SimeonGriggs/tints.dev">
+            <GitHub className="size-4" />
+            <span className="sr-only">Star on GitHub</span>
+          </Button>
+          <Button outline href="https://x.com/simeonGriggs">
+            <Twitter className="size-4" />
+            <span className="sr-only">Follow me on Twitter</span>
+          </Button>
+          <Button outline onClick={handleCopyURL}>
+            <LinkIcon className="size-4" />
+            <span className="sr-only">Copy URL</span>
+          </Button>
+          <Button outline onClick={handleOpenAPI}>
+            <CodeBracketIcon className="size-4" />
+            <span className="sr-only">API</span>
+          </Button>
+          <Button id="demo-button" onClick={handleDemo}>
+            <SparklesIcon className="size-4" />
             <span className="sr-only md:not-sr-only">Demo</span>
           </Button>
-          <Button id="add-button" onClick={handleNew} square>
-            <PlusIcon className="w-4 h-auto" />
+          <Button id="add-button" onClick={handleNew}>
+            <PlusIcon className="size-4" />
             <span className="sr-only md:not-sr-only">Add</span>
           </Button>
         </div>

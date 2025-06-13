@@ -9,7 +9,7 @@ import { useState } from "react";
 
 import type { PaletteConfig } from "~/types";
 
-import Button from "./Button";
+import { Button } from "~/components/catalyst/button";
 
 export default function Demo({
   close,
@@ -25,7 +25,7 @@ export default function Demo({
       {/* Close button */}
       <div className="relative container z-10 w-full p-4 flex items-center justify-end pointer-events-auto">
         <Button id="close-demo" onClick={close}>
-          <XMarkIcon className="w-4 h-auto" />
+          <XMarkIcon className="size-4" />
           Close Demo
         </Button>
       </div>
