@@ -35,23 +35,9 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
   // Initially it seemed like a good idea to handle this globally as a side-effect
   // ...but now I'm less sure
   useEffect(() => {
-    // Only update meta if the `name` or `value` changed between renders
-    // Or if it's the first render
-
-    // TODO: Don't update title if pathname was `/` and palette is random
-    const keysChanged = previousPalettes
-      ? arrayObjectDiff(previousPalettes, palettesState)
-      : [];
-
-    if (
-      !previousPalettes ||
-      keysChanged.includes(`value`) ||
-      keysChanged.includes(`name`)
-    ) {
-      // Only update history if the `value` changed
-      handleMeta(palettesState, keysChanged.includes(`value`));
-    }
-  }, [palettesState, previousPalettes]);
+    // Update meta and URL on any palette state change
+    handleMeta(palettesState, true);
+  }, [palettesState]);
 
   const handleNew = () => {
     setPalettesState((prev) => {
@@ -97,11 +83,11 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
       [
         `:root {`,
         ...palettesState[0].swatches.map(
-          (swatch) => `--first-${swatch.stop}: ${swatch.hex};`,
+          (swatch) => `--first-${swatch.stop}: ${swatch.hex};`
         ),
         `}`,
       ].join(`\n`),
-    [palettesState],
+    [palettesState]
   );
 
   return (
