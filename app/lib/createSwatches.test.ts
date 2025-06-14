@@ -37,23 +37,6 @@ const BASELINE_LINEAR_PALETTE_1E70F6_STOP500 = [
   { stop: 1000, hex: "#000000" }, // Not used in final output
 ];
 
-// Updated baseline for HSLuv implementation
-const BASELINE_PERCEIVED_PALETTE_1E70F6_STOP500 = [
-  { stop: 0, hex: "#FFFFFF" }, // Not used in final output
-  { stop: 50, hex: "#FCEDED" }, // Updated for HSLuv
-  { stop: 100, hex: "#F8DBDB" }, // Updated for HSLuv
-  { stop: 200, hex: "#F1B7B7" }, // Updated for HSLuv
-  { stop: 300, hex: "#EA9393" }, // Updated for HSLuv
-  { stop: 400, hex: "#E36F6F" }, // Updated for HSLuv
-  { stop: 500, hex: "#1E70F6" }, // Input color
-  { stop: 600, hex: "#0A62F0" }, // Updated for HSLuv
-  { stop: 700, hex: "#0854CE" }, // Updated for HSLuv
-  { stop: 800, hex: "#0744A7" }, // Updated for HSLuv
-  { stop: 900, hex: "#05347F" }, // Updated for HSLuv
-  { stop: 950, hex: "#042458" }, // Updated for HSLuv
-  { stop: 1000, hex: "#000000" }, // Not used in final output
-];
-
 describe("createSwatches", () => {
   it("should produce perceptually similar colors to expected baseline (linear mode)", () => {
     const input: PaletteConfig = {
@@ -184,7 +167,7 @@ describe("HSLuv implementation", () => {
       { value: "0000FF", name: "fully saturated blue" },
     ];
 
-    testCases.forEach(({ value, name }) => {
+    testCases.forEach(({ value }) => {
       const config = {
         ...DEFAULT_PALETTE_CONFIG,
         value,

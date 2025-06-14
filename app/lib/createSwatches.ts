@@ -5,38 +5,6 @@ import { DEFAULT_PALETTE_CONFIG } from "~/lib/constants";
 import type { PaletteConfig } from "~/types";
 
 /**
- * Finds HSL lightness that produces the closest luminance to target
- * Equivalent to legacy lightnessFromHSLum function
- */
-function lightnessFromLuminance(
-  h: number,
-  s: number,
-  targetLuminance: number
-): number {
-  let bestL = 50;
-  let smallestDiff = Infinity;
-
-  // Search through lightness values to find closest luminance match
-  for (let l = 0; l <= 100; l++) {
-    try {
-      const testColor = chroma.hsl(h, s / 100, l / 100);
-      const testLuminance = testColor.luminance();
-      const diff = Math.abs(targetLuminance - testLuminance);
-
-      if (diff < smallestDiff) {
-        smallestDiff = diff;
-        bestL = l;
-      }
-    } catch {
-      // Skip invalid color combinations
-      continue;
-    }
-  }
-
-  return bestL;
-}
-
-/**
  * Chroma-js based implementation for stable palette generation
  * Uses HSLuv for perceived mode and direct HSL manipulation for linear mode
  */
