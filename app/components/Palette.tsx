@@ -335,7 +335,10 @@ export default function Palette(props: PaletteProps) {
                 <AdjustmentsHorizontalIcon className="size-4" />
                 {showGraphs ? "Hide" : "Show"} Graphs
               </DropdownItem>
-              <DropdownItem onClick={() => deleteGlobal?.()}>
+              <DropdownItem
+                onClick={() => deleteGlobal?.()}
+                disabled={!deleteGlobal}
+              >
                 <TrashIcon className="size-4" />
                 Delete Palette
               </DropdownItem>

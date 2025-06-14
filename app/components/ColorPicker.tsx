@@ -101,7 +101,7 @@ export default function ColorPicker({
 
   return (
     <Popover className="relative">
-      <PopoverButton>
+      <PopoverButton as="div">
         <Button outline>{buttonContent || defaultButtonContent}</Button>
       </PopoverButton>
 
