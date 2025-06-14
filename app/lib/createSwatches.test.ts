@@ -9,7 +9,7 @@ import type { ColorMode, PaletteConfig } from "~/types";
 function areColorsSimilar(
   color1: string,
   color2: string,
-  threshold: number = 5 // Increased threshold for HSLuv
+  threshold: number = 5, // Increased threshold for HSLuv
 ): boolean {
   try {
     const deltaE = chroma.deltaE(color1, color2);
@@ -55,7 +55,7 @@ describe("createSwatches", () => {
     // Filter to main stops for comparison (exclude 0 and 1000)
     const mainSwatches = result.filter((s: any) => ![0, 1000].includes(s.stop));
     const expectedMainSwatches = BASELINE_LINEAR_PALETTE_1E70F6_STOP500.filter(
-      (s) => ![0, 1000].includes(s.stop)
+      (s) => ![0, 1000].includes(s.stop),
     );
 
     expect(mainSwatches.length).toBe(expectedMainSwatches.length);
@@ -63,19 +63,19 @@ describe("createSwatches", () => {
     // Test that each color is perceptually similar to baseline
     expectedMainSwatches.forEach((expectedSwatch) => {
       const actualSwatch = mainSwatches.find(
-        (s: any) => s.stop === expectedSwatch.stop
+        (s: any) => s.stop === expectedSwatch.stop,
       );
       expect(actualSwatch).toBeDefined();
 
       const isSimilar = areColorsSimilar(
         expectedSwatch.hex,
         actualSwatch!.hex,
-        2
+        2,
       );
       if (!isSimilar) {
         const deltaE = chroma.deltaE(expectedSwatch.hex, actualSwatch!.hex);
         console.log(
-          `Linear Mode - Stop ${expectedSwatch.stop}: Expected ${expectedSwatch.hex} vs Actual ${actualSwatch!.hex} (ΔE: ${deltaE.toFixed(2)})`
+          `Linear Mode - Stop ${expectedSwatch.stop}: Expected ${expectedSwatch.hex} vs Actual ${actualSwatch!.hex} (ΔE: ${deltaE.toFixed(2)})`,
         );
       }
       expect(isSimilar).toBe(true);
@@ -204,7 +204,7 @@ describe("HSLuv implementation", () => {
 
     // Check that saturation doesn't drop too quickly
     const midToneSwatches = result.filter(
-      (s) => s.stop >= 300 && s.stop <= 700
+      (s) => s.stop >= 300 && s.stop <= 700,
     );
     midToneSwatches.forEach((swatch) => {
       expect(swatch.s).toBeGreaterThan(40); // Adjusted threshold for HSLuv
