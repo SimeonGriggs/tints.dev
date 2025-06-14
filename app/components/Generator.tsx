@@ -10,7 +10,6 @@ import { Prose } from "~/components/Prose";
 import { MODES } from "~/lib/constants";
 import { createRandomPalette } from "~/lib/createRandomPalette";
 import { convertParamsToPath, removeSearchParamByKey } from "~/lib/history";
-import { usePrevious } from "~/lib/hooks";
 import { handleMeta } from "~/lib/meta";
 import type { Mode, PaletteConfig } from "~/types";
 
