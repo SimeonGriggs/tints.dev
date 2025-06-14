@@ -12,7 +12,7 @@
     "typecheck": "react-router typegen && tsc",
     "format": "prettier --write .",
     "lint": "pnpm dlx oxlint@latest",
-    "test": "vitest",
+    "test": "vitest run",
     "test:run": "vitest run",
     "prepare": "husky"
   },
@@ -28,6 +28,7 @@
     "@vercel/react-router": "latest",
     "chroma-js": "^3.1.2",
     "clsx": "^2.1.1",
+    "hsluv": "^1.0.1",
     "isbot": "^5.1.9",
     "nanoid": "^5.0.7",
     "react": "^19.0.0",

@@ -1,4 +1,5 @@
 import chroma from "chroma-js";
+import { Hsluv } from "hsluv";
 
 import { DEFAULT_PALETTE_CONFIG } from "~/lib/constants";
 import type { PaletteConfig } from "~/types";
@@ -10,7 +11,7 @@ import type { PaletteConfig } from "~/types";
 function lightnessFromLuminance(
   h: number,
   s: number,
-  targetLuminance: number,
+  targetLuminance: number
 ): number {
   let bestL = 50;
   let smallestDiff = Infinity;
@@ -37,8 +38,7 @@ function lightnessFromLuminance(
 
 /**
  * Chroma-js based implementation for stable palette generation
- * Uses perceptually uniform color spaces and higher precision
- * Self-contained to avoid infinite loop issues
+ * Uses HSLuv for perceived mode and direct HSL manipulation for linear mode
  */
 export function createSwatches(palette: PaletteConfig) {
   const { value, valueStop } = palette;
@@ -57,11 +57,9 @@ export function createSwatches(palette: PaletteConfig) {
 
   // Create base color from input
   const baseColor = chroma(`#${value}`);
+  const [baseH, baseS, baseL] = baseColor.hsl();
 
-  // Replicate the original algorithm but use chroma.js for more precision
-  // We'll manually implement the scale creation to avoid infinite loops
-
-  // 1. Create hue scale (simplified from createHueScale)
+  // 1. Create hue scale
   const valueStopIndex = allStops.indexOf(valueStop);
   if (valueStopIndex === -1) {
     throw new Error(`Invalid valueStop: ${valueStop}`);
@@ -74,7 +72,7 @@ export function createSwatches(palette: PaletteConfig) {
     return { stop, tweak: tweakValue };
   });
 
-  // 2. Create saturation scale (simplified from createSaturationScale)
+  // 2. Create saturation scale
   const saturationScale = allStops.map((stop) => {
     const stopIndex = allStops.indexOf(stop);
     const diff = Math.abs(stopIndex - valueStopIndex);
@@ -82,11 +80,12 @@ export function createSwatches(palette: PaletteConfig) {
     return { stop, tweak: Math.min(tweakValue, 100) };
   });
 
-  // 3. Create lightness distribution (simplified from createDistributionValues)
-  const lightnessValue =
-    colorMode === "linear"
-      ? baseColor.get("hsl.l") * 100
-      : baseColor.luminance() * 100;
+  // 3. Create lightness distribution
+  const hsluv = new Hsluv();
+  hsluv.hex = `#${value}`;
+  hsluv.hexToHsluv();
+
+  const lightnessValue = colorMode === "linear" ? baseL * 100 : hsluv.hsluv_l;
 
   // Create the three anchor points
   const distributionAnchors = [
@@ -146,31 +145,32 @@ export function createSwatches(palette: PaletteConfig) {
     const sTweak = saturationScale[stopIndex].tweak;
     const lTweak = distributionScale[stopIndex].tweak;
 
-    // Apply tweaks using chroma.js for better precision
-    const [baseH, baseS] = baseColor.hsl();
+    let newColor: chroma.Color;
 
-    const newH = (baseH + hTweak) % 360;
-    const newS = Math.max(0, Math.min(100, baseS * 100 + sTweak));
-
-    let newL: number;
     if (colorMode === "linear") {
-      // Direct lightness approach
-      newL = Math.max(0, Math.min(100, lTweak));
-    } else {
-      // Perceived brightness approach: find lightness that produces target luminance
-      const targetLuminance = lTweak / 100; // Convert to 0-1 range
-      newL = lightnessFromLuminance(
-        isNaN(newH) ? baseH : newH,
-        isNaN(newS) ? baseS * 100 : newS,
-        targetLuminance,
-      );
-    }
+      // Direct HSL manipulation for linear mode
+      const newH = (baseH + hTweak) % 360;
+      const newS = Math.max(0, Math.min(100, baseS * 100 + sTweak));
+      const newL = Math.max(0, Math.min(100, lTweak));
 
-    const newColor = chroma.hsl(
-      isNaN(newH) ? baseH : newH,
-      isNaN(newS) ? baseS : newS / 100,
-      newL / 100,
-    );
+      newColor = chroma.hsl(newH, newS / 100, newL / 100);
+    } else {
+      // HSLuv for perceived mode
+      const hsluv = new Hsluv();
+      hsluv.hex = `#${value}`;
+      hsluv.hexToHsluv();
+
+      const newHsluvH = (hsluv.hsluv_h + hTweak) % 360;
+      const newHsluvS = Math.max(0, Math.min(100, hsluv.hsluv_s + sTweak));
+      const newHsluvL = Math.max(0, Math.min(100, lTweak));
+
+      hsluv.hsluv_h = newHsluvH;
+      hsluv.hsluv_s = newHsluvS;
+      hsluv.hsluv_l = newHsluvL;
+      hsluv.hsluvToHex();
+
+      newColor = chroma(hsluv.hex);
+    }
 
     const [finalH, finalS, finalL] = newColor.hsl();
 
