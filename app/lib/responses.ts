@@ -10,13 +10,14 @@ import {
 import { createRandomPalette } from "~/lib/createRandomPalette";
 import { createSwatches } from "~/lib/createSwatches";
 import { isHex, isValidName, removeTrailingSlash } from "~/lib/helpers";
+import { serializePalette } from "~/lib/paletteHash";
 import type { Mode, PaletteConfig } from "~/types";
 
 import { createDisplayColor } from "./createDisplayColor";
 
 export function createPaletteFromNameValue(
   name: string,
-  value: string,
+  value: string
 ): PaletteConfig | null {
   if (!name || !isValidName(name) || !value || !isHex(value)) {
     return null;
@@ -43,13 +44,9 @@ export function createCanonicalUrl(palettes: PaletteConfig[], apiUrl = false) {
     // This shouldn't be possible?
     return removeTrailingSlash(baseUrl);
   } else if (palettes.length === 1) {
-    // Single palettes have pretty URLs
-    const canonicalUrl = [
-      baseUrl,
-      palettes[0].name,
-      palettes[0].value.toUpperCase(),
-    ].join(`/`);
-
+    // Single palettes use the new hash-based URL
+    const hash = serializePalette(palettes[0]);
+    const canonicalUrl = [baseUrl, "palette", hash].join(`/`);
     return removeTrailingSlash(canonicalUrl);
   } else if (typeof document !== "undefined") {
     // Use the current URL but maybe replace the base URL
@@ -71,12 +68,8 @@ export function createCanonicalUrl(palettes: PaletteConfig[], apiUrl = false) {
 }
 
 export function createPaletteMetaImageUrl(palette: PaletteConfig) {
-  const metaImageUrl = [
-    META.origin,
-    palette.name,
-    palette.value.toUpperCase(),
-    "og",
-  ].join("/");
+  const hash = serializePalette(palette);
+  const metaImageUrl = [META.origin, "palette", hash, "og"].join("/");
 
   return {
     url: metaImageUrl,
@@ -128,7 +121,7 @@ export function output(palettes: PaletteConfig[], mode: Mode = DEFAULT_MODE) {
       .forEach((swatch) =>
         Object.assign(swatches, {
           [swatch.stop]: createDisplayColor(swatch.hex, mode, true),
-        }),
+        })
       );
 
     Object.assign(shaped, { [palette.name]: swatches });
