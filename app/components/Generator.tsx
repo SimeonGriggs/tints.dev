@@ -79,11 +79,11 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
       [
         `:root {`,
         ...palettesState[0].swatches.map(
-          (swatch) => `--first-${swatch.stop}: ${swatch.hex};`
+          (swatch) => `--first-${swatch.stop}: ${swatch.hex};`,
         ),
         `}`,
       ].join(`\n`),
-    [palettesState]
+    [palettesState],
   );
 
   return (
