@@ -26,8 +26,6 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
   const [palettesState, setPalettesState] = useState(palettes);
   const [showDemo, setShowDemo] = useState(false);
   const [currentMode, setCurrentMode] = useState<Mode>(MODES[0]);
-  const previousPalettes: undefined | PaletteConfig[] =
-    usePrevious(palettesState);
   const paletteRefs = useRef<HTMLDivElement[]>([]);
 
   // Maybe update document meta on each state change
