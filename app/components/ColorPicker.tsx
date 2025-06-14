@@ -37,7 +37,7 @@ export function ColorPickerContent({
       setValue(newValue);
       debounceOnChange(newValue);
     },
-    [h, s, setValue, debounceOnChange],
+    [h, s, setValue, debounceOnChange]
   );
 
   return (
@@ -101,7 +101,7 @@ export default function ColorPicker({
 
   return (
     <Popover className="relative">
-      <PopoverButton>
+      <PopoverButton as="div">
         <Button outline>{buttonContent || defaultButtonContent}</Button>
       </PopoverButton>
 
