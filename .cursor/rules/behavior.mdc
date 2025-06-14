@@ -9,6 +9,7 @@ alwaysApply: true
 - Work in a new branch per feature request
 - Commit after significant milestones
 - Suggest cleaning up unused files, dependencies, and functions
+- If there are linter errors, always fix them
 
 ## BEFORE STARTING WORK
 - Push back and ask questions if you do not understand what a successful outcome looks like

@@ -18,7 +18,7 @@ import { createDisplayColor } from "./createDisplayColor";
 
 export function createPaletteFromNameValue(
   name: string,
-  value: string
+  value: string,
 ): PaletteConfig | null {
   if (!name || !isValidName(name) || !value || !isHex(value)) {
     return null;
@@ -143,7 +143,7 @@ export function output(palettes: PaletteConfig[], mode: Mode = DEFAULT_MODE) {
       .forEach((swatch) =>
         Object.assign(swatches, {
           [swatch.stop]: createDisplayColor(swatch.hex, mode, true),
-        })
+        }),
       );
 
     Object.assign(shaped, { [palette.name]: swatches });

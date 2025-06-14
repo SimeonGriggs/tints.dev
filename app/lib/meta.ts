@@ -73,7 +73,7 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
 
     const themeColorTag = document.querySelector(`meta[name="theme-color"]`);
     const themeColorValue = palettes[0].swatches.find(
-      (swatch) => swatch.stop === 500
+      (swatch) => swatch.stop === 500,
     )?.hex;
 
     if (themeColorTag && themeColorValue) {
