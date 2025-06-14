@@ -18,7 +18,7 @@ import { createDisplayColor } from "./createDisplayColor";
 
 export function createPaletteFromNameValue(
   name: string,
-  value: string,
+  value: string
 ): PaletteConfig | null {
   if (!name || !isValidName(name) || !value || !isHex(value)) {
     return null;
@@ -143,11 +143,39 @@ export function output(palettes: PaletteConfig[], mode: Mode = DEFAULT_MODE) {
       .forEach((swatch) =>
         Object.assign(swatches, {
           [swatch.stop]: createDisplayColor(swatch.hex, mode, true),
-        }),
+        })
       );
 
     Object.assign(shaped, { [palette.name]: swatches });
   });
 
   return shaped;
+}
+
+export function createRedirectResponse(
+  request: Request,
+  palette: PaletteConfig
+) {
+  const url = new URL(request.url);
+  const hash = serializePalette(palette);
+
+  // Determine the new path based on the current path
+  let newPath = `/palette/${hash}`;
+  if (url.pathname.startsWith("/api/")) {
+    newPath = `/api${newPath}`;
+  } else if (url.pathname.endsWith("/og")) {
+    newPath = `${newPath}/og`;
+  }
+
+  // Create the new URL
+  const newUrl = new URL(newPath, url.origin);
+
+  // Return a 301 (permanent) redirect
+  return new Response(null, {
+    status: 301,
+    headers: {
+      Location: newUrl.toString(),
+      "Cache-Control": "public, max-age=31536000", // Cache for 1 year
+    },
+  });
 }

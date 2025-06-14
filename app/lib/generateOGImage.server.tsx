@@ -7,17 +7,17 @@ import type { PaletteConfig } from "~/types";
 
 const fontMono = (baseUrl: string) =>
   fetch(new URL(`${baseUrl}/fonts/JetBrainsMono-Regular.ttf`)).then((res) =>
-    res.arrayBuffer(),
+    res.arrayBuffer()
   );
 const fontSans = (baseUrl: string) =>
   fetch(new URL(`${baseUrl}/fonts/Inter-ExtraBold.otf`)).then((res) =>
-    res.arrayBuffer(),
+    res.arrayBuffer()
   );
 
 export async function generateOGImage(
   palettes: PaletteConfig[],
   origin: string,
-  canonical: string,
+  canonical: string
 ) {
   const fontMonoData = await fontMono(origin);
   const fontSansData = await fontSans(origin);
@@ -41,10 +41,8 @@ export async function generateOGImage(
   const [palette] = palettes;
   const darkColor = palette.swatches.find((swatch) => swatch.stop === 800)?.hex;
   const lightColor = palette.swatches.find(
-    (swatch) => swatch.stop === 300,
+    (swatch) => swatch.stop === 300
   )?.hex;
-
-  const displayUrl = canonical.replace(/(^\w+:|^)\/\//, "").replace("www.", "");
 
   const svg = await satori(
     <div
@@ -117,7 +115,6 @@ export async function generateOGImage(
                   display: "flex",
                   backgroundColor: swatch.hex,
                   borderRadius: 4,
-                  boxShadow: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.125)",
                   height: 64,
                   width: `100%`,
                 }}
@@ -156,15 +153,11 @@ export async function generateOGImage(
           marginTop: "auto",
           fontFamily: "Inter, sans-serif",
           color: "white",
-          // clipPath: `polygon(0 20%, 100% 0, 100% 100%, 0% 100%)`,
         }}
         className="pt-20 p-12 text-white flex flex-col gap-3"
       >
-        <span
-          style={{ fontSize: 48, whiteSpace: "nowrap" }}
-          // className="text-5xl whitespace-nowrap"
-        >
-          {displayUrl}
+        <span style={{ fontSize: 48, whiteSpace: "nowrap" }}>
+          {new URL(META.origin).hostname}
         </span>
         <span
           style={{
@@ -172,13 +165,12 @@ export async function generateOGImage(
             fontSize: 24,
             whiteSpace: "nowrap",
           }}
-          // className="text-2xl font-bold whitespace-nowrap"
         >
           {META.title}
         </span>
       </div>
     </div>,
-    options,
+    options
   );
 
   const resvg = new Resvg(svg);

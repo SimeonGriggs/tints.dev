@@ -1,9 +1,12 @@
 import { isHex, isValidName } from "~/lib/helpers";
-import { createPaletteFromNameValue, output } from "~/lib/responses";
+import {
+  createPaletteFromNameValue,
+  createRedirectResponse,
+} from "~/lib/responses";
 
 import type { Route } from "./+types/api.$name.$value";
 
-export const loader = ({ params }: Route.LoaderArgs) => {
+export const loader = ({ params, request }: Route.LoaderArgs) => {
   if (
     !params?.name ||
     !isValidName(params.name) ||
@@ -23,13 +26,6 @@ export const loader = ({ params }: Route.LoaderArgs) => {
     });
   }
 
-  const responseString = JSON.stringify(output([palette]));
-
-  return new Response(responseString, {
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-      "x-content-type-options": "nosniff",
-      "Cache-Control": "max-age=604800, s-maxage=604800",
-    },
-  });
+  // Redirect to the new hash-based URL
+  return createRedirectResponse(request, palette);
 };

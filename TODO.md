@@ -40,22 +40,22 @@
   - [ ] Polish mobile/touch interaction for manual mode
 
 - **URL Structure Update**
-  - [ ] Create new `/palette/:hash` route
-    - [ ] Add route handler for new URL structure
-    - [ ] Implement simple JSON serialization/deserialization
-    - [ ] Add base64 encoding/decoding for URL safety
-  - [ ] Update state management
-    - [ ] Modify URL sync logic to use hash
-    - [ ] Add hash update on palette changes
-  - [ ] Handle legacy URLs
-    - [ ] Add redirect from old URL structure
-    - [ ] Preserve SEO value with proper 301 redirects
-    - [ ] Update meta tags and OpenGraph handling
-  - [ ] Update API endpoints
-    - [ ] Add new hash-based API route
-    - [ ] Maintain backward compatibility
-  - [ ] Testing
-    - [ ] Test serialization/deserialization
-    - [ ] Verify state preservation
-    - [ ] Test redirects
-    - [ ] Validate SEO impact
+  - [x] Create new `/palette/:hash` route
+    - [x] Add route handler for new URL structure
+    - [x] Implement simple JSON serialization/deserialization
+    - [x] Add base64 encoding/decoding for URL safety
+  - [x] Update state management
+    - [x] Modify URL sync logic to use hash
+    - [x] Add hash update on palette changes
+  - [x] Handle legacy URLs
+    - [x] Add redirect from old URL structure
+    - [x] Preserve SEO value with proper 301 redirects
+    - [x] Update meta tags and OpenGraph handling
+  - [x] Update API endpoints
+    - [x] Add new hash-based API route
+    - [x] Maintain backward compatibility
+  - [x] Testing
+    - [x] Test serialization/deserialization
+    - [x] Verify state preservation
+    - [x] Test redirects
+    - [x] Validate SEO impact
