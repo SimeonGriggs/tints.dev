@@ -1,6 +1,13 @@
+import {
+  CodeBracketIcon,
+  LinkIcon,
+  PlusIcon,
+  SparklesIcon,
+} from "@heroicons/react/24/outline";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import isEqual from "react-fast-compare";
 
+import { Button } from "~/components/catalyst/button";
 import Demo from "~/components/Demo";
 import Graphs from "~/components/Graphs";
 import Output from "~/components/Output";
@@ -66,18 +73,18 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
       [
         `:root {`,
         ...palettesState[0].swatches.map(
-          (swatch) => `--first-${swatch.stop}: ${swatch.hex};`,
+          (swatch) => `--first-${swatch.stop}: ${swatch.hex};`
         ),
         `}`,
       ].join(`\n`),
-    [palettesState],
+    [palettesState]
   );
 
   return (
     <main className="pb-32 pt-header">
       <style>{styleString}</style>
 
-      <Header handleNew={handleNew} handleDemo={handleDemo} stars={stars} />
+      <Header stars={stars} />
 
       {showDemo ? <Demo palettes={palettesState} close={handleDemo} /> : null}
 
@@ -97,9 +104,19 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
               }
               currentMode={currentMode}
             />
-            <div className="border-t border-gray-200" />
           </React.Fragment>
         ))}
+
+        <section className="flex justify-center items-center gap-2">
+          <Button id="demo-button" onClick={handleDemo}>
+            <SparklesIcon className="size-4" />
+            <span className="sr-only md:not-sr-only">Demo</span>
+          </Button>
+          <Button id="add-button" onClick={handleNew}>
+            <PlusIcon className="size-4" />
+            <span className="sr-only md:not-sr-only">Add Palette</span>
+          </Button>
+        </section>
 
         <Graphs palettes={palettesState} mode={currentMode} />
 

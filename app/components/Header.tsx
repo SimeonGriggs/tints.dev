@@ -1,9 +1,4 @@
-import {
-  CodeBracketIcon,
-  LinkIcon,
-  PlusIcon,
-  SparklesIcon,
-} from "@heroicons/react/24/outline";
+import { CodeBracketIcon, LinkIcon } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router";
 import { useCopyToClipboard } from "usehooks-ts";
@@ -12,15 +7,7 @@ import { Button } from "~/components/catalyst/button";
 import GitHub from "./GitHub";
 import Twitter from "./Twitter";
 
-export default function Header({
-  handleNew,
-  handleDemo,
-  stars,
-}: {
-  handleNew: () => void;
-  handleDemo: () => void;
-  stars: number;
-}) {
+export default function Header({ stars }: { stars: number }) {
   const [, copy] = useCopyToClipboard();
 
   const handleCopyURL = () => {
@@ -76,14 +63,6 @@ export default function Header({
           <Button outline onClick={handleOpenAPI}>
             <CodeBracketIcon className="size-4" />
             <span className="sr-only">API</span>
-          </Button>
-          <Button id="demo-button" onClick={handleDemo}>
-            <SparklesIcon className="size-4" />
-            <span className="sr-only md:not-sr-only">Demo</span>
-          </Button>
-          <Button id="add-button" onClick={handleNew}>
-            <PlusIcon className="size-4" />
-            <span className="sr-only md:not-sr-only">Add</span>
           </Button>
         </div>
       </div>
