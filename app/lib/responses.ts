@@ -108,28 +108,9 @@ export function requestToPalettes(url: string) {
     return [];
   }
 
-  const palettesParams = requestUrl.searchParams;
-  const palettes: PaletteConfig[] = [];
-
-  // Turn config strings into array of config objects
-  if (Array.from(palettesParams.keys()).length) {
-    palettesParams.forEach((value, key) => {
-      if (isHex(value)) {
-        const palette = createPaletteFromNameValue(key, value);
-
-        if (palette) {
-          palettes.push(palette);
-        }
-      }
-    });
-  } else {
-    // Start with a random default palette if no query string provided
-    const random = createRandomPalette();
-
-    palettes.push(random);
-  }
-
-  return palettes;
+  // Start with a random default palette if no hash provided
+  const random = createRandomPalette();
+  return [random];
 }
 
 // Convert array of palette objects used in GUI to array of colour swatches for Tailwind Config

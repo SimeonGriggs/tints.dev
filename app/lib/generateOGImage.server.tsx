@@ -7,17 +7,17 @@ import type { PaletteConfig } from "~/types";
 
 const fontMono = (baseUrl: string) =>
   fetch(new URL(`${baseUrl}/fonts/JetBrainsMono-Regular.ttf`)).then((res) =>
-    res.arrayBuffer()
+    res.arrayBuffer(),
   );
 const fontSans = (baseUrl: string) =>
   fetch(new URL(`${baseUrl}/fonts/Inter-ExtraBold.otf`)).then((res) =>
-    res.arrayBuffer()
+    res.arrayBuffer(),
   );
 
 export async function generateOGImage(
   palettes: PaletteConfig[],
   origin: string,
-  canonical: string
+  canonical: string,
 ) {
   const fontMonoData = await fontMono(origin);
   const fontSansData = await fontSans(origin);
@@ -41,7 +41,7 @@ export async function generateOGImage(
   const [palette] = palettes;
   const darkColor = palette.swatches.find((swatch) => swatch.stop === 800)?.hex;
   const lightColor = palette.swatches.find(
-    (swatch) => swatch.stop === 300
+    (swatch) => swatch.stop === 300,
   )?.hex;
 
   const svg = await satori(
@@ -170,7 +170,7 @@ export async function generateOGImage(
         </span>
       </div>
     </div>,
-    options
+    options,
   );
 
   const resvg = new Resvg(svg);

@@ -20,19 +20,9 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
   // Update the URL
   if (typeof document !== "undefined") {
     const currentUrl = new URL(window.location.href);
-
-    if (palettes.length === 1) {
-      // One palette === hash-based URL
-      const canonicalPath = new URL(createCanonicalUrl(palettes)).pathname;
-      currentUrl.pathname = canonicalPath;
-      currentUrl.search = ``;
-    } else {
-      // Many palettes === query string
-      palettes.forEach((palette) => {
-        currentUrl.searchParams.set(palette.name, palette.value.toUpperCase());
-      });
-      currentUrl.pathname = ``;
-    }
+    const canonicalPath = new URL(createCanonicalUrl(palettes)).pathname;
+    currentUrl.pathname = canonicalPath;
+    currentUrl.search = ``;
 
     // Update without pushing to history
     if (updateHistory) {
@@ -73,7 +63,7 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
 
     const themeColorTag = document.querySelector(`meta[name="theme-color"]`);
     const themeColorValue = palettes[0].swatches.find(
-      (swatch) => swatch.stop === 500,
+      (swatch) => swatch.stop === 500
     )?.hex;
 
     if (themeColorTag && themeColorValue) {

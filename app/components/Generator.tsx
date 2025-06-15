@@ -9,7 +9,6 @@ import type { Block } from "~/components/Prose";
 import { Prose } from "~/components/Prose";
 import { MODES } from "~/lib/constants";
 import { createRandomPalette } from "~/lib/createRandomPalette";
-import { convertParamsToPath, removeSearchParamByKey } from "~/lib/history";
 import { handleMeta } from "~/lib/meta";
 import type { Mode, PaletteConfig } from "~/types";
 
@@ -27,11 +26,8 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
   const [currentMode, setCurrentMode] = useState<Mode>(MODES[0]);
   const paletteRefs = useRef<HTMLDivElement[]>([]);
 
-  // Maybe update document meta on each state change
-  // Initially it seemed like a good idea to handle this globally as a side-effect
-  // ...but now I'm less sure
+  // Update meta and URL on any palette state change
   useEffect(() => {
-    // Update meta and URL on any palette state change
     handleMeta(palettesState, true);
   }, [palettesState]);
 
@@ -56,21 +52,12 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
     }
   };
 
-  const handleDelete = (deleteId: string, deleteName: string) => {
+  const handleDelete = (deleteId: string) => {
     if (palettesState.length === 1) {
       return;
     }
 
     const updatedPalettes = palettesState.filter((p) => p.id !== deleteId);
-
-    if (updatedPalettes.length === 1) {
-      // Switch from query params to path
-      convertParamsToPath(updatedPalettes);
-    } else {
-      // Update query params
-      removeSearchParamByKey(deleteName);
-    }
-
     setPalettesState(updatedPalettes);
   };
 
@@ -79,11 +66,11 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
       [
         `:root {`,
         ...palettesState[0].swatches.map(
-          (swatch) => `--first-${swatch.stop}: ${swatch.hex};`,
+          (swatch) => `--first-${swatch.stop}: ${swatch.hex};`
         ),
         `}`,
       ].join(`\n`),
-    [palettesState],
+    [palettesState]
   );
 
   return (
@@ -106,7 +93,7 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
               deleteGlobal={
                 palettesState.length <= 1
                   ? undefined
-                  : () => handleDelete(palette.id, palette.name)
+                  : () => handleDelete(palette.id)
               }
               currentMode={currentMode}
             />
