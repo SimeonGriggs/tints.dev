@@ -1,19 +1,12 @@
-import { generateOGImage } from "~/lib/generateOGImage.server";
-import { isHex, isValidName, removeTrailingSlash } from "~/lib/helpers";
 import {
   createPaletteFromNameValue,
-  createRedirectResponse,
+  createPaletteMetaImageUrl,
 } from "~/lib/responses";
 
 import type { Route } from "./+types/$name.$value.og";
 
-export const loader = async ({ params, request }: Route.LoaderArgs) => {
-  if (
-    !params?.name ||
-    !isValidName(params?.name) ||
-    !params?.value ||
-    !isHex(params?.value)
-  ) {
+export const loader = async ({ params }: Route.LoaderArgs) => {
+  if (!params?.name || !params?.value) {
     throw new Response(`Not Found`, {
       status: 404,
     });
@@ -27,6 +20,17 @@ export const loader = async ({ params, request }: Route.LoaderArgs) => {
     });
   }
 
-  // Redirect to the new hash-based URL
-  return createRedirectResponse(request, palette);
+  const { url } = createPaletteMetaImageUrl(palette);
+  const png = await fetch(url).then((r) => r.arrayBuffer());
+
+  return new Response(png, {
+    status: 200,
+    headers: {
+      "Content-Type": "image/png",
+      "cache-control":
+        process.env.NODE_ENV !== "production"
+          ? "public, immutable, no-transform, max-age=31536000"
+          : "no-cache",
+    },
+  });
 };
