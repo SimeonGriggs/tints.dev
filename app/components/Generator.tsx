@@ -1,9 +1,4 @@
-import {
-  CodeBracketIcon,
-  LinkIcon,
-  PlusIcon,
-  SparklesIcon,
-} from "@heroicons/react/24/outline";
+import { PlusIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import isEqual from "react-fast-compare";
 
@@ -73,11 +68,11 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
       [
         `:root {`,
         ...palettesState[0].swatches.map(
-          (swatch) => `--first-${swatch.stop}: ${swatch.hex};`,
+          (swatch) => `--first-${swatch.stop}: ${swatch.hex};`
         ),
         `}`,
       ].join(`\n`),
-    [palettesState],
+    [palettesState]
   );
 
   return (
