@@ -2,7 +2,7 @@ import type { PaletteConfig } from "~/types";
 
 export async function generateOGImage(
   palettes: PaletteConfig[],
-  origin: string
+  origin: string,
 ) {
   const { createCanvas } = await import("canvas");
   const canvas = createCanvas(1200, 630);
