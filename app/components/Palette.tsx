@@ -1,8 +1,8 @@
 import { Switch } from "@headlessui/react";
 import {
   AdjustmentsHorizontalIcon,
-  ChevronDownIcon,
   CodeBracketIcon,
+  EllipsisHorizontalIcon,
   HashtagIcon,
   LinkIcon,
   TrashIcon,
@@ -318,8 +318,8 @@ export default function Palette(props: PaletteProps) {
           />
           <Dropdown>
             <DropdownButton outline>
-              Options
-              <ChevronDownIcon />
+              <EllipsisHorizontalIcon className="size-4" />
+              <span className="sr-only">Options</span>
             </DropdownButton>
             <DropdownMenu>
               <DropdownItem onClick={handleCopyURL}>

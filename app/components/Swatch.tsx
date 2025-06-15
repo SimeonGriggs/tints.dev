@@ -28,7 +28,7 @@ export default function Swatch(props: SwatchProps) {
         "
         />
       </div>
-      <div className="rotate-90 text-right sm:rotate-0 flex flex-col sm:flex-row sm:items-center lg:flex-col lg:items-start xl:flex-row xl:items-center justify-between px-1">
+      <div className="rotate-90 text-right sm:rotate-0 flex flex-col sm:flex-row sm:items-center lg:flex-col lg:items-start xl:flex-row xl:items-center justify-center">
         <div className="font-mono">{swatch.stop}</div>
       </div>
     </div>
