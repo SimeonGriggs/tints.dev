@@ -1,9 +1,7 @@
 import { Switch } from "@headlessui/react";
 import {
   AdjustmentsHorizontalIcon,
-  ChevronDownIcon,
   CodeBracketIcon,
-  EllipsisHorizontalCircleIcon,
   EllipsisHorizontalIcon,
   HashtagIcon,
   LinkIcon,
