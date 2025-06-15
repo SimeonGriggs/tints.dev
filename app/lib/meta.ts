@@ -20,19 +20,9 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
   // Update the URL
   if (typeof document !== "undefined") {
     const currentUrl = new URL(window.location.href);
-
-    if (palettes.length === 1) {
-      // One palette === pretty url
-      const canonicalPath = new URL(createCanonicalUrl(palettes)).pathname;
-      currentUrl.pathname = canonicalPath;
-      currentUrl.search = ``;
-    } else {
-      // Many palettes === query string
-      palettes.forEach((palette) => {
-        currentUrl.searchParams.set(palette.name, palette.value.toUpperCase());
-      });
-      currentUrl.pathname = ``;
-    }
+    const canonicalPath = new URL(createCanonicalUrl(palettes)).pathname;
+    currentUrl.pathname = canonicalPath;
+    currentUrl.search = ``;
 
     // Update without pushing to history
     if (updateHistory) {

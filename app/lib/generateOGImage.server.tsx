@@ -17,7 +17,6 @@ const fontSans = (baseUrl: string) =>
 export async function generateOGImage(
   palettes: PaletteConfig[],
   origin: string,
-  canonical: string,
 ) {
   const fontMonoData = await fontMono(origin);
   const fontSansData = await fontSans(origin);
@@ -43,8 +42,6 @@ export async function generateOGImage(
   const lightColor = palette.swatches.find(
     (swatch) => swatch.stop === 300,
   )?.hex;
-
-  const displayUrl = canonical.replace(/(^\w+:|^)\/\//, "").replace("www.", "");
 
   const svg = await satori(
     <div
@@ -117,11 +114,9 @@ export async function generateOGImage(
                   display: "flex",
                   backgroundColor: swatch.hex,
                   borderRadius: 4,
-                  boxShadow: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.125)",
                   height: 64,
                   width: `100%`,
                 }}
-                className="h-12 xl:h-16 w-full rounded-sm shadow-inner flex flex-col items-center justify-center transition-colors duration-500"
               />
               <div
                 style={{
@@ -132,15 +127,6 @@ export async function generateOGImage(
                 }}
               >
                 <div style={{ display: "flex" }}>{swatch.stop}</div>
-                <div
-                  style={{
-                    display: "flex",
-                    fontVariantNumeric: "tabular-nums",
-                    opacity: 0.5,
-                  }}
-                >
-                  {swatch.hex.toUpperCase()}
-                </div>
               </div>
             </div>
           ))}
@@ -156,15 +142,11 @@ export async function generateOGImage(
           marginTop: "auto",
           fontFamily: "Inter, sans-serif",
           color: "white",
-          // clipPath: `polygon(0 20%, 100% 0, 100% 100%, 0% 100%)`,
         }}
         className="pt-20 p-12 text-white flex flex-col gap-3"
       >
-        <span
-          style={{ fontSize: 48, whiteSpace: "nowrap" }}
-          // className="text-5xl whitespace-nowrap"
-        >
-          {displayUrl}
+        <span style={{ fontSize: 48, whiteSpace: "nowrap" }}>
+          {new URL(META.origin).hostname}
         </span>
         <span
           style={{
@@ -172,7 +154,6 @@ export async function generateOGImage(
             fontSize: 24,
             whiteSpace: "nowrap",
           }}
-          // className="text-2xl font-bold whitespace-nowrap"
         >
           {META.title}
         </span>

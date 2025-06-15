@@ -10,6 +10,8 @@ import {
 import { createRandomPalette } from "~/lib/createRandomPalette";
 import { createSwatches } from "~/lib/createSwatches";
 import { isHex, isValidName, removeTrailingSlash } from "~/lib/helpers";
+import { serializePalettes, serializePalette } from "~/lib/paletteHash";
+import type { PaletteEssentials } from "~/lib/paletteHash";
 import type { Mode, PaletteConfig } from "~/types";
 
 import { createDisplayColor } from "./createDisplayColor";
@@ -40,43 +42,56 @@ export function createCanonicalUrl(palettes: PaletteConfig[], apiUrl = false) {
   const baseUrl = apiUrl ? `${META.origin}/api` : META.origin;
 
   if (!palettes?.length) {
-    // This shouldn't be possible?
     return removeTrailingSlash(baseUrl);
   } else if (palettes.length === 1) {
-    // Single palettes have pretty URLs
-    const canonicalUrl = [
-      baseUrl,
-      palettes[0].name,
-      palettes[0].value.toUpperCase(),
-    ].join(`/`);
-
+    // Single palette: use new hash-based URL
+    const essentials: PaletteEssentials = {
+      name: palettes[0].name,
+      value: palettes[0].value,
+      valueStop: palettes[0].valueStop,
+      colorMode: palettes[0].colorMode,
+      h: palettes[0].h,
+      s: palettes[0].s,
+      lMin: palettes[0].lMin,
+      lMax: palettes[0].lMax,
+      stopSelection: palettes[0].stopSelection,
+    };
+    const hash = serializePalette(essentials);
+    const canonicalUrl = [baseUrl, "palette", hash].join(`/`);
     return removeTrailingSlash(canonicalUrl);
-  } else if (typeof document !== "undefined") {
-    // Use the current URL but maybe replace the base URL
-    const currentUrl = new URL(window.location.href);
-    const canonicalUrl = currentUrl
-      .toString()
-      .replace(currentUrl.origin, baseUrl);
-
+  } else {
+    // Multi-palette: use new hash-based URL
+    const essentialsArr: PaletteEssentials[] = palettes.map((p) => ({
+      name: p.name,
+      value: p.value,
+      valueStop: p.valueStop,
+      colorMode: p.colorMode,
+      h: p.h,
+      s: p.s,
+      lMin: p.lMin,
+      lMax: p.lMax,
+      stopSelection: p.stopSelection,
+    }));
+    const hash = serializePalettes(essentialsArr);
+    const canonicalUrl = [baseUrl, "palette", hash].join(`/`);
     return removeTrailingSlash(canonicalUrl);
   }
-
-  // Create a complete URL from current palettes
-  const canonicalUrl = new URL(baseUrl);
-  palettes.forEach((palette) => {
-    canonicalUrl.searchParams.set(palette.name, palette.value.toUpperCase());
-  });
-
-  return removeTrailingSlash(canonicalUrl.toString());
 }
 
 export function createPaletteMetaImageUrl(palette: PaletteConfig) {
-  const metaImageUrl = [
-    META.origin,
-    palette.name,
-    palette.value.toUpperCase(),
-    "og",
-  ].join("/");
+  const essentials: PaletteEssentials = {
+    name: palette.name,
+    value: palette.value,
+    valueStop: palette.valueStop,
+    colorMode: palette.colorMode,
+    h: palette.h,
+    s: palette.s,
+    lMin: palette.lMin,
+    lMax: palette.lMax,
+    stopSelection: palette.stopSelection,
+  };
+  const hash = serializePalette(essentials);
+  const metaImageUrl = [META.origin, "palette", hash, "og"].join("/");
 
   return {
     url: metaImageUrl,
@@ -93,28 +108,9 @@ export function requestToPalettes(url: string) {
     return [];
   }
 
-  const palettesParams = requestUrl.searchParams;
-  const palettes: PaletteConfig[] = [];
-
-  // Turn config strings into array of config objects
-  if (Array.from(palettesParams.keys()).length) {
-    palettesParams.forEach((value, key) => {
-      if (isHex(value)) {
-        const palette = createPaletteFromNameValue(key, value);
-
-        if (palette) {
-          palettes.push(palette);
-        }
-      }
-    });
-  } else {
-    // Start with a random default palette if no query string provided
-    const random = createRandomPalette();
-
-    palettes.push(random);
-  }
-
-  return palettes;
+  // Start with a random default palette if no hash provided
+  const random = createRandomPalette();
+  return [random];
 }
 
 // Convert array of palette objects used in GUI to array of colour swatches for Tailwind Config
@@ -135,4 +131,32 @@ export function output(palettes: PaletteConfig[], mode: Mode = DEFAULT_MODE) {
   });
 
   return shaped;
+}
+
+export function createRedirectResponse(
+  request: Request,
+  palette: PaletteConfig,
+) {
+  const url = new URL(request.url);
+  const hash = serializePalette(palette);
+
+  // Determine the new path based on the current path
+  let newPath = `/palette/${hash}`;
+  if (url.pathname.startsWith("/api/")) {
+    newPath = `/api${newPath}`;
+  } else if (url.pathname.endsWith("/og")) {
+    newPath = `${newPath}/og`;
+  }
+
+  // Create the new URL
+  const newUrl = new URL(newPath, url.origin);
+
+  // Return a 301 (permanent) redirect
+  return new Response(null, {
+    status: 301,
+    headers: {
+      Location: newUrl.toString(),
+      "Cache-Control": "public, max-age=31536000", // Cache for 1 year
+    },
+  });
 }

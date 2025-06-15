@@ -28,6 +28,7 @@
   - [x] Update documentation to reflect new behavior
 
 - **Manual Stop Selection Override**
+
   - [ ] Add toggle in UI to enable/disable automatic stop selection
   - [ ] Update state management to handle manual stop selection mode
   - [ ] Modify color input handling to respect manual mode
@@ -37,3 +38,24 @@
   - [ ] Add visual indicators for manual mode
   - [ ] Add tests for manual stop selection
   - [ ] Polish mobile/touch interaction for manual mode
+
+- **URL Structure Update**
+  - [x] Create new `/palette/:hash` route
+    - [x] Add route handler for new URL structure
+    - [x] Implement simple JSON serialization/deserialization
+    - [x] Add base64 encoding/decoding for URL safety
+  - [x] Update state management
+    - [x] Modify URL sync logic to use hash
+    - [x] Add hash update on palette changes
+  - [x] Handle legacy URLs
+    - [x] Add redirect from old URL structure
+    - [x] Preserve SEO value with proper 301 redirects
+    - [x] Update meta tags and OpenGraph handling
+  - [x] Update API endpoints
+    - [x] Add new hash-based API route
+    - [x] Maintain backward compatibility
+  - [x] Testing
+    - [x] Test serialization/deserialization
+    - [x] Verify state preservation
+    - [x] Test redirects
+    - [x] Validate SEO impact

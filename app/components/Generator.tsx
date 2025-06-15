@@ -9,9 +9,6 @@ import type { Block } from "~/components/Prose";
 import { Prose } from "~/components/Prose";
 import { MODES } from "~/lib/constants";
 import { createRandomPalette } from "~/lib/createRandomPalette";
-import { arrayObjectDiff } from "~/lib/helpers";
-import { convertParamsToPath, removeSearchParamByKey } from "~/lib/history";
-import { usePrevious } from "~/lib/hooks";
 import { handleMeta } from "~/lib/meta";
 import type { Mode, PaletteConfig } from "~/types";
 
@@ -27,31 +24,12 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
   const [palettesState, setPalettesState] = useState(palettes);
   const [showDemo, setShowDemo] = useState(false);
   const [currentMode, setCurrentMode] = useState<Mode>(MODES[0]);
-  const previousPalettes: undefined | PaletteConfig[] =
-    usePrevious(palettesState);
   const paletteRefs = useRef<HTMLDivElement[]>([]);
 
-  // Maybe update document meta on each state change
-  // Initially it seemed like a good idea to handle this globally as a side-effect
-  // ...but now I'm less sure
+  // Update meta and URL on any palette state change
   useEffect(() => {
-    // Only update meta if the `name` or `value` changed between renders
-    // Or if it's the first render
-
-    // TODO: Don't update title if pathname was `/` and palette is random
-    const keysChanged = previousPalettes
-      ? arrayObjectDiff(previousPalettes, palettesState)
-      : [];
-
-    if (
-      !previousPalettes ||
-      keysChanged.includes(`value`) ||
-      keysChanged.includes(`name`)
-    ) {
-      // Only update history if the `value` changed
-      handleMeta(palettesState, keysChanged.includes(`value`));
-    }
-  }, [palettesState, previousPalettes]);
+    handleMeta(palettesState, true);
+  }, [palettesState]);
 
   const handleNew = () => {
     setPalettesState((prev) => {
@@ -74,21 +52,12 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
     }
   };
 
-  const handleDelete = (deleteId: string, deleteName: string) => {
+  const handleDelete = (deleteId: string) => {
     if (palettesState.length === 1) {
       return;
     }
 
     const updatedPalettes = palettesState.filter((p) => p.id !== deleteId);
-
-    if (updatedPalettes.length === 1) {
-      // Switch from query params to path
-      convertParamsToPath(updatedPalettes);
-    } else {
-      // Update query params
-      removeSearchParamByKey(deleteName);
-    }
-
     setPalettesState(updatedPalettes);
   };
 
@@ -124,7 +93,7 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
               deleteGlobal={
                 palettesState.length <= 1
                   ? undefined
-                  : () => handleDelete(palette.id, palette.name)
+                  : () => handleDelete(palette.id)
               }
               currentMode={currentMode}
             />

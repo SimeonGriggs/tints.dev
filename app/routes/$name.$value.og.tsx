@@ -1,22 +1,16 @@
-import { generateOGImage } from "~/lib/generateOGImage.server";
-import { isHex, isValidName, removeTrailingSlash } from "~/lib/helpers";
-import { createPaletteFromNameValue } from "~/lib/responses";
+import {
+  createPaletteFromNameValue,
+  createPaletteMetaImageUrl,
+} from "~/lib/responses";
 
 import type { Route } from "./+types/$name.$value.og";
 
-export const loader = async ({ params, request }: Route.LoaderArgs) => {
-  if (
-    !params?.name ||
-    !isValidName(params?.name) ||
-    !params?.value ||
-    !isHex(params?.value)
-  ) {
+export const loader = async ({ params }: Route.LoaderArgs) => {
+  if (!params?.name || !params?.value) {
     throw new Response(`Not Found`, {
       status: 404,
     });
   }
-
-  const { origin } = new URL(request.url);
 
   const palette = createPaletteFromNameValue(params.name, params.value);
 
@@ -26,11 +20,8 @@ export const loader = async ({ params, request }: Route.LoaderArgs) => {
     });
   }
 
-  const canonical = removeTrailingSlash(
-    [origin, params.name, params.value.toUpperCase()].join("/"),
-  );
-
-  const png = await generateOGImage([palette], origin, canonical);
+  const { url } = createPaletteMetaImageUrl(palette);
+  const png = await fetch(url).then((r) => r.arrayBuffer());
 
   return new Response(png, {
     status: 200,

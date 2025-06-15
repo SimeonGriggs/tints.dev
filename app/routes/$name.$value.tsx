@@ -9,11 +9,12 @@ import {
   createCanonicalUrl,
   createPaletteFromNameValue,
   createPaletteMetaImageUrl,
+  createRedirectResponse,
 } from "~/lib/responses";
 
 import type { Route } from "./+types/$name.$value";
 
-export const loader = async ({ params }: Route.LoaderArgs) => {
+export const loader = async ({ params, request }: Route.LoaderArgs) => {
   // In production, the assets directory was running this loader
   const isServingFromAssets = params?.name === "assets";
 
@@ -44,6 +45,12 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
   }
 
   const palette = createPaletteFromNameValue(params.name, params.value);
+
+  if (palette) {
+    // Redirect to the new hash-based URL
+    return createRedirectResponse(request, palette);
+  }
+
   const [about, github] = await Promise.all([getSanityData(), getGitHubData()]);
 
   return {
