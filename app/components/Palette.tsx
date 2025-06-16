@@ -125,7 +125,7 @@ export default function Palette(props: PaletteProps) {
     let newTargetValue = e.currentTarget.value ?? ``;
 
     if (e.currentTarget.name === "name") {
-      if (!newTargetValue.match(/[A-Za-z\-]{3,24}/)) {
+      if (!newTargetValue.match(/[A-Za-z]{3,24}/)) {
         nameInputRef.current?.setCustomValidity(`Invalid name`);
       } else {
         nameInputRef.current?.setCustomValidity(``);
@@ -250,7 +250,7 @@ export default function Palette(props: PaletteProps) {
                 name="name"
                 value={String(paletteState.name)}
                 onChange={handlePaletteChange}
-                pattern="[A-Za-z\-]{3,24}"
+                pattern="[A-Za-z]{3,24}"
                 min={3}
                 max={24}
                 required
