@@ -52,31 +52,6 @@ const tweakInputs = [
   },
 ] as const;
 
-type PaletteInput = {
-  title: string;
-  value: string;
-  min: number;
-  max: number;
-  pattern: string;
-};
-
-const paletteInputs: Record<string, PaletteInput> = {
-  name: {
-    title: `Name`,
-    value: ``,
-    min: 3,
-    max: 24,
-    pattern: `[A-Za-z\\-]{3,24}`,
-  },
-  value: {
-    title: `Value`,
-    value: ``,
-    min: 6,
-    max: 6,
-    pattern: `[0-9A-Fa-f]{6}`,
-  },
-} as const;
-
 export const labelClasses = `transition-color duration-200 text-xs font-bold `;
 
 type PaletteProps = {
@@ -143,26 +118,23 @@ export default function Palette(props: PaletteProps) {
 
   // Handle changes to name or value of palette
   const handlePaletteChange = (
-    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     let newTargetValue = e.currentTarget.value ?? ``;
 
-    const inputConfig =
-      paletteInputs[e.currentTarget.name as keyof typeof paletteInputs];
-
-    if (!inputConfig) return;
-
-    // Validate against the pattern
-    if (!newTargetValue.match(inputConfig.pattern)) {
-      e.currentTarget.setCustomValidity(`Invalid ${e.currentTarget.name}`);
-    } else {
-      e.currentTarget.setCustomValidity(``);
-    }
-
-    // Update the appropriate state
     if (e.currentTarget.name === "name") {
+      if (!newTargetValue.match(/[A-Za-z\-]{3,24}/)) {
+        e.currentTarget.setCustomValidity(`Invalid name`);
+      } else {
+        e.currentTarget.setCustomValidity(``);
+      }
       updateName(newTargetValue);
     } else if (e.currentTarget.name === "value") {
+      if (!newTargetValue.match(/[0-9A-Fa-f]{6}/)) {
+        e.currentTarget.setCustomValidity(`Invalid value`);
+      } else {
+        e.currentTarget.setCustomValidity(``);
+      }
       newTargetValue = newTargetValue.replace("#", ""); // Remove eventual hashes
       updateValue(newTargetValue);
       if (isHex(newTargetValue)) {
@@ -264,52 +236,50 @@ export default function Palette(props: PaletteProps) {
       className="grid grid-cols-1 gap-4 text-gray-500"
     >
       <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
-        {Object.entries(paletteInputs).map(
-          ([name, input]: [string, PaletteInput]) => (
-            <div
-              key={name}
-              className={clsx(
-                "grid col-span-2 focus-within:text-blue-900 grid-rows-[auto]",
-                name === "value"
-                  ? "grid-cols-[1fr_auto] gap-1"
-                  : "grid-cols-1 gap-y-1",
-              )}
-            >
-              <label
-                className={clsx(labelClasses, "col-span-2")}
-                htmlFor={name}
-              >
-                {input.title}
-              </label>
-              <div className="relative">
-                <InputGroup>
-                  {name === "value" ? <HashtagIcon className="size-4" /> : null}
-                  <Input
-                    id={name}
-                    name={name}
-                    value={
-                      name === "name" || name === "value"
-                        ? String(paletteState[name as keyof PaletteConfig])
-                        : ``
-                    }
-                    onChange={handlePaletteChange}
-                    pattern={input.pattern}
-                    min={input.min}
-                    max={input.max}
-                    required
-                  />
-                </InputGroup>
-              </div>
-              {name === "value" ? (
-                <ColorPicker
-                  color={paletteState.value}
-                  onChange={handleColorPickerChange}
-                  ringStyle={ringStyle}
-                />
-              ) : null}
-            </div>
-          ),
-        )}
+        <div className="grid col-span-2 focus-within:text-blue-900 grid-rows-[auto] grid-cols-1 gap-y-1">
+          <label className={clsx(labelClasses, "col-span-2")} htmlFor="name">
+            Name
+          </label>
+          <div className="relative">
+            <InputGroup>
+              <Input
+                id="name"
+                name="name"
+                value={String(paletteState.name)}
+                onChange={handlePaletteChange}
+                pattern="[A-Za-z\-]{3,24}"
+                min={3}
+                max={24}
+                required
+              />
+            </InputGroup>
+          </div>
+        </div>
+        <div className="grid col-span-2 focus-within:text-blue-900 grid-rows-[auto] grid-cols-[1fr_auto] gap-1">
+          <label className={clsx(labelClasses, "col-span-2")} htmlFor="value">
+            Value
+          </label>
+          <div className="relative">
+            <InputGroup>
+              <HashtagIcon className="size-4" />
+              <Input
+                id="value"
+                name="value"
+                value={String(paletteState.value)}
+                onChange={handlePaletteChange}
+                pattern="[0-9A-Fa-f]{6}"
+                min={6}
+                max={6}
+                required
+              />
+            </InputGroup>
+          </div>
+          <ColorPicker
+            color={paletteState.value}
+            onChange={handleColorPickerChange}
+            ringStyle={ringStyle}
+          />
+        </div>
         <div className="col-span-4 sm:col-span-1 flex justify-between items-end gap-2">
           <StopSelector
             current={paletteState.valueStop}
@@ -424,6 +394,21 @@ export default function Palette(props: PaletteProps) {
               key={swatch.stop}
               swatch={swatch}
               mode={currentMode}
+              stopSelection={paletteState.stopSelection}
+              onClick={(clickedSwatch) => {
+                setPaletteState({
+                  ...paletteState,
+                  value: clickedSwatch.hex.replace("#", ""),
+                  valueStop: clickedSwatch.stop,
+                  stopSelection: "manual",
+                  swatches: createSwatches({
+                    ...paletteState,
+                    value: clickedSwatch.hex.replace("#", ""),
+                    valueStop: clickedSwatch.stop,
+                    stopSelection: "manual",
+                  }),
+                });
+              }}
             />
           ))}
       </div>

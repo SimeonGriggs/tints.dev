@@ -65,14 +65,16 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
 
   const styleString = useMemo(
     () =>
-      [
-        `:root {`,
-        ...palettesState[0].swatches.map(
-          (swatch) => `--first-${swatch.stop}: ${swatch.hex};`,
-        ),
-        `}`,
-      ].join(`\n`),
-    [palettesState],
+      palettesState.length > 0
+        ? [
+            `:root {`,
+            ...palettesState[0].swatches.map(
+              (swatch) => `--first-${swatch.stop}: ${swatch.hex};`
+            ),
+            `}`,
+          ].join(`\n`)
+        : ``,
+    [palettesState]
   );
 
   return (

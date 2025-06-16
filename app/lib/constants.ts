@@ -24,26 +24,39 @@ export const DEFAULT_PALETTE_CONFIG: PaletteConfig = {
 };
 
 export const RANDOM_PALETTES = [
-  {
-    name: `blue`,
-    value: `3B82F6`,
-  },
-  {
-    name: `red`,
-    value: `EF4444`,
-  },
-  {
-    name: `green`,
-    value: `22C55E`,
-  },
-  {
-    name: `purple`,
-    value: `A855F7`,
-  },
-  {
-    name: `brand`,
-    value: `2522FC`,
-  },
+  { name: `blue`, value: `3B82F6` },
+  { name: `red`, value: `EF4444` },
+  { name: `green`, value: `22C55E` },
+  { name: `purple`, value: `A855F7` },
+  { name: `indigo`, value: `6366F1` },
+  { name: `pink`, value: `EC4899` },
+  { name: `orange`, value: `F97316` },
+  { name: `teal`, value: `14B8A6` },
+  { name: `cyan`, value: `06B6D4` },
+  { name: `yellow`, value: `EAB308` },
+  { name: `lime`, value: `84CC16` },
+  { name: `emerald`, value: `10B981` },
+  { name: `violet`, value: `8B5CF6` },
+  { name: `fuchsia`, value: `D946EF` },
+  { name: `rose`, value: `F43F5E` },
+  { name: `amber`, value: `F59E0B` },
+  { name: `sky`, value: `0EA5E9` },
+  { name: `slate`, value: `64748B` },
+  { name: `zinc`, value: `71717A` },
+  { name: `stone`, value: `78716C` },
+  { name: `gray`, value: `6B7280` },
+  { name: `mint`, value: `34D399` },
+  { name: `lavender`, value: `A78BFA` },
+  { name: `coral`, value: `F87171` },
+  { name: `peach`, value: `FB923C` },
+  { name: `sage`, value: `86EFAC` },
+  { name: `ocean`, value: `0EA5E9` },
+  { name: `plum`, value: `C026D3` },
+  { name: `ruby`, value: `DC2626` },
+  { name: `gold`, value: `FBBF24` },
+  { name: `jade`, value: `059669` },
+  { name: `maroon`, value: `B91C1C` },
+  { name: `navy`, value: `1E40AF` },
 ];
 
 export const META = {

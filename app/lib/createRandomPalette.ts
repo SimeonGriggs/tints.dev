@@ -2,6 +2,7 @@ import { nanoid } from "nanoid";
 
 import { DEFAULT_PALETTE_CONFIG, RANDOM_PALETTES } from "~/lib/constants";
 import { createSwatches } from "~/lib/createSwatches";
+import { calculateStopFromColor } from "~/lib/helpers";
 
 export function createRandomPalette(currentValues: string[] = []) {
   const randomsWithoutCurrentValues = RANDOM_PALETTES.filter((p) =>
@@ -9,7 +10,7 @@ export function createRandomPalette(currentValues: string[] = []) {
       ? !currentValues
           .map((v) => v.toUpperCase())
           .includes(p.value.toUpperCase())
-      : true,
+      : true
   );
 
   const defaults = {
@@ -23,7 +24,11 @@ export function createRandomPalette(currentValues: string[] = []) {
 
   const palette = {
     ...defaults,
-    swatches: createSwatches(defaults),
+    valueStop: calculateStopFromColor(defaults.value, defaults.colorMode),
+    swatches: createSwatches({
+      ...defaults,
+      valueStop: calculateStopFromColor(defaults.value, defaults.colorMode),
+    }),
   };
 
   return palette;
