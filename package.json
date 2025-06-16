@@ -17,6 +17,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@clerk/react-router": "^1.6.0",
     "@headlessui/react": "^2.2.4",
     "@heroicons/react": "^2.2.0",
     "@portabletext/react": "^3.2.1",

@@ -1,6 +1,3 @@
-import "~/styles/app.css";
-
-import { Analytics } from "@vercel/analytics/react";
 import type { LinksFunction } from "react-router";
 import {
   isRouteErrorResponse,
@@ -9,11 +6,14 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
   useRouteError,
 } from "react-router";
+import { rootAuthLoader } from "@clerk/react-router/ssr.server";
 
 import { META } from "~/lib/constants";
+import "~/styles/app.css";
+import type { Route } from "./+types/root";
+import { ClerkProvider } from "@clerk/react-router";
 
 export const links: LinksFunction = () => {
   return [
@@ -31,17 +31,11 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const loader = async () => {
-  return {
-    ENV: {
-      VERCEL_ANALYTICS_ID: process.env.VERCEL_ANALYTICS_ID,
-    },
-  };
-};
+export async function loader(args: Route.LoaderArgs) {
+  return rootAuthLoader(args);
+}
 
-export default function App() {
-  const { ENV } = useLoaderData<typeof loader>();
-
+function App({ loaderData }: Route.ComponentProps) {
   return (
     <html lang="en">
       <head>
@@ -51,7 +45,6 @@ export default function App() {
           name="viewport"
           content="width=device-width,initial-scale=1,viewport-fit=cover"
         />
-
         <title>{META.title}</title>
         <meta name="description" content={META.description} />
         <meta name="type" content="website" />
@@ -63,21 +56,18 @@ export default function App() {
         <meta name="twitter:description" content={META.description} />
         <meta name="og:title" content={META.title} />
         <meta name="og:type" content="website" />
-
         <Links />
       </head>
       <body className="bg-white text-gray-900">
-        <Outlet />
+        <ClerkProvider
+          loaderData={loaderData}
+          signUpFallbackRedirectUrl="/"
+          signInFallbackRedirectUrl="/"
+        >
+          <Outlet />
+        </ClerkProvider>
         <ScrollRestoration />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(ENV)}`,
-          }}
-        />
         <Scripts />
-        {process.env.NODE_ENV !== "development" ? (
-          <Analytics debug={false} />
-        ) : null}
       </body>
     </html>
   );
@@ -114,3 +104,5 @@ export function CatchBoundary() {
     </div>
   );
 }
+
+export default App;

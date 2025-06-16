@@ -2,6 +2,12 @@ import { CodeBracketIcon, LinkIcon } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router";
 import { useCopyToClipboard } from "usehooks-ts";
+import {
+  SignedIn,
+  SignedOut,
+  UserButton,
+  SignInButton,
+} from "@clerk/react-router";
 
 import { Button } from "~/components/catalyst/button";
 import GitHub from "./GitHub";
@@ -64,6 +70,16 @@ export default function Header({ stars }: { stars: number }) {
             <CodeBracketIcon className="size-4" />
             <span className="sr-only">API</span>
           </Button>
+          <SignedOut>
+            <Button>
+              <SignInButton mode="modal" />
+            </Button>
+          </SignedOut>
+          <SignedIn>
+            <div className=" flex ml-2">
+              <UserButton />
+            </div>
+          </SignedIn>
         </div>
       </div>
     </header>
