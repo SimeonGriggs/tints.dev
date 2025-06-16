@@ -120,7 +120,7 @@ export default function Palette(props: PaletteProps) {
 
   // Handle changes to name or value of palette
   const handlePaletteChange = (
-    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     let newTargetValue = e.currentTarget.value ?? ``;
 
