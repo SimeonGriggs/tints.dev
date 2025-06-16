@@ -7,7 +7,7 @@ import {
   LinkIcon,
   TrashIcon,
 } from "@heroicons/react/24/solid";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useCopyToClipboard } from "usehooks-ts";
 
 import Graphs from "~/components/Graphs";
@@ -65,6 +65,8 @@ type PaletteProps = {
 export default function Palette(props: PaletteProps) {
   const { palette, updateGlobal, deleteGlobal, currentMode, paletteRef } =
     props;
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const valueInputRef = useRef<HTMLInputElement>(null);
 
   const [paletteState, setPaletteState] = useState({
     ...DEFAULT_PALETTE_CONFIG,
@@ -123,10 +125,10 @@ export default function Palette(props: PaletteProps) {
     let newTargetValue = e.currentTarget.value ?? ``;
 
     if (e.currentTarget.name === "name") {
-      if (!newTargetValue.match(/[-A-Za-z]{3,24}/)) {
-        e.currentTarget.setCustomValidity(`Invalid name`);
+      if (!newTargetValue.match(/[A-Za-z\-]{3,24}/)) {
+        nameInputRef.current?.setCustomValidity(`Invalid name`);
       } else {
-        e.currentTarget.setCustomValidity(``);
+        nameInputRef.current?.setCustomValidity(``);
       }
       updateName(newTargetValue);
     } else if (e.currentTarget.name === "value") {
@@ -243,7 +245,8 @@ export default function Palette(props: PaletteProps) {
           <div className="relative">
             <InputGroup>
               <Input
-                id="name"
+                ref={nameInputRef}
+                id={`name-${paletteState.id}`}
                 name="name"
                 value={String(paletteState.name)}
                 onChange={handlePaletteChange}
@@ -251,6 +254,7 @@ export default function Palette(props: PaletteProps) {
                 min={3}
                 max={24}
                 required
+                invalid={!isValidName(paletteState.name)}
               />
             </InputGroup>
           </div>
@@ -263,7 +267,8 @@ export default function Palette(props: PaletteProps) {
             <InputGroup>
               <HashtagIcon className="size-4" />
               <Input
-                id="value"
+                ref={valueInputRef}
+                id={`value-${paletteState.id}`}
                 name="value"
                 value={String(paletteState.value)}
                 onChange={handlePaletteChange}
@@ -271,6 +276,7 @@ export default function Palette(props: PaletteProps) {
                 min={6}
                 max={6}
                 required
+                invalid={!isHex(paletteState.value)}
               />
             </InputGroup>
           </div>
@@ -331,7 +337,6 @@ export default function Palette(props: PaletteProps) {
               name={input.name}
               value={paletteState[input.name] ?? input.value}
               type="number"
-              style={ringStyle}
               required
             />
           </div>
