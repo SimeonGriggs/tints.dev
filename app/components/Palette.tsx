@@ -123,7 +123,7 @@ export default function Palette(props: PaletteProps) {
     let newTargetValue = e.currentTarget.value ?? ``;
 
     if (e.currentTarget.name === "name") {
-      if (!newTargetValue.match(/[A-Za-z\-]{3,24}/)) {
+      if (!newTargetValue.match(/[-A-Za-z]{3,24}/)) {
         e.currentTarget.setCustomValidity(`Invalid name`);
       } else {
         e.currentTarget.setCustomValidity(``);
