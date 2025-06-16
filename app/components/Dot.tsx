@@ -1,6 +1,7 @@
 import { usePopperTooltip } from "react-popper-tooltip";
 
 import { createDisplayColor } from "~/lib/createDisplayColor";
+import { round } from "~/lib/helpers";
 import type { Mode, PaletteConfig, SwatchValue } from "~/types";
 
 const dotClasses = {
@@ -70,7 +71,7 @@ export default function Dot(props: DotProps) {
             <span className="flex flex-col">
               <span className="text-gray-900">{swatch.stop}</span>
               <span className="text-gray-600">
-                {highlight.toUpperCase()}:{swatch[highlight]}
+                {highlight.toUpperCase()}:{round(swatch[highlight], 2)}
               </span>
             </span>
           )}
