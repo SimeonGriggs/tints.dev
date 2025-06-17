@@ -76,7 +76,7 @@ export default function Header({ stars }: { stars: number }) {
             </Button>
           </SignedOut>
           <SignedIn>
-            <div className=" flex ml-2">
+            <div className="flex ml-2">
               <UserButton />
             </div>
           </SignedIn>
