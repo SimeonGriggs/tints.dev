@@ -22,7 +22,7 @@ export const loader = ({ params }: Route.LoaderArgs) => {
 
   const responseString = JSON.stringify(output([palette])).replace(
     / \/ <alpha-value>/g,
-    ""
+    "",
   );
 
   return data(responseString, {
