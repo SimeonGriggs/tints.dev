@@ -10,3 +10,4 @@ node_modules
 
 worker.js
 .vercel
+.env
