@@ -1,6 +1,7 @@
 import { PlusIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import isEqual from "react-fast-compare";
+import { useSearchParams, useNavigate, useLocation } from "react-router";
 
 import { Button } from "~/components/catalyst/button";
 import Demo from "~/components/Demo";
@@ -9,10 +10,10 @@ import Output from "~/components/Output";
 import Palette from "~/components/Palette";
 import type { Block } from "~/components/Prose";
 import { Prose } from "~/components/Prose";
-import { MODES } from "~/lib/constants";
+import { MODES, VERSIONS } from "~/lib/constants";
 import { createRandomPalette } from "~/lib/createRandomPalette";
 import { handleMeta } from "~/lib/meta";
-import type { Mode, PaletteConfig } from "~/types";
+import type { Mode, PaletteConfig, Version } from "~/types";
 
 import Header from "~/components/Header";
 
@@ -23,10 +24,36 @@ type GeneratorProps = {
 };
 
 export default function Generator({ palettes, about, stars }: GeneratorProps) {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [palettesState, setPalettesState] = useState(palettes);
   const [showDemo, setShowDemo] = useState(false);
-  const [currentMode, setCurrentMode] = useState<Mode>(MODES[0]);
   const paletteRefs = useRef<HTMLDivElement[]>([]);
+
+  // Read current mode and version from URL or use defaults
+  const currentMode: Mode = (searchParams.get("output") as Mode) || MODES[0];
+  const currentVersion: Version =
+    (searchParams.get("version") as Version) || VERSIONS[0];
+
+  // Helper functions to update URL parameters
+  const updateMode = (mode: Mode) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("output", mode);
+    navigate(`${location.pathname}?${newParams.toString()}`, {
+      replace: true,
+      preventScrollReset: true,
+    });
+  };
+
+  const updateVersion = (version: Version) => {
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("version", version);
+    navigate(`${location.pathname}?${newParams.toString()}`, {
+      replace: true,
+      preventScrollReset: true,
+    });
+  };
 
   // Update meta and URL on any palette state change
   useEffect(() => {
@@ -125,7 +152,9 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
             <Output
               palettes={palettesState}
               currentMode={currentMode}
-              setCurrentMode={setCurrentMode}
+              setCurrentMode={updateMode}
+              currentVersion={currentVersion}
+              setCurrentVersion={updateVersion}
             />
           </div>
         </div>

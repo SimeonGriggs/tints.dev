@@ -1,12 +1,18 @@
 import { data } from "react-router";
 
 import { output, requestToPalettes } from "~/lib/responses";
+import { MODES } from "~/lib/constants";
+import type { Mode } from "~/types";
 
 import type { Route } from "./+types/api._index";
 
 export const loader = ({ request }: Route.LoaderArgs) => {
   const palettes = requestToPalettes(request.url);
-  const responseString = JSON.stringify(output(palettes));
+
+  const url = new URL(request.url);
+  const outputMode: Mode = (url.searchParams.get("output") as Mode) || MODES[0];
+
+  const responseString = JSON.stringify(output(palettes, outputMode));
 
   return data(responseString, {
     headers: {
