@@ -1,6 +1,5 @@
 import { ClipboardDocumentIcon } from "@heroicons/react/24/solid";
 import * as Headless from "@headlessui/react";
-import { useState } from "react";
 import { useCopyToClipboard } from "usehooks-ts";
 
 import { Button } from "~/components/catalyst/button";
@@ -13,14 +12,17 @@ type OutputProps = {
   palettes: PaletteConfig[];
   currentMode: Mode;
   setCurrentMode: (mode: Mode) => void;
+  currentVersion: Version;
+  setCurrentVersion: (version: Version) => void;
 };
 
 export default function Output({
   palettes,
   currentMode,
   setCurrentMode,
+  currentVersion,
+  setCurrentVersion,
 }: OutputProps) {
-  const [currentVersion, setCurrentVersion] = useState<Version>(VERSIONS[0]);
   const [, copy] = useCopyToClipboard();
   const shaped = output(palettes, currentMode);
 
@@ -39,7 +41,7 @@ export default function Output({
           <Headless.RadioGroup
             onChange={(v) => setCurrentVersion(v as Version)}
             name="version"
-            defaultValue={currentVersion}
+            value={currentVersion}
             className="flex gap-3"
           >
             {VERSIONS.map((version) => (
@@ -61,7 +63,7 @@ export default function Output({
           <Headless.RadioGroup
             onChange={(v) => setCurrentMode(v as Mode)}
             name="mode"
-            defaultValue={currentMode}
+            value={currentMode}
             className="flex gap-3"
           >
             {MODES.map((mode) => (

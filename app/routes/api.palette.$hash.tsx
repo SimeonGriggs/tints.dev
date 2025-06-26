@@ -2,10 +2,12 @@ import { data } from "react-router";
 
 import { deserializePalette } from "~/lib/paletteHash";
 import { output } from "~/lib/responses";
+import { MODES } from "~/lib/constants";
+import type { Mode } from "~/types";
 
 import type { Route } from "./+types/api.palette.$hash";
 
-export const loader = ({ params }: Route.LoaderArgs) => {
+export const loader = ({ params, request }: Route.LoaderArgs) => {
   if (!params?.hash) {
     throw new Response(`Not Found`, {
       status: 404,
@@ -20,7 +22,10 @@ export const loader = ({ params }: Route.LoaderArgs) => {
     });
   }
 
-  const responseString = JSON.stringify(output([palette])).replace(
+  const url = new URL(request.url);
+  const outputMode: Mode = (url.searchParams.get("output") as Mode) || MODES[0];
+
+  const responseString = JSON.stringify(output([palette], outputMode)).replace(
     / \/ <alpha-value>/g,
     "",
   );

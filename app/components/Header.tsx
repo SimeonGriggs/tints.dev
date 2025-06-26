@@ -1,6 +1,6 @@
 import { CodeBracketIcon, LinkIcon } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/24/solid";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { useCopyToClipboard } from "usehooks-ts";
 
 import { Button } from "~/components/catalyst/button";
@@ -16,13 +16,8 @@ export default function Header({ stars }: { stars: number }) {
     }
   };
 
-  const handleOpenAPI = () => {
-    if (typeof document !== "undefined") {
-      const currentUrl = new URL(window.location.href);
-      currentUrl.pathname = `api`;
-      window.open(currentUrl.toString(), "_blank");
-    }
-  };
+  const location = useLocation();
+  const apiUrl = `/api` + location.pathname + location.search;
 
   return (
     <header className="fixed z-40 inset-0 bottom-auto bg-white/90 backdrop-blur-lg border-b border-first-100">
@@ -60,7 +55,7 @@ export default function Header({ stars }: { stars: number }) {
             <LinkIcon className="size-4" />
             <span className="sr-only">Copy URL</span>
           </Button>
-          <Button outline onClick={handleOpenAPI}>
+          <Button outline href={apiUrl} target="_blank">
             <CodeBracketIcon className="size-4" />
             <span className="sr-only">API</span>
           </Button>
