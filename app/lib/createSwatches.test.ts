@@ -9,7 +9,7 @@ import type { ColorMode, PaletteConfig } from "~/types";
 function areColorsSimilar(
   color1: string,
   color2: string,
-  threshold: number = 5, // Increased threshold for HSLuv
+  threshold: number = 5 // Increased threshold for HSLuv
 ): boolean {
   try {
     const deltaE = chroma.deltaE(color1, color2);
@@ -55,7 +55,7 @@ describe("createSwatches", () => {
     // Filter to main stops for comparison (exclude 0 and 1000)
     const mainSwatches = result.filter((s: any) => ![0, 1000].includes(s.stop));
     const expectedMainSwatches = BASELINE_LINEAR_PALETTE_1E70F6_STOP500.filter(
-      (s) => ![0, 1000].includes(s.stop),
+      (s) => ![0, 1000].includes(s.stop)
     );
 
     expect(mainSwatches.length).toBe(expectedMainSwatches.length);
@@ -63,19 +63,19 @@ describe("createSwatches", () => {
     // Test that each color is perceptually similar to baseline
     expectedMainSwatches.forEach((expectedSwatch) => {
       const actualSwatch = mainSwatches.find(
-        (s: any) => s.stop === expectedSwatch.stop,
+        (s: any) => s.stop === expectedSwatch.stop
       );
       expect(actualSwatch).toBeDefined();
 
       const isSimilar = areColorsSimilar(
         expectedSwatch.hex,
         actualSwatch!.hex,
-        2,
+        2
       );
       if (!isSimilar) {
         const deltaE = chroma.deltaE(expectedSwatch.hex, actualSwatch!.hex);
         console.log(
-          `Linear Mode - Stop ${expectedSwatch.stop}: Expected ${expectedSwatch.hex} vs Actual ${actualSwatch!.hex} (ΔE: ${deltaE.toFixed(2)})`,
+          `Linear Mode - Stop ${expectedSwatch.stop}: Expected ${expectedSwatch.hex} vs Actual ${actualSwatch!.hex} (ΔE: ${deltaE.toFixed(2)})`
         );
       }
       expect(isSimilar).toBe(true);
@@ -204,10 +204,133 @@ describe("HSLuv implementation", () => {
 
     // Check that saturation doesn't drop too quickly
     const midToneSwatches = result.filter(
-      (s) => s.stop >= 300 && s.stop <= 700,
+      (s) => s.stop >= 300 && s.stop <= 700
     );
     midToneSwatches.forEach((swatch) => {
       expect(swatch.s).toBeGreaterThan(40); // Adjusted threshold for HSLuv
+    });
+  });
+});
+
+describe("Grayscale color handling", () => {
+  it("should generate full palettes from grayscale colors", () => {
+    const grayscaleColors = [
+      { value: "F7F7F7", name: "light gray" },
+      { value: "EFEFEF", name: "light gray 2" },
+      { value: "CCCCCC", name: "medium gray" },
+      { value: "999999", name: "dark gray" },
+      { value: "666666", name: "darker gray" },
+      { value: "333333", name: "very dark gray" },
+    ];
+
+    grayscaleColors.forEach(({ value, name }) => {
+      const config = {
+        ...DEFAULT_PALETTE_CONFIG,
+        value,
+        valueStop: 500,
+        colorMode: "linear" as ColorMode,
+      };
+
+      const result = createSwatches(config);
+
+      // Basic validation
+      expect(result).toBeDefined();
+      expect(result.length).toBe(13);
+
+      // Check that all colors are valid
+      result.forEach((swatch) => {
+        expect(() => chroma(swatch.hex)).not.toThrow();
+        expect(swatch.hex).toMatch(/^#[0-9A-F]{6}$/);
+      });
+
+      // Check that the value stop color is preserved
+      const valueStopSwatch = result.find((s) => s.stop === 500);
+      expect(valueStopSwatch?.hex).toBe(`#${value}`);
+
+      // Check that we have a proper lightness gradient
+      const mainStops = result.filter((s) => ![0, 1000].includes(s.stop));
+      const lightnessValues = mainStops.map((s) => s.l).sort((a, b) => a - b);
+
+      // Should have decreasing lightness (lighter to darker)
+      expect(lightnessValues).toEqual(
+        [...lightnessValues].sort((a, b) => a - b)
+      );
+
+      // Check that grayscale colors have very low saturation
+      mainStops.forEach((swatch) => {
+        expect(swatch.s).toBeLessThan(5); // Grayscale colors should have near-zero saturation
+      });
+
+      // Check that hue values are not NaN
+      mainStops.forEach((swatch) => {
+        expect(swatch.h).not.toBeNaN();
+        expect(swatch.h).toBeGreaterThanOrEqual(0);
+        expect(swatch.h).toBeLessThanOrEqual(360);
+      });
+
+      console.log(
+        `✓ ${name} (${value}): Generated ${result.length} swatches successfully`
+      );
+    });
+  });
+
+  it("should handle grayscale colors in perceived mode", () => {
+    const config = {
+      ...DEFAULT_PALETTE_CONFIG,
+      value: "F7F7F7",
+      valueStop: 500,
+      colorMode: "perceived" as ColorMode,
+    };
+
+    const result = createSwatches(config);
+
+    // Basic validation
+    expect(result).toBeDefined();
+    expect(result.length).toBe(13);
+
+    // Check that all colors are valid
+    result.forEach((swatch) => {
+      expect(() => chroma(swatch.hex)).not.toThrow();
+      expect(swatch.hex).toMatch(/^#[0-9A-F]{6}$/);
+    });
+
+    // Check that the value stop color is preserved
+    const valueStopSwatch = result.find((s) => s.stop === 500);
+    expect(valueStopSwatch?.hex).toBe(`#${config.value}`);
+
+    // Check that hue values are not NaN
+    const mainStops = result.filter((s) => ![0, 1000].includes(s.stop));
+    mainStops.forEach((swatch) => {
+      expect(swatch.h).not.toBeNaN();
+      expect(swatch.h).toBeGreaterThanOrEqual(0);
+      expect(swatch.h).toBeLessThanOrEqual(360);
+    });
+  });
+
+  it("should apply tweaks to grayscale colors correctly", () => {
+    const config = {
+      ...DEFAULT_PALETTE_CONFIG,
+      value: "F7F7F7",
+      valueStop: 500,
+      colorMode: "linear" as ColorMode,
+      h: 10, // Add hue tweak
+      s: 5, // Add saturation tweak
+    };
+
+    const result = createSwatches(config);
+
+    // Check that tweaks are applied
+    const mainStops = result.filter((s) => ![0, 1000].includes(s.stop));
+
+    // The value stop should preserve the original color
+    const valueStopSwatch = result.find((s) => s.stop === 500);
+    expect(valueStopSwatch?.hex).toBe(`#${config.value}`);
+
+    // Other stops should have tweaks applied
+    const otherStops = mainStops.filter((s) => s.stop !== 500);
+    otherStops.forEach((swatch) => {
+      expect(swatch.hScale).not.toBe(0); // Should have some hue tweak
+      expect(swatch.sScale).not.toBe(0); // Should have some saturation tweak
     });
   });
 });

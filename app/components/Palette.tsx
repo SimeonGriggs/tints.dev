@@ -102,25 +102,9 @@ export default function Palette(props: PaletteProps) {
     });
   };
 
-  const updateValue = (value: string) => {
-    const newPalette = {
-      ...paletteState,
-      value,
-    };
-
-    const newSwatches = isHex(value)
-      ? createSwatches(newPalette)
-      : paletteState.swatches;
-
-    setPaletteState({
-      ...newPalette,
-      swatches: newSwatches,
-    });
-  };
-
   // Handle changes to name or value of palette
   const handlePaletteChange = (
-    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.FormEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     let newTargetValue = e.currentTarget.value ?? ``;
 
@@ -138,7 +122,7 @@ export default function Palette(props: PaletteProps) {
         e.currentTarget.setCustomValidity(``);
       }
       newTargetValue = newTargetValue.replace("#", ""); // Remove eventual hashes
-      updateValue(newTargetValue);
+
       if (isHex(newTargetValue)) {
         const newPalette = {
           ...paletteState,
@@ -151,6 +135,12 @@ export default function Palette(props: PaletteProps) {
         setPaletteState({
           ...newPalette,
           swatches: createSwatches(newPalette),
+        });
+      } else {
+        // Update value without swatches if invalid
+        setPaletteState({
+          ...paletteState,
+          value: newTargetValue,
         });
       }
     }

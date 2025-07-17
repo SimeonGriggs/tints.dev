@@ -27,6 +27,9 @@ export function createSwatches(palette: PaletteConfig) {
   const baseColor = chroma(`#${value}`);
   const [baseH, baseS, baseL] = baseColor.hsl();
 
+  // Handle grayscale colors (NaN hue) by setting a default hue
+  const normalizedBaseH = isNaN(baseH) ? 0 : baseH;
+
   // 1. Create hue scale
   const valueStopIndex = allStops.indexOf(valueStop);
   if (valueStopIndex === -1) {
@@ -117,7 +120,7 @@ export function createSwatches(palette: PaletteConfig) {
 
     if (colorMode === "linear") {
       // Direct HSL manipulation for linear mode
-      const newH = (baseH + hTweak) % 360;
+      const newH = (normalizedBaseH + hTweak) % 360;
       const newS = Math.max(0, Math.min(100, baseS * 100 + sTweak));
       const newL = Math.max(0, Math.min(100, lTweak));
 
@@ -128,7 +131,9 @@ export function createSwatches(palette: PaletteConfig) {
       hsluv.hex = `#${value}`;
       hsluv.hexToHsluv();
 
-      const newHsluvH = (hsluv.hsluv_h + hTweak) % 360;
+      // Handle grayscale colors in HSLuv (NaN hue)
+      const normalizedHsluvH = isNaN(hsluv.hsluv_h) ? 0 : hsluv.hsluv_h;
+      const newHsluvH = (normalizedHsluvH + hTweak) % 360;
       const newHsluvS = Math.max(0, Math.min(100, hsluv.hsluv_s + sTweak));
       const newHsluvL = Math.max(0, Math.min(100, lTweak));
 
