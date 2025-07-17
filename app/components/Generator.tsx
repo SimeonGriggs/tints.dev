@@ -16,6 +16,7 @@ import { handleMeta } from "~/lib/meta";
 import type { Mode, PaletteConfig, Version } from "~/types";
 
 import Header from "~/components/Header";
+import { createDisplayColor } from "~/lib/createDisplayColor";
 
 type GeneratorProps = {
   palettes: PaletteConfig[];
@@ -96,12 +97,16 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
         ? [
             `:root {`,
             ...palettesState[0].swatches.map(
-              (swatch) => `--first-${swatch.stop}: ${swatch.hex};`,
+              (swatch) =>
+                `--first-${swatch.stop}: ${createDisplayColor(
+                  swatch.hex,
+                  currentMode
+                )};`
             ),
             `}`,
           ].join(`\n`)
         : ``,
-    [palettesState],
+    [palettesState]
   );
 
   return (

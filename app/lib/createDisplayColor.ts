@@ -7,7 +7,7 @@ import { isHex, round } from "./helpers";
 export function createDisplayColor(
   color: string,
   mode?: Mode,
-  alphaPlaceholder?: boolean,
+  alphaPlaceholder?: boolean
 ): string | null {
   if (!color || !isHex(color)) {
     return null;
@@ -31,13 +31,20 @@ export function createDisplayColor(
     ].join(` `)})`;
   } else if (mode === `oklch`) {
     const [l, c, h] = chroma(hexColor).oklch();
-    display = `oklch(${[
-      round(l * 100, 2) + `%`,
-      round(c, 3),
-      ...(isNaN(h) ? [] : [round(h, 2)]),
-      `/`,
-      alphaPlaceholder ? `<alpha-value>` : 1,
-    ].join(` `)})`;
+
+    // For grayscale colors (very low chroma), use hex format instead of OKLCH
+    // as OKLCH with zero chroma can cause rendering issues
+    if (c < 0.001) {
+      display = hexColor.toUpperCase();
+    } else {
+      display = `oklch(${[
+        round(l * 100, 2) + `%`,
+        round(c, 3),
+        ...(isNaN(h) ? [] : [round(h, 2)]),
+        `/`,
+        alphaPlaceholder ? `<alpha-value>` : 1,
+      ].join(` `)})`;
+    }
   } else if (mode === `hsl`) {
     const [h, s, l] = chroma(hexColor).hsl();
     display = `hsl(${[
