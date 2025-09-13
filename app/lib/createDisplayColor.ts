@@ -38,7 +38,7 @@ export function createDisplayColor(
       display = hexColor.toUpperCase();
     } else {
       display = `oklch(${[
-        round(l * 100, 2) + `%`,
+        round(l, 3),
         round(c, 3),
         ...(isNaN(h) ? [] : [round(h, 2)]),
         `/`,

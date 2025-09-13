@@ -47,7 +47,7 @@ export default function Output({
             {VERSIONS.map((version) => (
               <Headless.Field key={version} className="flex items-center gap-2">
                 <Radio value={version} />
-                <Headless.Label className="text-base/6 select-none sm:text-sm/6 font-mono">
+                <Headless.Label className="text-base/6 select-none sm:text-sm/6 font-mono whitespace-nowrap">
                   {version}
                 </Headless.Label>
               </Headless.Field>
@@ -69,7 +69,7 @@ export default function Output({
             {MODES.map((mode) => (
               <Headless.Field key={mode} className="flex items-center gap-2">
                 <Radio value={mode} />
-                <Headless.Label className="text-base/6 select-none sm:text-sm/6 font-mono">
+                <Headless.Label className="text-base/6 select-none sm:text-sm/6 font-mono whitespace-nowrap">
                   {mode}
                 </Headless.Label>
               </Headless.Field>
@@ -110,7 +110,7 @@ function createVersion3Config(colors: Record<string, string>) {
     /"+[0-9]+"/g,
     function (m) {
       return m.replace(/"/g, "");
-    },
+    }
   );
 }
 
@@ -121,9 +121,9 @@ function createVersion4Config(colors: Record<string, string>) {
       Object.entries(colors[colorName])
         .map(
           ([shade, value]) =>
-            `  --color-${colorName}-${shade}: ${value.toLocaleLowerCase().replace(" / <alpha-value>", "")};`,
+            `  --color-${colorName}-${shade}: ${value.toLocaleLowerCase().replace(" / <alpha-value>", "")};`
         )
-        .join("\n"),
+        .join("\n")
     ),
     `}`,
   ].join("\n");
