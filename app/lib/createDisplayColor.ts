@@ -7,7 +7,7 @@ import { isHex, round } from "./helpers";
 export function createDisplayColor(
   color: string,
   mode?: Mode,
-  alphaPlaceholder?: boolean
+  alphaPlaceholder?: boolean,
 ): string | null {
   if (!color || !isHex(color)) {
     return null;
@@ -38,7 +38,7 @@ export function createDisplayColor(
       display = hexColor.toUpperCase();
     } else {
       display = `oklch(${[
-        round(l * 100, 2) + `%`,
+        round(l, 3),
         round(c, 3),
         ...(isNaN(h) ? [] : [round(h, 2)]),
         `/`,

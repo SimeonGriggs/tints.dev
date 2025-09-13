@@ -47,7 +47,7 @@ export default function Output({
             {VERSIONS.map((version) => (
               <Headless.Field key={version} className="flex items-center gap-2">
                 <Radio value={version} />
-                <Headless.Label className="text-base/6 select-none sm:text-sm/6 font-mono">
+                <Headless.Label className="text-base/6 select-none sm:text-sm/6 font-mono whitespace-nowrap">
                   {version}
                 </Headless.Label>
               </Headless.Field>
@@ -69,7 +69,7 @@ export default function Output({
             {MODES.map((mode) => (
               <Headless.Field key={mode} className="flex items-center gap-2">
                 <Radio value={mode} />
-                <Headless.Label className="text-base/6 select-none sm:text-sm/6 font-mono">
+                <Headless.Label className="text-base/6 select-none sm:text-sm/6 font-mono whitespace-nowrap">
                   {mode}
                 </Headless.Label>
               </Headless.Field>
