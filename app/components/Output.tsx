@@ -110,7 +110,7 @@ function createVersion3Config(colors: Record<string, string>) {
     /"+[0-9]+"/g,
     function (m) {
       return m.replace(/"/g, "");
-    }
+    },
   );
 }
 
@@ -121,9 +121,9 @@ function createVersion4Config(colors: Record<string, string>) {
       Object.entries(colors[colorName])
         .map(
           ([shade, value]) =>
-            `  --color-${colorName}-${shade}: ${value.toLocaleLowerCase().replace(" / <alpha-value>", "")};`
+            `  --color-${colorName}-${shade}: ${value.toLocaleLowerCase().replace(" / <alpha-value>", "")};`,
         )
-        .join("\n")
+        .join("\n"),
     ),
     `}`,
   ].join("\n");

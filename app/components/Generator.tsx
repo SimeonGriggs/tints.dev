@@ -100,13 +100,13 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
               (swatch) =>
                 `--first-${swatch.stop}: ${createDisplayColor(
                   swatch.hex,
-                  currentMode
-                )};`
+                  currentMode,
+                )};`,
             ),
             `}`,
           ].join(`\n`)
         : ``,
-    [palettesState]
+    [palettesState],
   );
 
   return (
