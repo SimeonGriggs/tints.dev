@@ -10,10 +10,10 @@ export default function MetaImage({
   canonical: string;
 }) {
   const darkColor = palettes[0].swatches.find(
-    (swatch) => swatch.stop === 800,
+    (swatch) => swatch.stop === 800
   )?.hex;
   const lightColor = palettes[0].swatches.find(
-    (swatch) => swatch.stop === 300,
+    (swatch) => swatch.stop === 300
   )?.hex;
   const url = (canonical ? canonical : META.origin).replace(`https://`, ``);
 

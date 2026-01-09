@@ -1,0 +1,7 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+- ALWAYS use pnpm 
+- NEVER use npm
