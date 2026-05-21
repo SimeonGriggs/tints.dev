@@ -1,4 +1,5 @@
 {
+  // Workers Builds (Cloudflare dashboard): NODE_VERSION=22, build `pnpm run build`, deploy `pnpm run deploy:cloudflare`
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "tints-dev",
   "compatibility_date": "2026-05-21",

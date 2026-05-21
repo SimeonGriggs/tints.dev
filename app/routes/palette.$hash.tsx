@@ -52,7 +52,7 @@ export default function PaletteHash() {
       <meta property="og:image:width" content={String(width)} />
       <meta property="og:image:height" content={String(height)} />
       <meta property="og:image" content={url} />
-      <Generator palettes={palettes} about={about} stars={stars} />
+      <Generator palettes={palettes} about={about ?? []} stars={stars} />
     </>
   );
 }

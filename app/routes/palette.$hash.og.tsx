@@ -20,7 +20,7 @@ export const loader = async ({ params, context }: Route.LoaderArgs) => {
 
   const png = await generateOGImage([palette], context.cloudflare.env.ASSETS);
 
-  return new Response(new Blob([png]), {
+  return new Response(new Blob([new Uint8Array(png)]), {
     status: 200,
     headers: {
       "Content-Type": "image/png",

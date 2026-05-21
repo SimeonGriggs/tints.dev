@@ -43,7 +43,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.18",
     "@types/chroma-js": "^3.1.2",
-    "@types/node": "^20.19.27",
+    "@types/node": "^22.15.0",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.23",
@@ -61,7 +61,7 @@
     "wrangler": "^4.16.0"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=22 <23"
   },
   "sideEffects": false,
   "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"

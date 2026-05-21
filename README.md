@@ -22,6 +22,29 @@ Any set of Palettes can be fetched via an API. You may find this useful for desi
 
 Currently, the API will only return a Palette using the base hex value, with no options to have HSL tweaks.
 
+## Development
+
+Requires **Node.js 22 LTS** and [pnpm](https://pnpm.io/).
+
+```bash
+pnpm install
+pnpm dev          # local Workers runtime (http://localhost:5173)
+pnpm build
+pnpm test
+pnpm typecheck
+pnpm run deploy:cloudflare   # manual deploy (after wrangler login)
+```
+
+Deploys to Cloudflare Workers via [Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/) on push to `main`. Configure in the dashboard:
+
+| Setting | Value |
+| --- | --- |
+| Build command | `pnpm run build` |
+| Deploy command | `pnpm run deploy:cloudflare` |
+| `NODE_VERSION` | `22` |
+
+PRs run GitHub Actions (`.github/workflows/ci.yml`) for test, lint, and typecheck.
+
 ## Credits
 
 Made by [Simeon Griggs](https://simeongriggs.dev/)

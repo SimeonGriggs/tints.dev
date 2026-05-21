@@ -77,7 +77,7 @@ export default function Index() {
       <meta property="og:image:height" content={String(height)} />
       <meta property="og:image" content={url} />
       {palettes?.length ? (
-        <Generator palettes={palettes} about={about} stars={stars} />
+        <Generator palettes={palettes} about={about ?? []} stars={stars} />
       ) : null}
     </>
   );

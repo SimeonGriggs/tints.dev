@@ -54,7 +54,7 @@ This eliminates the tedious process of manually creating 11 related colors and e
 - **Frontend**: React 19 + React Router v7
 - **Styling**: Tailwind CSS v4
 - **Color Engine**: chroma-js for color manipulation
-- **Hosting**: Vercel with SSR
+- **Hosting**: Cloudflare Workers (React Router v7 SSR via `@cloudflare/vite-plugin`)
 - **Language**: TypeScript
 
 ### Key Dependencies

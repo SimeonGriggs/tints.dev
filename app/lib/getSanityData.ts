@@ -1,3 +1,5 @@
+import type { Block } from "~/components/Prose";
+
 export const config = {
   projectId: `az8av6xl`,
   apiVersion: `v2021-03-25`,
@@ -12,8 +14,8 @@ export async function getSanityData() {
   const about = await fetch(
     `https://${projectId}.apicdn.sanity.io/${apiVersion}/data/query/${dataset}?query=${query}`,
   )
-    .then((res) => res.json())
+    .then((res) => res.json() as Promise<{ result?: unknown } | null>)
     .catch(() => null);
 
-  return about?.result;
+  return about?.result as Block[] | undefined;
 }

@@ -79,9 +79,9 @@ export function DropdownItem({
     <Headless.MenuItem as="a" {...props} className={classes} />
   ) : (
     <Headless.MenuItem
+      {...(props as Omit<Headless.MenuItemProps, "as" | "className">)}
       as="button"
       type="button"
-      {...props}
       className={classes}
     />
   );

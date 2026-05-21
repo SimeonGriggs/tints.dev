@@ -1,12 +1,18 @@
 # TODO
 
-- **Cloudflare replatform (in progress)**
+- **Cloudflare replatform (branch `feat/cloudflare-replatform`, commits f37b876 + 3fab950)**
   - [x] Replace Vercel React Router preset with Cloudflare Workers adapter
-  - [x] Migrate OG image generation to `@resvg/resvg-wasm`
-  - [x] Remove Vercel Analytics
-  - [ ] Deploy to Workers (`pnpm run deploy:cloudflare` after `wrangler login`) and attach `tints.dev` custom domain
-  - [ ] Decommission Vercel after cutover
-- Run a GitHub action to typecheck and format a PR against main and commit the updates to that branch
+  - [x] Migrate OG image generation to `@resvg/resvg-wasm` (fonts via `ASSETS` binding)
+  - [x] Remove Vercel Analytics; deploy script `pnpm run deploy:cloudflare`
+  - [x] Local smoke-test on Node 22 (`wrangler dev`): `/`, `/palette/:hash`, `/palette/:hash/og` → PNG
+  - [ ] **Workers Builds**: reconnect GitHub App if “disconnected from Git account” persists
+  - [ ] **PR preview**: confirm `feat/cloudflare-replatform` PR gets `*.workers.dev` URL; smoke-test same three routes
+  - [ ] **Merge PR** → production deploy on `main` via Workers Builds
+  - [ ] **Custom domain**: Worker `tints-dev` → Domains & Routes → `tints.dev` (+ `www` if needed)
+  - [ ] **DNS**: apex/www → Worker; remove Vercel records (zone already on Cloudflare)
+  - [ ] Decommission Vercel after 24–48h stable
+  - [x] **Polish**: `.github/workflows/ci.yml`; `.node-version` + README Workers Builds table; `wrangler.jsonc` build/deploy notes; typecheck fixes
+  - [ ] **Workers Builds dashboard**: set `NODE_VERSION=22`, deploy `pnpm run deploy:cloudflare` (see README)
 - **Add color picker to every swatch in a palette**
   - [x] Make swatches clickable (add onClick handlers to Swatch component)
   - [x] Add visual indication of which swatch is currently selected/active (user added `selected` prop)
