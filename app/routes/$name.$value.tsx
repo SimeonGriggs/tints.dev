@@ -72,10 +72,10 @@ export default function Index() {
 
   return (
     <>
-      <meta name="og:url" content={canonicalUrl} />
-      <meta name="og:image:width" content={String(width)} />
-      <meta name="og:image:height" content={String(height)} />
-      <meta name="og:image" content={url} />
+      <meta property="og:url" content={canonicalUrl} />
+      <meta property="og:image:width" content={String(width)} />
+      <meta property="og:image:height" content={String(height)} />
+      <meta property="og:image" content={url} />
       {palettes?.length ? (
         <Generator palettes={palettes} about={about} stars={stars} />
       ) : null}

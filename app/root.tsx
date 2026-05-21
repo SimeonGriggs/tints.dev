@@ -1,6 +1,5 @@
 import "~/styles/app.css";
 
-import { Analytics } from "@vercel/analytics/react";
 import type { LinksFunction } from "react-router";
 import {
   isRouteErrorResponse,
@@ -9,7 +8,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
   useRouteError,
 } from "react-router";
 
@@ -31,17 +29,7 @@ export const links: LinksFunction = () => {
   ];
 };
 
-export const loader = async () => {
-  return {
-    ENV: {
-      VERCEL_ANALYTICS_ID: process.env.VERCEL_ANALYTICS_ID,
-    },
-  };
-};
-
 export default function App() {
-  const { ENV } = useLoaderData<typeof loader>();
-
   return (
     <html lang="en">
       <head>
@@ -61,23 +49,15 @@ export default function App() {
         <meta name="twitter:creator" content="@simeonGriggs" />
         <meta name="twitter:title" content={META.title} />
         <meta name="twitter:description" content={META.description} />
-        <meta name="og:title" content={META.title} />
-        <meta name="og:type" content="website" />
+        <meta property="og:title" content={META.title} />
+        <meta property="og:type" content="website" />
 
         <Links />
       </head>
       <body className="bg-white text-gray-900">
         <Outlet />
         <ScrollRestoration />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.ENV = ${JSON.stringify(ENV)}`,
-          }}
-        />
         <Scripts />
-        {process.env.NODE_ENV !== "development" ? (
-          <Analytics debug={false} />
-        ) : null}
       </body>
     </html>
   );

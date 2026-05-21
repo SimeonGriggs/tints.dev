@@ -3,14 +3,13 @@ import { deserializePalette } from "~/lib/paletteHash";
 
 import type { Route } from "./+types/palette.$hash.og";
 
-export const loader = async ({ params, request }: Route.LoaderArgs) => {
+export const loader = async ({ params, context }: Route.LoaderArgs) => {
   if (!params?.hash) {
     throw new Response(`Not Found`, {
       status: 404,
     });
   }
 
-  const { origin } = new URL(request.url);
   const palette = deserializePalette(params.hash);
 
   if (!palette) {
@@ -19,10 +18,9 @@ export const loader = async ({ params, request }: Route.LoaderArgs) => {
     });
   }
 
-  const canonical = `${origin}/palette/${params.hash}`;
-  const png = await generateOGImage([palette], origin, canonical);
+  const png = await generateOGImage([palette], context.cloudflare.env.ASSETS);
 
-  return new Response(png, {
+  return new Response(new Blob([png]), {
     status: 200,
     headers: {
       "Content-Type": "image/png",

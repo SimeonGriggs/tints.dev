@@ -1,11 +1,9 @@
-import {
-  createPaletteFromNameValue,
-  createPaletteMetaImageUrl,
-} from "~/lib/responses";
+import { generateOGImage } from "~/lib/generateOGImage.server";
+import { createPaletteFromNameValue } from "~/lib/responses";
 
 import type { Route } from "./+types/$name.$value.og";
 
-export const loader = async ({ params }: Route.LoaderArgs) => {
+export const loader = async ({ params, context }: Route.LoaderArgs) => {
   if (!params?.name || !params?.value) {
     throw new Response(`Not Found`, {
       status: 404,
@@ -20,10 +18,9 @@ export const loader = async ({ params }: Route.LoaderArgs) => {
     });
   }
 
-  const { url } = createPaletteMetaImageUrl(palette);
-  const png = await fetch(url).then((r) => r.arrayBuffer());
+  const png = await generateOGImage([palette], context.cloudflare.env.ASSETS);
 
-  return new Response(png, {
+  return new Response(new Blob([png]), {
     status: 200,
     headers: {
       "Content-Type": "image/png",

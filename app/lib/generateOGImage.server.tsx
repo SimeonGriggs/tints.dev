@@ -1,25 +1,62 @@
-import { Resvg } from "@resvg/resvg-js";
+import { initWasm, Resvg } from "@resvg/resvg-wasm";
+import wasm from "@resvg/resvg-wasm/index_bg.wasm";
 import type { SatoriOptions } from "satori";
 import satori from "satori";
 
 import { META, OG_IMAGE_HEIGHT, OG_IMAGE_WIDTH } from "~/lib/constants";
 import type { PaletteConfig } from "~/types";
 
-const fontMono = (baseUrl: string) =>
-  fetch(new URL(`${baseUrl}/fonts/JetBrainsMono-Regular.ttf`)).then((res) =>
-    res.arrayBuffer(),
+const FONT_PATHS = {
+  mono: "/fonts/JetBrainsMono-Regular.ttf",
+  sans: "/fonts/Inter-ExtraBold.otf",
+} as const;
+
+let wasmInitialized: Promise<void> | undefined;
+let fontsPromise: Promise<{ mono: ArrayBuffer; sans: ArrayBuffer }> | undefined;
+
+async function ensureWasmInitialized() {
+  if (!wasmInitialized) {
+    wasmInitialized = initWasm(wasm);
+  }
+
+  await wasmInitialized;
+}
+
+async function fetchFont(assets: Fetcher, path: string) {
+  const response = await assets.fetch(
+    new Request(`https://assets.local${path}`),
   );
-const fontSans = (baseUrl: string) =>
-  fetch(new URL(`${baseUrl}/fonts/Inter-ExtraBold.otf`)).then((res) =>
-    res.arrayBuffer(),
-  );
+
+  if (!response.ok) {
+    throw new Error(`Failed to load font ${path}: ${response.status}`);
+  }
+
+  return response.arrayBuffer();
+}
+
+async function loadFonts(assets: Fetcher) {
+  if (!fontsPromise) {
+    fontsPromise = Promise.all([
+      fetchFont(assets, FONT_PATHS.mono),
+      fetchFont(assets, FONT_PATHS.sans),
+    ])
+      .then(([mono, sans]) => ({ mono, sans }))
+      .catch((error) => {
+        fontsPromise = undefined;
+        throw error;
+      });
+  }
+
+  return fontsPromise;
+}
 
 export async function generateOGImage(
   palettes: PaletteConfig[],
-  origin: string,
+  assets: Fetcher,
 ) {
-  const fontMonoData = await fontMono(origin);
-  const fontSansData = await fontSans(origin);
+  await ensureWasmInitialized();
+  const { mono: fontMonoData, sans: fontSansData } = await loadFonts(assets);
+
   const options: SatoriOptions = {
     width: OG_IMAGE_WIDTH,
     height: OG_IMAGE_HEIGHT,
@@ -46,8 +83,8 @@ export async function generateOGImage(
   const svg = await satori(
     <div
       style={{
-        width: options.width,
-        height: options.height,
+        width: OG_IMAGE_WIDTH,
+        height: OG_IMAGE_HEIGHT,
         display: "flex",
         flexDirection: "column",
         gap: 24,
