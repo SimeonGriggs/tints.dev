@@ -19,25 +19,26 @@ export const loader = async ({ request }: Route.LoaderArgs) => {
     palettes,
     about,
     stars: github?.stargazers_count ? Number(github.stargazers_count) : 0,
+    origin: new URL(request.url).origin,
   };
 };
 
 export default function Index() {
-  const { palettes, about, stars } = useLoaderData<typeof loader>();
+  const { palettes, about, stars, origin } = useLoaderData<typeof loader>();
 
   if (!palettes?.length) {
     return null;
   }
 
-  const { url, width, height } = createPaletteMetaImageUrl(palettes[0]);
-  const canonicalUrl = createCanonicalUrl(palettes);
+  const { url, width, height } = createPaletteMetaImageUrl(palettes[0], origin);
+  const canonicalUrl = createCanonicalUrl(palettes, false, origin);
 
   return (
     <>
-      <meta name="og:url" content={canonicalUrl} />
-      <meta name="og:image:width" content={String(width)} />
-      <meta name="og:image:height" content={String(height)} />
-      <meta name="og:image" content={url} />
+      <meta property="og:url" content={canonicalUrl} />
+      <meta property="og:image:width" content={String(width)} />
+      <meta property="og:image:height" content={String(height)} />
+      <meta property="og:image" content={url} />
       <Generator palettes={palettes} about={about} stars={stars} />
     </>
   );

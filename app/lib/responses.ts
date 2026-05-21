@@ -38,8 +38,12 @@ export function createPaletteFromNameValue(
   };
 }
 
-export function createCanonicalUrl(palettes: PaletteConfig[], apiUrl = false) {
-  const baseUrl = apiUrl ? `${META.origin}/api` : META.origin;
+export function createCanonicalUrl(
+  palettes: PaletteConfig[],
+  apiUrl = false,
+  origin = META.origin,
+) {
+  const baseUrl = apiUrl ? `${origin}/api` : origin;
 
   if (!palettes?.length) {
     return removeTrailingSlash(baseUrl);
@@ -78,7 +82,10 @@ export function createCanonicalUrl(palettes: PaletteConfig[], apiUrl = false) {
   }
 }
 
-export function createPaletteMetaImageUrl(palette: PaletteConfig) {
+export function createPaletteMetaImageUrl(
+  palette: PaletteConfig,
+  origin = META.origin,
+) {
   const essentials: PaletteEssentials = {
     name: palette.name,
     value: palette.value,
@@ -91,7 +98,7 @@ export function createPaletteMetaImageUrl(palette: PaletteConfig) {
     stopSelection: palette.stopSelection,
   };
   const hash = serializePalette(essentials);
-  const metaImageUrl = [META.origin, "palette", hash, "og"].join("/");
+  const metaImageUrl = [origin, "palette", hash, "og"].join("/");
 
   return {
     url: metaImageUrl,

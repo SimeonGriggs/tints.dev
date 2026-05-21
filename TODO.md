@@ -1,5 +1,11 @@
 # TODO
 
+- **Cloudflare replatform (in progress)**
+  - [x] Replace Vercel React Router preset with Cloudflare Workers adapter
+  - [x] Migrate OG image generation to `@resvg/resvg-wasm`
+  - [x] Remove Vercel Analytics
+  - [ ] Deploy to Workers (`pnpm run deploy:cloudflare` after `wrangler login`) and attach `tints.dev` custom domain
+  - [ ] Decommission Vercel after cutover
 - Run a GitHub action to typecheck and format a PR against main and commit the updates to that branch
 - **Add color picker to every swatch in a palette**
   - [x] Make swatches clickable (add onClick handlers to Swatch component)

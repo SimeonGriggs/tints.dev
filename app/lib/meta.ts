@@ -20,7 +20,9 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
   // Update the URL
   if (typeof document !== "undefined") {
     const currentUrl = new URL(window.location.href);
-    const canonicalPath = new URL(createCanonicalUrl(palettes)).pathname;
+    const origin = window.location.origin;
+    const canonicalPath = new URL(createCanonicalUrl(palettes, false, origin))
+      .pathname;
     currentUrl.pathname = canonicalPath;
     currentUrl.search = ``;
 
@@ -71,7 +73,11 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
     }
 
     const canonicalLinkTag = document.querySelector(`link[rel="canonical"]`);
-    const canonicalUrl = createCanonicalUrl(palettes);
+    const canonicalUrl = createCanonicalUrl(
+      palettes,
+      false,
+      window.location.origin,
+    );
 
     if (canonicalLinkTag) {
       canonicalLinkTag.setAttribute(`href`, canonicalUrl);
@@ -92,7 +98,10 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
     const ogImageTag = document.querySelector(`meta[property="og:image"]`);
 
     if (ogImageTag) {
-      const { url: metaImageUrl } = createPaletteMetaImageUrl(palettes[0]);
+      const { url: metaImageUrl } = createPaletteMetaImageUrl(
+        palettes[0],
+        window.location.origin,
+      );
       ogImageTag.setAttribute(`content`, metaImageUrl);
     }
   }
