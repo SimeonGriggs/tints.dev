@@ -140,18 +140,24 @@ export function output(palettes: PaletteConfig[], mode: Mode = DEFAULT_MODE) {
   return shaped;
 }
 
+function normalizeRequestPathname(pathname: string) {
+  // v8 pass-through requests keep `.data` / `/_.data` suffixes on the raw Request.
+  return pathname.replace(/\/_\.data$/, "/").replace(/\.data$/, "");
+}
+
 export function createRedirectResponse(
   request: Request,
   palette: PaletteConfig,
 ) {
   const url = new URL(request.url);
+  const pathname = normalizeRequestPathname(url.pathname);
   const hash = serializePalette(palette);
 
   // Determine the new path based on the current path
   let newPath = `/palette/${hash}`;
-  if (url.pathname.startsWith("/api/")) {
+  if (pathname.startsWith("/api/")) {
     newPath = `/api${newPath}`;
-  } else if (url.pathname.endsWith("/og")) {
+  } else if (pathname.endsWith("/og")) {
     newPath = `${newPath}/og`;
   }
 

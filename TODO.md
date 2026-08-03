@@ -6,8 +6,16 @@
   - [x] Reproduced locally: `Invalid context value... must return an instance of RouterContextProvider`
   - [x] Revert `react-router` to `^7.17.0` (full v8 needs coordinated upgrade: Vite 7+, all `@react-router/*`, middleware context)
   - [x] Verify build/tests + local wrangler returns 200
-  - [ ] Merge/deploy to restore production
-  - [ ] Follow-up: proper React Router v8 upgrade (or Dependabot ignore majors for `react-router`)
+  - [x] Merge/deploy fix (#140)
+  - [x] Confirm production is healthy after Workers rebuild (Worker returns 200)
+  - [ ] Follow-up: proper React Router v8 upgrade — tracked in https://github.com/SimeonGriggs/tints.dev/issues/141
+- **React Router v8 upgrade (in progress, #141)**
+  - [ ] Bump Node engines to `>=22.22`, Vite 7, wrangler / Cloudflare Vite plugin peers
+  - [ ] Migrate Worker load context to `RouterContextProvider` + typed `createContext`
+  - [ ] Update OG loaders / `entry.server.tsx` off `AppLoadContext`
+  - [ ] Adopt remaining v8 future flags / remove graduated flags
+  - [ ] Bump `react-router` + `@react-router/*` to 8.x together
+  - [ ] Verify build/tests + open PR for Workers preview build
 - **Cloudflare replatform (in progress)**
   - [x] Replace Vercel React Router preset with Cloudflare Workers adapter
   - [x] Migrate OG image generation to `@resvg/resvg-wasm`
