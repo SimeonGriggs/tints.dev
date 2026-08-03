@@ -1,3 +1,4 @@
+import { cloudflareContext } from "~/context";
 import { generateOGImage } from "~/lib/generateOGImage.server";
 import { deserializePalette } from "~/lib/paletteHash";
 
@@ -18,9 +19,10 @@ export const loader = async ({ params, context }: Route.LoaderArgs) => {
     });
   }
 
-  const png = await generateOGImage([palette], context.cloudflare.env.ASSETS);
+  const { env } = context.get(cloudflareContext);
+  const png = await generateOGImage([palette], env.ASSETS);
 
-  return new Response(new Blob([png]), {
+  return new Response(Uint8Array.from(png), {
     status: 200,
     headers: {
       "Content-Type": "image/png",
