@@ -1,5 +1,13 @@
 # TODO
 
+- **Production outage**
+  - [x] Confirm Workers URL returns HTTP 500 (`Unexpected Server Error`)
+  - [x] Identify cause: Dependabot bumped `react-router` 7.17.0 → 8.3.0 while `@react-router/dev` / `@react-router/fs-routes` stayed on 7.17.0
+  - [x] Reproduced locally: `Invalid context value... must return an instance of RouterContextProvider`
+  - [x] Revert `react-router` to `^7.17.0` (full v8 needs coordinated upgrade: Vite 7+, all `@react-router/*`, middleware context)
+  - [x] Verify build/tests + local wrangler returns 200
+  - [ ] Merge/deploy to restore production
+  - [ ] Follow-up: proper React Router v8 upgrade (or Dependabot ignore majors for `react-router`)
 - **Cloudflare replatform (in progress)**
   - [x] Replace Vercel React Router preset with Cloudflare Workers adapter
   - [x] Migrate OG image generation to `@resvg/resvg-wasm`
