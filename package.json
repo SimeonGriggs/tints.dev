@@ -32,7 +32,7 @@
     "react-dom": "^19.2.7",
     "react-fast-compare": "^3.2.2",
     "react-popper-tooltip": "^4.4.2",
-    "react-router": "^7.17.0",
+    "react-router": "^7.18.2",
     "satori": "^0.13.2",
     "usehooks-ts": "^3.1.1"
   },
