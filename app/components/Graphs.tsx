@@ -9,7 +9,9 @@ type GraphsProps = { palettes: PaletteConfig[]; mode: Mode };
 
 export default function Graphs(props: GraphsProps) {
   const { palettes, mode } = props;
-  const [hiddenValues, setHiddenValues] = useState<Set<string>>(() => new Set());
+  const [hiddenValues, setHiddenValues] = useState<Set<string>>(
+    () => new Set(),
+  );
 
   const handleShowHide = (value: string) => {
     setHiddenValues((prev) => {
