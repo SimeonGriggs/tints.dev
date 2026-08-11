@@ -8,6 +8,14 @@
   - [x] Fix Accessibility (Demo dark-mode toggle, Swatch button label)
   - [x] Fix remaining high-confidence Maintainability/Performance findings
   - [x] Rescan: score 100 / Great, 0 diagnostics
+- **Dependency security notices**
+  - [x] Apply open Dependabot security bumps without major skew
+    - [x] `nanoid` 5.1.11 → 5.1.16 (GHSA-28wg-ghj8-5hjv)
+    - [x] `react-router` + `@react-router/dev` + `@react-router/fs-routes` → 7.18.2 together (DoS / CSRF / redirect advisories)
+  - [x] Address remaining `pnpm audit` highs where safe (wrangler/miniflare bump + overrides for brace-expansion, postcss, nanoid@3, valibot)
+  - [x] Verify `pnpm test` + `pnpm run build`
+  - [x] Leave React Router v8 to existing #141 / #142 (do not mix with patch security work)
+  - [x] Close/supersede Dependabot PRs #143 and #144 after merge
 - **Production outage**
   - [x] Confirm Workers URL returns HTTP 500 (`Unexpected Server Error`)
   - [x] Identify cause: Dependabot bumped `react-router` 7.17.0 → 8.3.0 while `@react-router/dev` / `@react-router/fs-routes` stayed on 7.17.0

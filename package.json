@@ -21,26 +21,26 @@
     "@headlessui/react": "^2.2.10",
     "@heroicons/react": "^2.2.0",
     "@portabletext/react": "^3.2.4",
-    "@react-router/fs-routes": "^7.17.0",
+    "@react-router/fs-routes": "^7.18.2",
     "@resvg/resvg-wasm": "^2.6.2",
     "chroma-js": "^3.2.0",
     "clsx": "^2.1.1",
     "hsluv": "^1.0.1",
     "isbot": "^5.1.40",
-    "nanoid": "^5.1.11",
+    "nanoid": "^5.1.16",
     "react": "^19.2.7",
     "react-colorful": "^5.7.0",
     "react-dom": "^19.2.7",
     "react-fast-compare": "^3.2.2",
     "react-popper-tooltip": "^4.4.2",
-    "react-router": "^7.17.0",
+    "react-router": "^7.18.2",
     "satori": "^0.13.2",
     "usehooks-ts": "^3.1.1"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "^1.40.0",
-    "@cloudflare/workers-types": "^4.20260605.1",
-    "@react-router/dev": "^7.17.0",
+    "@cloudflare/vite-plugin": "^1.51.2",
+    "@cloudflare/workers-types": "^5.20260811.1",
+    "@react-router/dev": "^7.18.2",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.3.0",
     "@types/chroma-js": "^3.1.2",
@@ -60,11 +60,19 @@
     "vite-plugin-babel": "^1.7.3",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.6",
-    "wrangler": "^4.98.0"
+    "wrangler": "^4.120.1"
   },
   "engines": {
     "node": ">=22"
   },
   "sideEffects": false,
+  "pnpm": {
+    "overrides": {
+      "brace-expansion": ">=2.1.4",
+      "nanoid@^3": ">=3.3.17",
+      "postcss": ">=8.5.23",
+      "valibot": ">=1.4.2"
+    }
+  },
   "packageManager": "pnpm@9.14.4+sha512.c8180b3fbe4e4bca02c94234717896b5529740a6cbadf19fa78254270403ea2f27d4e1d46a08a0f56c89b63dc8ebfd3ee53326da720273794e6200fcf0d184ab"
 }
