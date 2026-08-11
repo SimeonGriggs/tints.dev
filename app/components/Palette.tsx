@@ -1,4 +1,3 @@
-import { Switch } from "@headlessui/react";
 import {
   AdjustmentsHorizontalIcon,
   CodeBracketIcon,
@@ -7,11 +6,12 @@ import {
   LinkIcon,
   TrashIcon,
 } from "@heroicons/react/24/solid";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useState, useRef } from "react";
 import { useCopyToClipboard } from "usehooks-ts";
 
 import Graphs from "~/components/Graphs";
-import Swatch from "~/components/Swatch";
+import PaletteSwatchGrid from "~/components/PaletteSwatchGrid";
+import PaletteTweaks from "~/components/PaletteTweaks";
 import StopSelector from "~/components/StopSelector";
 import { DEFAULT_PALETTE_CONFIG } from "~/lib/constants";
 import { createSwatches } from "~/lib/createSwatches";
@@ -28,31 +28,7 @@ import {
   DropdownItem,
   DropdownMenu,
 } from "./catalyst/dropdown";
-
-const tweakInputs = [
-  {
-    name: `h`,
-    title: `Hue`,
-    value: DEFAULT_PALETTE_CONFIG.h,
-  },
-  {
-    name: `s`,
-    title: `Saturation`,
-    value: DEFAULT_PALETTE_CONFIG.s,
-  },
-  {
-    name: `lMax`,
-    title: `Lightness Maximum`,
-    value: DEFAULT_PALETTE_CONFIG.lMax,
-  },
-  {
-    name: `lMin`,
-    title: `Lightness Minimum`,
-    value: DEFAULT_PALETTE_CONFIG.lMin,
-  },
-] as const;
-
-export const labelClasses = `transition-color duration-200 text-xs font-bold `;
+import { labelClasses } from "./formStyles";
 
 type PaletteProps = {
   palette: PaletteConfig;
@@ -77,16 +53,17 @@ export default function Palette(props: PaletteProps) {
   const [showGraphs, setShowGraphs] = useState(false);
   const [, copy] = useCopyToClipboard();
 
-  // Update global list every time local palette changes
-  // ... if name and value are legit
-  useEffect(() => {
-    const validName = isValidName(paletteState.name) ? paletteState.name : null;
-    const validValue = isHex(paletteState.value) ? paletteState.value : null;
-
-    if (validName && validValue) {
-      updateGlobal(paletteState);
-    }
-  }, [palette, paletteState, updateGlobal]);
+  // Commit local palette changes and notify parent from the event path
+  // (not an effect) when name + value are valid.
+  const commitPalette = useCallback(
+    (next: PaletteConfig) => {
+      setPaletteState(next);
+      if (isValidName(next.name) && isHex(next.value)) {
+        updateGlobal(next);
+      }
+    },
+    [updateGlobal],
+  );
 
   const updateName = (name: string) => {
     // Remove current search param
@@ -96,7 +73,7 @@ export default function Palette(props: PaletteProps) {
       window.history.replaceState({}, "", currentUrl.toString());
     }
 
-    setPaletteState({
+    commitPalette({
       ...paletteState,
       name,
     });
@@ -132,13 +109,13 @@ export default function Palette(props: PaletteProps) {
               ? paletteState.valueStop // Keep current stop in manual mode
               : calculateStopFromColor(newTargetValue, paletteState.colorMode),
         };
-        setPaletteState({
+        commitPalette({
           ...newPalette,
           swatches: createSwatches(newPalette),
         });
       } else {
         // Update value without swatches if invalid
-        setPaletteState({
+        commitPalette({
           ...paletteState,
           value: newTargetValue,
         });
@@ -160,11 +137,11 @@ export default function Palette(props: PaletteProps) {
 
     // Don't update swatches if the new value is invalid
     if (!String(newTweakValue)) {
-      setPaletteState(newPalette);
+      commitPalette(newPalette);
       return;
     }
 
-    setPaletteState({
+    commitPalette({
       ...newPalette,
       swatches: createSwatches(newPalette),
     });
@@ -179,7 +156,7 @@ export default function Palette(props: PaletteProps) {
       colorMode: newColorMode,
     };
 
-    setPaletteState({
+    commitPalette({
       ...newPalette,
       swatches: createSwatches(newPalette),
     });
@@ -194,7 +171,7 @@ export default function Palette(props: PaletteProps) {
     if (typeof document !== "undefined") {
       const apiUrl = createCanonicalUrl([paletteState], true);
 
-      window.open(apiUrl, "_blank");
+      window.open(apiUrl, "_blank", "noopener,noreferrer");
     }
   };
 
@@ -210,7 +187,7 @@ export default function Palette(props: PaletteProps) {
             ? paletteState.valueStop // Keep current stop in manual mode
             : calculateStopFromColor(hexWithoutHash, paletteState.colorMode),
       };
-      setPaletteState({
+      commitPalette({
         ...newPalette,
         swatches: createSwatches(newPalette),
       });
@@ -280,7 +257,7 @@ export default function Palette(props: PaletteProps) {
           <StopSelector
             current={paletteState.valueStop}
             palette={paletteState}
-            onChange={(updatedPalette) => setPaletteState(updatedPalette)}
+            onChange={(updatedPalette) => commitPalette(updatedPalette)}
           />
           <Dropdown>
             <DropdownButton outline>
@@ -312,101 +289,16 @@ export default function Palette(props: PaletteProps) {
           </Dropdown>
         </div>
       </div>
-      <div className="grid grid-cols-4 sm:grid-cols-5 gap-2">
-        {tweakInputs.map((input) => (
-          <div
-            key={input.name}
-            className="flex flex-col gap-1 justify-between focus-within:text-gray-900"
-          >
-            <label className={labelClasses} htmlFor={input.name}>
-              {input.title}
-            </label>
-            <Input
-              id={input.name}
-              onChange={handleTweakChange}
-              name={input.name}
-              value={paletteState[input.name] ?? input.value}
-              type="number"
-              required
-            />
-          </div>
-        ))}
-        <div className="col-span-4 sm:col-span-1 p-2 flex justify-center items-center gap-1 border border-dashed border-gray-200">
-          <span
-            className={[
-              labelClasses,
-              paletteState.colorMode === "perceived" ? `` : `text-gray-900`,
-            ]
-              .filter(Boolean)
-              .join(" ")}
-          >
-            <span className="inline lg:hidden">Pe</span>
-            <span className="hidden lg:inline">Perceived</span>
-          </span>
-          <Switch
-            checked={paletteState.colorMode === "linear"}
-            onChange={handleColorModeChange}
-            style={{
-              backgroundColor:
-                paletteState.colorMode === "linear"
-                  ? paletteState.swatches.find((swatch) => swatch.stop === 800)
-                      ?.hex
-                  : paletteState.swatches.find((swatch) => swatch.stop === 300)
-                      ?.hex,
-            }}
-            className="relative inline-flex items-center h-6 rounded-full w-11 bg-gray-200 shrink-0"
-          >
-            <span className="sr-only">
-              Toggle between Linear and Perceived modes
-            </span>
-            <span
-              className={`${
-                paletteState.colorMode === "linear"
-                  ? "translate-x-6"
-                  : "translate-x-1"
-              } transition-transform duration-200 inline-block w-4 h-4 transform bg-white rounded-full`}
-            />
-          </Switch>
-          <span
-            className={[
-              labelClasses,
-              paletteState.colorMode === "linear" ? `text-gray-900` : ``,
-            ]
-              .filter(Boolean)
-              .join(" ")}
-          >
-            <span className="inline lg:hidden">Li</span>
-            <span className="hidden lg:inline">Linear</span>
-          </span>
-        </div>
-      </div>
-      <div className="grid gap-1 grid-cols-11 sm:grid-cols-4 lg:grid-cols-11 sm:gap-2 text-2xs sm:text-xs">
-        {paletteState.swatches
-          .filter((swatch) => ![0, 1000].includes(swatch.stop))
-          .map((swatch) => (
-            <Swatch
-              active={swatch.stop === paletteState.valueStop}
-              key={swatch.stop}
-              swatch={swatch}
-              mode={currentMode}
-              stopSelection={paletteState.stopSelection}
-              onClick={(clickedSwatch) => {
-                setPaletteState({
-                  ...paletteState,
-                  value: clickedSwatch.hex.replace("#", ""),
-                  valueStop: clickedSwatch.stop,
-                  stopSelection: "manual",
-                  swatches: createSwatches({
-                    ...paletteState,
-                    value: clickedSwatch.hex.replace("#", ""),
-                    valueStop: clickedSwatch.stop,
-                    stopSelection: "manual",
-                  }),
-                });
-              }}
-            />
-          ))}
-      </div>
+      <PaletteTweaks
+        palette={paletteState}
+        onTweakChange={handleTweakChange}
+        onColorModeChange={handleColorModeChange}
+      />
+      <PaletteSwatchGrid
+        palette={paletteState}
+        currentMode={currentMode}
+        onCommit={commitPalette}
+      />
       {showGraphs && <Graphs palettes={[paletteState]} mode={currentMode} />}
     </article>
   );

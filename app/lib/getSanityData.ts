@@ -9,11 +9,16 @@ export async function getSanityData() {
   const { projectId, apiVersion, dataset } = config;
 
   const query = `*[_id == "tailwind"][0].content`;
-  const about = await fetch(
-    `https://${projectId}.apicdn.sanity.io/${apiVersion}/data/query/${dataset}?query=${query}`,
-  )
-    .then((res) => res.json())
-    .catch(() => null);
-
-  return about?.result;
+  try {
+    const res = await fetch(
+      `https://${projectId}.apicdn.sanity.io/${apiVersion}/data/query/${dataset}?query=${query}`,
+    );
+    if (!res.ok) {
+      return null;
+    }
+    const about = await res.json();
+    return about?.result;
+  } catch {
+    return null;
+  }
 }

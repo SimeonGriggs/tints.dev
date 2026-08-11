@@ -1,3 +1,10 @@
 pnpm test
 pnpm format
 pnpm lint
+
+# react-doctor: non-blocking staged scan
+if [ -x "./node_modules/.bin/react-doctor" ]; then
+  ./node_modules/.bin/react-doctor --staged --blocking none || true
+elif command -v pnpm >/dev/null 2>&1; then
+  pnpm dlx react-doctor@latest --staged --blocking none || true
+fi

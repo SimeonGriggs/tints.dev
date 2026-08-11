@@ -1,5 +1,13 @@
 # TODO
 
+- **React Doctor critical cleanup**
+  - [x] Install React Doctor skill (`pnpm dlx react-doctor@latest install --yes`)
+  - [x] Full scan baseline: score 46 / Critical, 50 warnings (0 errors)
+  - [x] Fix Security (pnpm hardening, window.open noopener)
+  - [x] Fix Bugs (unguarded chroma parse, fetch status, exhaustive-deps, dropdown cleanup, parent sync effect)
+  - [x] Fix Accessibility (Demo dark-mode toggle, Swatch button label)
+  - [x] Fix remaining high-confidence Maintainability/Performance findings
+  - [x] Rescan: score 100 / Great, 0 diagnostics
 - **Production outage**
   - [x] Confirm Workers URL returns HTTP 500 (`Unexpected Server Error`)
   - [x] Identify cause: Dependabot bumped `react-router` 7.17.0 → 8.3.0 while `@react-router/dev` / `@react-router/fs-routes` stayed on 7.17.0

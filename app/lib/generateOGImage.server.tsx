@@ -133,9 +133,11 @@ export async function generateOGImage(
           margin: `0 -6px`,
         }}
       >
-        {palette.swatches
-          .filter((swatch) => ![0, 1000].includes(swatch.stop))
-          .map((swatch) => (
+        {palette.swatches.flatMap((swatch) => {
+          if (swatch.stop === 0 || swatch.stop === 1000) {
+            return [];
+          }
+          return [
             <div
               key={swatch.stop}
               style={{
@@ -165,8 +167,9 @@ export async function generateOGImage(
               >
                 <div style={{ display: "flex" }}>{swatch.stop}</div>
               </div>
-            </div>
-          ))}
+            </div>,
+          ];
+        })}
       </div>
       {/* Footer */}
       <div

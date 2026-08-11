@@ -1,5 +1,3 @@
-import { DEFAULT_PALETTE_CONFIG } from "~/lib/constants";
-import type { PaletteConfig } from "~/types";
 import chroma from "chroma-js";
 import {
   BASELINE_LINEAR_PALETTE_1E70F6_STOP500,
@@ -7,14 +5,6 @@ import {
 } from "./testHelpers";
 
 type RGB = { r: number; g: number; b: number };
-
-export function luminanceFromRGB(r: number, g: number, b: number) {
-  const [R, G, B] = [r, g, b].map((c) => {
-    c = c / 255; // sRGB
-    return c < 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
-  });
-  return 21.26 * R + 71.52 * G + 7.22 * B;
-}
 
 export function hexToRGB(H: string): RGB {
   if (H.length === 6 && !H.startsWith(`#`)) {
@@ -157,99 +147,8 @@ export function titleCase(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-export function arrayObjectDiff(
-  before: PaletteConfig[],
-  current: PaletteConfig[],
-) {
-  const defaultKeys = Object.keys(DEFAULT_PALETTE_CONFIG);
-
-  const changedKeys: (string | null)[] = defaultKeys
-    .map((key: string) => {
-      const beforeValues = before
-        .map((p) => p[key as keyof PaletteConfig])
-        .sort()
-        .join();
-
-      const currentValues = current
-        .map((p) => p[key as keyof PaletteConfig])
-        .sort()
-        .join();
-
-      return beforeValues === currentValues ? null : key;
-    })
-    .filter(Boolean);
-
-  return changedKeys;
-}
-
-export function unsignedModulo(x: number, n: number) {
-  return ((x % n) + n) % n;
-}
-
 export function clamp(x: number, min: number, max: number) {
   return Math.min(Math.max(x, min), max);
-}
-
-export function hexToRgb(hex: string): RGB {
-  // Remove the hash if it exists
-  hex = hex.replace(/^#/, "");
-
-  // Parse the hex values
-  const bigint = parseInt(hex, 16);
-  const r = (bigint >> 16) & 255;
-  const g = (bigint >> 8) & 255;
-  const b = bigint & 255;
-
-  return { r, g, b };
-}
-
-export function rgbToHex(rgb: RGB): string {
-  // Having obtained RGB, convert channels to hex
-  const rHex = Math.round(rgb.r).toString(16) ?? "0";
-  const gHex = Math.round(rgb.g).toString(16) ?? "0";
-  const bHex = Math.round(rgb.b).toString(16) ?? "0";
-
-  // Prepend 0s, if necessary
-  return `#${rHex.padStart(2, "0")}${gHex.padStart(2, "0")}${bHex.padStart(2, "0")}`;
-}
-
-export function generateTints(baseColor: string, count: number = 10): string[] {
-  const rgb = hexToRgb(baseColor);
-  const tints: string[] = [];
-
-  // Generate tints
-  for (let i = 0; i < count; i++) {
-    const factor = 1 - i / count;
-    const tint: RGB = {
-      r: Math.round(rgb.r + (255 - rgb.r) * factor),
-      g: Math.round(rgb.g + (255 - rgb.g) * factor),
-      b: Math.round(rgb.b + (255 - rgb.b) * factor),
-    };
-    tints.push(rgbToHex(tint));
-  }
-
-  return tints;
-}
-
-export function generateShades(
-  baseColor: string,
-  count: number = 10,
-): string[] {
-  const rgb = hexToRgb(baseColor);
-  const shades: string[] = [];
-
-  // Generate shades
-  for (let i = 0; i < count; i++) {
-    const factor = i / count;
-    const shade: RGB = {
-      r: Math.round(rgb.r * (1 - factor)),
-      g: Math.round(rgb.g * (1 - factor)),
-      b: Math.round(rgb.b * (1 - factor)),
-    };
-    shades.push(rgbToHex(shade));
-  }
-
-  return shades;
 }
 
 /**
@@ -263,6 +162,9 @@ export function calculateStopFromColor(
   colorMode: "linear" | "perceived",
 ): number {
   const hexColor = color.startsWith("#") ? color : `#${color}`;
+  if (!chroma.valid(hexColor)) {
+    return 500;
+  }
 
   let value: number;
   if (colorMode === "linear") {
@@ -284,6 +186,9 @@ export function calculateStopFromColor(
   let closestStop = baseline[0].stop;
   let smallestDiff = Infinity;
   for (const swatch of baseline) {
+    if (!chroma.valid(swatch.hex)) {
+      continue;
+    }
     let swatchValue: number;
     if (colorMode === "linear") {
       const [, , l] = chroma(swatch.hex).hsl();

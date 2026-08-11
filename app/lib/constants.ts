@@ -1,9 +1,6 @@
 import type { Mode, PaletteConfig, Version } from "~/types";
 
 export const DEFAULT_STOP = 500;
-export const DEFAULT_STOPS = [
-  0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950, 1000,
-];
 
 export const MODES: Mode[] = [`oklch`, `hex`, `p-3`, `hsl`];
 export const DEFAULT_MODE = MODES[0];

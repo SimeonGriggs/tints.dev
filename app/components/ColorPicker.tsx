@@ -5,12 +5,19 @@ import { HexColorPicker } from "react-colorful";
 import { useDebounceCallback } from "usehooks-ts";
 
 import { Button } from "~/components/catalyst/button";
-import { labelClasses } from "~/components/Palette";
+import { labelClasses } from "~/components/formStyles";
 import { hexToHSL, HSLToHex, round } from "~/lib/helpers";
 import { Input } from "./catalyst/input";
 
+const defaultButtonContent = (
+  <>
+    <SwatchIcon className="size-6" />
+    <span className="sr-only">Open Color Picker</span>
+  </>
+);
+
 // Reusable color picker content component
-export function ColorPickerContent({
+function ColorPickerContent({
   color,
   onChange,
   onClose,
@@ -92,13 +99,6 @@ export default function ColorPicker({
   panelClassName?: string;
   children?: React.ReactNode;
 }) {
-  const defaultButtonContent = (
-    <>
-      <SwatchIcon className="size-6" />
-      <span className="sr-only">Open Color Picker</span>
-    </>
-  );
-
   return (
     <Popover className="relative">
       <PopoverButton as="div">

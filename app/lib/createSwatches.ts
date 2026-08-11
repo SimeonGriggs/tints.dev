@@ -24,7 +24,11 @@ export function createSwatches(palette: PaletteConfig) {
   ];
 
   // Create base color from input
-  const baseColor = chroma(`#${value}`);
+  const baseHex = `#${value}`;
+  if (!chroma.valid(baseHex)) {
+    throw new Error(`Invalid color value: ${value}`);
+  }
+  const baseColor = chroma(baseHex);
   const [baseH, baseS, baseL] = baseColor.hsl();
 
   // Handle grayscale colors (NaN hue) by setting a default hue

@@ -23,26 +23,27 @@ export default function SquareGraph(props: SquareGraphProps) {
       <div className="relative rounded-sm bg-gray-50 border border-gray-200 flex justify-between h-40 w-full">
         {palettes.map((palette) => (
           <React.Fragment key={palette.value}>
-            {palette.swatches
-              .filter((swatch) => ![0, 1000].includes(swatch.stop))
-              .map((swatch) => {
-                const scaleValue = swatch[`${graph}Scale`];
-                const limitedScale =
-                  scaleValue > 0
-                    ? Math.min(scaleValue, 50)
-                    : Math.max(scaleValue, -50);
+            {palette.swatches.flatMap((swatch) => {
+              if (swatch.stop === 0 || swatch.stop === 1000) {
+                return [];
+              }
+              const scaleValue = swatch[`${graph}Scale`];
+              const limitedScale =
+                scaleValue > 0
+                  ? Math.min(scaleValue, 50)
+                  : Math.max(scaleValue, -50);
 
-                return (
-                  <Dot
-                    key={swatch.stop}
-                    top={`calc(50% - ${limitedScale}%)`}
-                    swatch={swatch}
-                    highlight={graph}
-                    palette={palette}
-                    mode={mode}
-                  />
-                );
-              })}
+              return [
+                <Dot
+                  key={swatch.stop}
+                  top={`calc(50% - ${limitedScale}%)`}
+                  swatch={swatch}
+                  highlight={graph}
+                  palette={palette}
+                  mode={mode}
+                />,
+              ];
+            })}
           </React.Fragment>
         ))}
         <div

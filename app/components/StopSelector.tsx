@@ -50,16 +50,19 @@ export default function StopSelector({
       <option value="auto">
         Auto {palette.stopSelection === "manual" ? "" : `(${current})`}
       </option>
-      {palette.swatches
-        .filter((swatch) => ![0, 1000].includes(swatch.stop))
-        .map((swatch) => (
+      {palette.swatches.flatMap((swatch) => {
+        if (swatch.stop === 0 || swatch.stop === 1000) {
+          return [];
+        }
+        return [
           <option key={swatch.stop} value={swatch.stop}>
             {swatch.stop}{" "}
             {palette.stopSelection === "manual" && current === swatch.stop
               ? " (Locked)"
               : ""}
-          </option>
-        ))}
+          </option>,
+        ];
+      })}
     </Select>
   );
 }
