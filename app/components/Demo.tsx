@@ -46,6 +46,9 @@ export default function Demo({
           <button
             className={`rounded-full p-2 bg-white dark:bg-first-900 text-first-500 hover:bg-first-500 hover:text-white transition-colors duration-200`}
             type="button"
+            aria-label={
+              darkMode ? "Switch to light mode" : "Switch to dark mode"
+            }
             onClick={() => setDarkMode(!darkMode)}
           >
             {darkMode ? (

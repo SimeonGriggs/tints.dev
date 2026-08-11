@@ -14,7 +14,8 @@
     "lint": "pnpm dlx oxlint@latest",
     "test": "vitest run",
     "test:run": "vitest run",
-    "prepare": "husky"
+    "prepare": "husky",
+    "doctor": "pnpm exec react-doctor"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.10",
@@ -52,6 +53,7 @@
     "husky": "^9.1.7",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.6.14",
+    "react-doctor": "^0.9.11",
     "tailwindcss": "^4.3.0",
     "typescript": "^5.9.3",
     "vite": "^6.4.3",

@@ -33,6 +33,8 @@ export default function Swatch(props: SwatchProps) {
         onClick={() => onClick?.(swatch)}
         role="button"
         tabIndex={0}
+        aria-label={`Select stop ${swatch.stop}${active ? ", selected" : ""}`}
+        aria-pressed={active}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             onClick?.(swatch);

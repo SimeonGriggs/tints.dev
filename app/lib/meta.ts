@@ -3,6 +3,8 @@ import type { PaletteConfig } from "~/types";
 import { titleCase } from "./helpers";
 import { createCanonicalUrl, createPaletteMetaImageUrl } from "./responses";
 
+const paletteListFormat = new Intl.ListFormat("en");
+
 export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
   if (!palettes.length) {
     return;
@@ -41,7 +43,7 @@ export function handleMeta(palettes: PaletteConfig[], updateHistory = false) {
   // Generate a nice title for the colors
   // [blue, green, orange] => "Blue, Green & Orange"
   const paletteNames = palettes.map(({ name }) => titleCase(name));
-  const paletteTitle = new Intl.ListFormat("en").format(paletteNames);
+  const paletteTitle = paletteListFormat.format(paletteNames);
 
   const documentTitle = [
     paletteTitle,

@@ -126,13 +126,14 @@ export function output(palettes: PaletteConfig[], mode: Mode = DEFAULT_MODE) {
 
   palettes.forEach((palette) => {
     const swatches = {};
-    palette.swatches
-      .filter((swatch) => ![0, 1000].includes(swatch.stop))
-      .forEach((swatch) =>
-        Object.assign(swatches, {
-          [swatch.stop]: createDisplayColor(swatch.hex, mode, true),
-        }),
-      );
+    for (const swatch of palette.swatches) {
+      if (swatch.stop === 0 || swatch.stop === 1000) {
+        continue;
+      }
+      Object.assign(swatches, {
+        [swatch.stop]: createDisplayColor(swatch.hex, mode, true),
+      });
+    }
 
     Object.assign(shaped, { [palette.name]: swatches });
   });

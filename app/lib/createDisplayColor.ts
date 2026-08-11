@@ -14,6 +14,10 @@ export function createDisplayColor(
   }
 
   const hexColor = color.startsWith("#") ? color : `#${color}`;
+  if (!chroma.valid(hexColor)) {
+    return null;
+  }
+
   let display = null;
 
   if (!mode || mode === `hex`) {

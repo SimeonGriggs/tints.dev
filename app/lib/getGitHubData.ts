@@ -1,9 +1,13 @@
 export async function getGitHubData() {
-  const github = await fetch(
-    `https://api.github.com/repos/simeonGriggs/tints.dev`,
-  )
-    .then((res) => res.json())
-    .catch(() => null);
-
-  return github;
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/simeonGriggs/tints.dev`,
+    );
+    if (!res.ok) {
+      return null;
+    }
+    return await res.json();
+  } catch {
+    return null;
+  }
 }

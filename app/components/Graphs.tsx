@@ -9,20 +9,26 @@ type GraphsProps = { palettes: PaletteConfig[]; mode: Mode };
 
 export default function Graphs(props: GraphsProps) {
   const { palettes, mode } = props;
-  const [hiddenValues, setHiddenValues] = useState<string[]>([]);
+  const [hiddenValues, setHiddenValues] = useState<Set<string>>(
+    () => new Set(),
+  );
 
   const handleShowHide = (value: string) => {
-    if (hiddenValues.includes(value)) {
-      setHiddenValues(hiddenValues.filter((v) => v !== value));
-    } else {
-      setHiddenValues([...hiddenValues, value]);
-    }
+    setHiddenValues((prev) => {
+      const next = new Set(prev);
+      if (next.has(value)) {
+        next.delete(value);
+      } else {
+        next.add(value);
+      }
+      return next;
+    });
   };
 
   const displayPalettes =
     palettes.length === 1
       ? palettes
-      : palettes.filter((palette) => !hiddenValues.includes(palette.value));
+      : palettes.filter((palette) => !hiddenValues.has(palette.value));
 
   return (
     <div className="grid grid-cols-1 gap-4">
@@ -32,24 +38,22 @@ export default function Graphs(props: GraphsProps) {
             <div key={palette.value} className="flex items-center gap-1">
               <Switch
                 style={{
-                  backgroundColor: hiddenValues.includes(palette.value)
+                  backgroundColor: hiddenValues.has(palette.value)
                     ? undefined
                     : palette.swatches.find((swatch) => swatch.stop === 800)
                         ?.hex,
                 }}
                 className="relative inline-flex items-center h-6 rounded-full w-11 bg-gray-200"
-                checked={!hiddenValues.includes(palette.value)}
+                checked={!hiddenValues.has(palette.value)}
                 onChange={() => handleShowHide(palette.value)}
               >
                 <span className="sr-only">
-                  {hiddenValues.length && hiddenValues.includes(palette.value)
-                    ? `Show`
-                    : `Hide`}{" "}
+                  {hiddenValues.has(palette.value) ? `Show` : `Hide`}{" "}
                   {palette.name}
                 </span>
                 <span
                   className={`${
-                    hiddenValues.includes(palette.value)
+                    hiddenValues.has(palette.value)
                       ? "translate-x-1"
                       : "translate-x-6"
                   } transition-transform duration-200 inline-block w-4 h-4 transform bg-white rounded-full`}

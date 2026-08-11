@@ -106,7 +106,7 @@ export default function Generator({ palettes, about, stars }: GeneratorProps) {
             `}`,
           ].join(`\n`)
         : ``,
-    [palettesState],
+    [palettesState, currentMode],
   );
 
   return (
